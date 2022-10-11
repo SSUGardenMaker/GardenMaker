@@ -1,9 +1,14 @@
 package com.ssu.gardenmaker.ui.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.ssu.gardenmaker.ui.model.CategoryList
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel : ViewModel() {
+    val liveData = MutableLiveData<List<String>>()
+    private val lists = arrayListOf<String>()
 
-    val mApplication = application
+    init {
+
+    }
 }

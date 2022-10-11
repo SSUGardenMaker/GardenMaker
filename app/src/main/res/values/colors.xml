@@ -9,6 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Customize your color -->
+    <color name="light_black">#1d1c24</color>
+    <color name="category_color">#2d3947</color>
+    <color name="btn_text_color">#c7c8ca</color>
+    <color name="menu_text_color">#edd163</color>
     <color name="bg_color">#EAEAEA</color>
     <color name="title_color">#1ec460</color>
     <color name="status_color">#199a4c</color>

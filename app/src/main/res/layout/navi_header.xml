@@ -4,31 +4,40 @@
     android:id="@+id/navi_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
     android:background="@color/bg_color"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/navi_header_icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="20dp"
-        android:src="@mipmap/ic_launcher_round"/>
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="#000000"
-        android:text="Kim Min Jun"/>
+        android:layout_height="60dp"
+        android:background="@color/category_color"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="15dp"
-        android:textColor="#EB554C4C"
-        android:text="com.ssu.gardenmaker"/>
+        <TextView
+            android:id="@+id/btn_add_category"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="카테고리 추가"
+            android:textSize="16sp"
+            android:textColor="@color/btn_text_color"/>
 
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#222d3e"/>
+
+        <TextView
+            android:id="@+id/btn_edit_category"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="카테고리 편집"
+            android:textSize="16sp"
+            android:textColor="@color/btn_text_color"/>
+    </LinearLayout>
 </LinearLayout>

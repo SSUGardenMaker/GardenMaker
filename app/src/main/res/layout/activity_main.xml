@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -14,7 +14,6 @@
         android:id="@+id/main_drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         tools:context=".ui.view.activity.MainActivity">
 
         <!-- 메인 레이아웃 -->
@@ -29,9 +28,86 @@
             android:id="@+id/main_navigationView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:headerLayout="@layout/navi_header"
-            app:menu="@menu/navi_menu"/>
+            android:background="@color/light_black"
+            android:layout_gravity="start">
 
+            <LinearLayout
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:orientation="vertical">
+
+                <!-- 네비게이션 헤더 -->
+                <include
+                    android:id="@+id/main_navi_header"
+                    layout="@layout/navi_header" />
+
+                <!-- 카테고리 동적 입력을 위한 Expandable List View -->
+                <ExpandableListView
+                    android:id="@+id/main_navi_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:groupIndicator="@null"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/category_done"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintVertical_bias="0.1"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        android:text="꽃피운 식물들"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/menu_text_color" />
+
+                    <ImageView
+                        android:id="@+id/category_done_next"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        app:layout_constraintTop_toTopOf="@+id/category_done"
+                        app:layout_constraintBottom_toBottomOf="@+id/category_done"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        android:background="@drawable/ic_next"/>
+
+                    <TextView
+                        android:id="@+id/category_setting"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintVertical_bias="0.3"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        android:text="환경설정"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/menu_text_color" />
+
+                    <ImageView
+                        android:id="@+id/category_setting_next"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        app:layout_constraintTop_toTopOf="@+id/category_setting"
+                        app:layout_constraintBottom_toBottomOf="@+id/category_setting"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.95"
+                        android:background="@drawable/ic_next"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

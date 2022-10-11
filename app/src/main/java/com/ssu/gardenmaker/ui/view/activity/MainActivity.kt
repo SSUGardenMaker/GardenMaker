@@ -1,8 +1,10 @@
 package com.ssu.gardenmaker.ui.view.activity
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
+import android.widget.ExpandableListView
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -11,27 +13,23 @@ import com.google.android.material.navigation.NavigationView
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.ui.viewmodel.MainViewModel
+import com.ssu.gardenmaker.util.CategoryAddDialog
+import com.ssu.gardenmaker.util.CategoryListAdapter
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), NavigationView.OnNavigationItemSelectedListener {
 
     private val mViewModel: MainViewModel by viewModels()
-    lateinit var navigationView: NavigationView
-    lateinit var drawerLayout: DrawerLayout
+
+    private lateinit var drawerLayout : DrawerLayout
+    private lateinit var navigationView: NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding.mainViewModel = mViewModel
+        binding.lifecycleOwner = this
 
-        val toolbar: Toolbar = findViewById(R.id.toolbar) // 툴바를 통해 App Bar 생성
-        setSupportActionBar(toolbar) // 툴바 적용
-
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)   // 드로어를 꺼낼 메뉴 버튼 활성화
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)   // 메뉴 버튼 이미지 변경
-        supportActionBar?.setDisplayShowTitleEnabled(false)   // 툴바에 타이틀 안 보이게 함
-
-        drawerLayout = binding.mainDrawerLayout
-        navigationView = binding.mainNavigationView
-        navigationView.setNavigationItemSelectedListener(this)
+        initNavigationMenu()
     }
 
     // 툴바 메뉴 버튼이 클릭 됐을 때 실행하는 함수
@@ -42,21 +40,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 drawerLayout.openDrawer(GravityCompat.START)
             }
         }
-
         return super.onOptionsItemSelected(item)
     }
 
     // 드로어 내 아이템 클릭 이벤트 처리하는 함수
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.item_account -> Toast.makeText(this, "내 계정", Toast.LENGTH_SHORT).show()
-            R.id.item_add -> Toast.makeText(this, "화단 추가", Toast.LENGTH_SHORT).show()
-            R.id.item_edit -> Toast.makeText(this, "화단 편집", Toast.LENGTH_SHORT).show()
-            R.id.item_doing -> Toast.makeText(this, "전체 화단", Toast.LENGTH_SHORT).show()
-            R.id.item_done -> Toast.makeText(this, "꽃피운 식물들", Toast.LENGTH_SHORT).show()
-            R.id.item_setting -> Toast.makeText(this, "환경설정", Toast.LENGTH_SHORT).show()
-        }
-
         return false
     }
 
@@ -68,5 +56,55 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         else {
             super.onBackPressed()
         }
+    }
+
+    // 네비게이션 메뉴를 초기화
+    private fun initNavigationMenu() {
+        drawerLayout = binding.mainDrawerLayout
+        navigationView = binding.mainNavigationView
+        navigationView.setNavigationItemSelectedListener(this)
+
+        val navigationMenu = binding.mainToolbar.findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(navigationMenu) // 툴바 적용
+
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)   // 드로어를 꺼낼 메뉴 버튼 활성화
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)   // 메뉴 버튼 이미지 변경
+        supportActionBar?.setDisplayShowTitleEnabled(false)   // 툴바에 타이틀 안 보이게 함
+
+        initCategoryList();
+    }
+
+    // 네비게이션 카테고리 리스트를 초기화
+    private fun initCategoryList() {
+        val parentList = mutableListOf("전체 카테고리")
+        val childList = mutableListOf(mutableListOf("건강", "학업"))
+
+        val categoryList = binding.mainNaviListview.findViewById<ExpandableListView>(R.id.main_navi_listview)
+        val categoryListAdapter = CategoryListAdapter(this, parentList, childList)  // List Adapter 초기화
+        categoryList.setAdapter(categoryListAdapter)    // List에 Adapter 연결
+
+        // 부모 아이템 클릭 이벤트
+        categoryList.setOnGroupClickListener { parent, v, groupPosition, id ->
+            false
+        }
+
+        // 자식 아이템 클릭 이벤트
+        categoryList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+            false
+        }
+
+        val btnAddCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_add_category)   // 카테고리 추가
+        btnAddCategory.setOnClickListener {
+            val categoryAddDialog = CategoryAddDialog(this)
+            categoryAddDialog.showDialog()
+            categoryAddDialog.setOnClickListener(object : CategoryAddDialog.OnDialogClickListener {
+                override fun onClicked(name: String) {
+
+                }
+            })
+        }
+
+        val btnEditCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_edit_category) // 카테고리 편집
+        btnEditCategory.setOnClickListener {  }
     }
 }
