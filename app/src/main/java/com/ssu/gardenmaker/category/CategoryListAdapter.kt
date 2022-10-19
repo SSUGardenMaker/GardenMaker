@@ -1,4 +1,4 @@
-package com.ssu.gardenmaker.util
+package com.ssu.gardenmaker.category
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ class CategoryListAdapter(
     private val parentList: MutableList<String>,
     private val childList: MutableList<MutableList<String>>
     ): BaseExpandableListAdapter() {
+
         override fun getGroupCount(): Int {
             return parentList.size
         }

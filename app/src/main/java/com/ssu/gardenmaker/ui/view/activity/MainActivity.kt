@@ -1,6 +1,5 @@
 package com.ssu.gardenmaker.ui.view.activity
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ExpandableListView
@@ -13,8 +12,8 @@ import com.google.android.material.navigation.NavigationView
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.ui.viewmodel.MainViewModel
-import com.ssu.gardenmaker.util.CategoryAddDialog
-import com.ssu.gardenmaker.util.CategoryListAdapter
+import com.ssu.gardenmaker.category.CategoryAddDialog
+import com.ssu.gardenmaker.category.CategoryListAdapter
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), NavigationView.OnNavigationItemSelectedListener {
 
@@ -71,13 +70,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)   // 메뉴 버튼 이미지 변경
         supportActionBar?.setDisplayShowTitleEnabled(false)   // 툴바에 타이틀 안 보이게 함
 
-        initCategoryList();
+        initCategoryList()
     }
 
     // 네비게이션 카테고리 리스트를 초기화
     private fun initCategoryList() {
         val parentList = mutableListOf("전체 카테고리")
-        val childList = mutableListOf(mutableListOf("건강", "학업"))
+        val childList = mutableListOf(binding.mainViewModel!!.showCategory())
 
         val categoryList = binding.mainNaviListview.findViewById<ExpandableListView>(R.id.main_navi_listview)
         val categoryListAdapter = CategoryListAdapter(this, parentList, childList)  // List Adapter 초기화
@@ -93,17 +92,19 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             false
         }
 
-        val btnAddCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_add_category)   // 카테고리 추가
+        // 카테고리 추가
+        val btnAddCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_add_category)
         btnAddCategory.setOnClickListener {
             val categoryAddDialog = CategoryAddDialog(this)
             categoryAddDialog.showDialog()
             categoryAddDialog.setOnClickListener(object : CategoryAddDialog.OnDialogClickListener {
                 override fun onClicked(name: String) {
-
+                    binding.mainViewModel?.addCategory(name, categoryListAdapter)
                 }
             })
         }
 
+        // 카테고리 편집
         val btnEditCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_edit_category) // 카테고리 편집
         btnEditCategory.setOnClickListener {  }
     }

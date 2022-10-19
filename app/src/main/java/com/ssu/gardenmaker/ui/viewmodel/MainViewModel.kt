@@ -1,14 +1,26 @@
 package com.ssu.gardenmaker.ui.viewmodel
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.ssu.gardenmaker.ui.model.CategoryList
+import com.ssu.gardenmaker.category.CategoryListAdapter
 
 class MainViewModel : ViewModel() {
-    val liveData = MutableLiveData<List<String>>()
-    private val lists = arrayListOf<String>()
+    private val categoryLists = mutableListOf<String>()
 
     init {
+        categoryLists.add("건강")
+        categoryLists.add("학업")
+    }
+
+    fun showCategory() : MutableList<String> {
+        return categoryLists
+    }
+
+    fun addCategory(name : String, adapter : CategoryListAdapter) {
+        categoryLists.add(name)
+        adapter.notifyDataSetChanged()
+    }
+
+    fun editCategory(old_name : String, new_name : String) {
 
     }
 }
