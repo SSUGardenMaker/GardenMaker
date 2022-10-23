@@ -17,6 +17,7 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
+        android:fontFamily="@font/gmarket_sans_regular"
         android:padding="15dp" />
 
     <ListView
@@ -40,5 +41,6 @@
         android:text="확인"
         android:textSize="16sp"
         android:textColor="@color/white"
+        android:fontFamily="@font/gmarket_sans_regular"
         android:backgroundTint="@color/purple_500"/>
 </LinearLayout>

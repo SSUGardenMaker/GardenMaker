@@ -22,7 +22,8 @@
             android:background="?android:attr/selectableItemBackground"
             android:text="화단 추가"
             android:textSize="16sp"
-            android:textColor="@color/btn_text_color"/>
+            android:textColor="@color/btn_text_color"
+            android:fontFamily="@font/gmarket_sans_regular"/>
 
         <View
             android:layout_width="1dp"
@@ -38,6 +39,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:text="화단 편집"
             android:textSize="16sp"
-            android:textColor="@color/btn_text_color"/>
+            android:textColor="@color/btn_text_color"
+            android:fontFamily="@font/gmarket_sans_regular"/>
     </LinearLayout>
 </LinearLayout>

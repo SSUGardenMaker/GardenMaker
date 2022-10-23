@@ -23,7 +23,8 @@
             android:text="PARENT"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:textColor="@color/menu_text_color"/>
+            android:textColor="@color/menu_text_color"
+            android:fontFamily="@font/gmarket_sans_regular"/>
 
         <ImageView
             android:id="@+id/category_parent_expand"

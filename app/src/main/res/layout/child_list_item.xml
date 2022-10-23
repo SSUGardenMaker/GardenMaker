@@ -23,7 +23,8 @@
             android:text="CHILD"
             android:textSize="16sp"
             android:textStyle="bold"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:fontFamily="@font/gmarket_sans_regular"/>
 
         <ImageView
             android:id="@+id/category_child_next"

@@ -11,9 +11,12 @@
 
     <!-- 메인 view -->
     <TextView
+        android:background="@drawable/main_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="메인 화면"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:fontFamily="@font/gmarket_sans_regular"/>
 </LinearLayout>
