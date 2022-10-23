@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ExpandableListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -13,7 +14,8 @@ import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.ui.viewmodel.MainViewModel
 import com.ssu.gardenmaker.category.CategoryAddDialog
-import com.ssu.gardenmaker.category.CategoryListAdapter
+import com.ssu.gardenmaker.category.CategoryEditDialog
+import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), NavigationView.OnNavigationItemSelectedListener {
 
@@ -79,8 +81,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         val childList = mutableListOf(binding.mainViewModel!!.showCategory())
 
         val categoryList = binding.mainNaviListview.findViewById<ExpandableListView>(R.id.main_navi_listview)
-        val categoryListAdapter = CategoryListAdapter(this, parentList, childList)  // List Adapter 초기화
-        categoryList.setAdapter(categoryListAdapter)    // List에 Adapter 연결
+        val categoryExpandableListAdapter = CategoryExpandableListAdapter(this, parentList, childList)  // List Adapter 초기화
+        categoryList.setAdapter(categoryExpandableListAdapter)    // List에 Adapter 연결
 
         // 부모 아이템 클릭 이벤트
         categoryList.setOnGroupClickListener { parent, v, groupPosition, id ->
@@ -97,15 +99,24 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         btnAddCategory.setOnClickListener {
             val categoryAddDialog = CategoryAddDialog(this)
             categoryAddDialog.showDialog()
-            categoryAddDialog.setOnClickListener(object : CategoryAddDialog.OnDialogClickListener {
+            categoryAddDialog.setOnClickListener(object : CategoryAddDialog.CategoryAddDialogClickListener {
                 override fun onClicked(name: String) {
-                    binding.mainViewModel?.addCategory(name, categoryListAdapter)
+                    if (categoryExpandableListAdapter.getChildrenCount(0) < 4) {
+                        binding.mainViewModel?.addCategory(name, categoryExpandableListAdapter)
+                    }
+                    else {
+                        Toast.makeText(this@MainActivity, "카테고리는 최대 4개까지 만들 수 있습니다", Toast.LENGTH_SHORT).show()
+                    }
                 }
             })
         }
 
         // 카테고리 편집
-        val btnEditCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_edit_category) // 카테고리 편집
-        btnEditCategory.setOnClickListener {  }
+        val btnEditCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_edit_category)
+        btnEditCategory.setOnClickListener {
+            val categoryEditDialog = CategoryEditDialog(this, binding.mainViewModel!!.showCategory())
+            categoryEditDialog.showDialog()
+            categoryList.collapseGroup(0)
+        }
     }
 }

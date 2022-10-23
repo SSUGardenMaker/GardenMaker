@@ -13,13 +13,13 @@ import com.ssu.gardenmaker.R
 class CategoryAddDialog(context : Context) {
     private val mContext = context
     private val dialog = Dialog(context)
-    private lateinit var onClickListener: OnDialogClickListener
+    private lateinit var onClickListener: CategoryAddDialogClickListener
 
-    interface OnDialogClickListener {
+    interface CategoryAddDialogClickListener {
         fun onClicked(name: String)
     }
 
-    fun setOnClickListener(listener: OnDialogClickListener) {
+    fun setOnClickListener(listener: CategoryAddDialogClickListener) {
         onClickListener = listener
     }
 
@@ -31,15 +31,15 @@ class CategoryAddDialog(context : Context) {
         dialog.setCancelable(true)
         dialog.show()
 
-        val et_category_add = dialog.findViewById<EditText>(R.id.et_category_add)
-        val btn_category_add = dialog.findViewById<Button>(R.id.btn_category_add)
+        val etCategoryAdd = dialog.findViewById<EditText>(R.id.et_category_add)
+        val btnCategoryAdd = dialog.findViewById<Button>(R.id.btn_category_add)
 
-        btn_category_add.setOnClickListener {
-            if (et_category_add.text.toString().replace(" ", "") == "") {
+        btnCategoryAdd.setOnClickListener {
+            if (etCategoryAdd.text.toString().replace(" ", "") == "") {
                 Toast.makeText(mContext, "카테고리 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
             else {
-                onClickListener.onClicked(et_category_add.text.toString())
+                onClickListener.onClicked(etCategoryAdd.text.toString())
                 dialog.dismiss()
             }
         }
