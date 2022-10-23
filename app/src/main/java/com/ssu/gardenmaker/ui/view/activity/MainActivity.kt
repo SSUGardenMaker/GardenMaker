@@ -1,10 +1,13 @@
 package com.ssu.gardenmaker.ui.view.activity
 
+import android.app.Dialog
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.ExpandableListView
-import android.widget.TextView
-import android.widget.Toast
+import android.view.MotionEvent
+import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -16,11 +19,12 @@ import com.ssu.gardenmaker.ui.viewmodel.MainViewModel
 import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
+import kotlin.system.exitProcess
 
 class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), NavigationView.OnNavigationItemSelectedListener {
 
     private val mViewModel: MainViewModel by viewModels()
-
+    private var backKeyPressedTime: Long = 0
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
 
@@ -31,7 +35,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         binding.lifecycleOwner = this
 
         initNavigationMenu()
-        binding.mainToolbar.findViewById<ImageButton>(R.id.Plusplan_btn_main).setOnClickListener{
+
+        binding.mainLayout.btnPlusPlan.setOnClickListener {
             var CustomDialog= Dialog(this@MainActivity)
             CustomDialog.setContentView(R.layout.makeplan_dialog)
             CustomDialog.show()
@@ -112,6 +117,40 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         }
     }
 
+    // 화면 터치 시 키보드 내려감
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        val focusView = currentFocus
+        if (focusView != null) {
+            val rect = Rect()
+            focusView.getGlobalVisibleRect(rect)
+            val x = ev.x.toInt()
+            val y = ev.y.toInt()
+            if (!rect.contains(x, y)) {
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(focusView.windowToken, 0)
+                focusView.clearFocus()
+            }
+        }
+        return super.dispatchTouchEvent(ev)
+    }
+
+    // 2초 이내에 뒤로가기 버튼을 한번 더 클릭시 앱 종료 / 드로어가 열려 있는 상태에서 뒤로가기 버튼을 누르면 드로어가 닫힘
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawers()
+        }
+        else {
+            if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                backKeyPressedTime = System.currentTimeMillis()
+                Toast.makeText(this, "\'뒤로\' 버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                moveTaskToBack(true) // 태스크를 백그라운드로 이동
+                finishAndRemoveTask() // 액티비티 종료 + 태스크 리스트에서 지우기
+                exitProcess(0)
+            }
+        }
+    }
+
     // 툴바 메뉴 버튼이 클릭 됐을 때 실행하는 함수
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // 클릭한 툴바 메뉴 아이템 id 마다 다르게 실행하도록 설정
@@ -128,23 +167,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         return false
     }
 
-    // 뒤로 가기 (드로어 닫음)
-    override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawers()
-        }
-        else {
-            super.onBackPressed()
-        }
-    }
-
     // 네비게이션 메뉴를 초기화
     private fun initNavigationMenu() {
         drawerLayout = binding.mainDrawerLayout
         navigationView = binding.mainNavigationView
         navigationView.setNavigationItemSelectedListener(this)
 
-        val navigationMenu = binding.mainToolbar.findViewById<Toolbar>(R.id.toolbar)
+        val navigationMenu = binding.mainLayout.mainLayoutToolbar.findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(navigationMenu) // 툴바 적용
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)   // 드로어를 꺼낼 메뉴 버튼 활성화
@@ -174,8 +203,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         }
 
         // 화단 추가
-        val btnAddCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_add_category)
-        btnAddCategory.setOnClickListener {
+        binding.mainNaviHeader.btnAddCategory.setOnClickListener {
             if (categoryExpandableListAdapter.getChildrenCount(0) < 4) {
                 val categoryAddDialog = CategoryAddDialog(this)
                 categoryAddDialog.showDialog()
@@ -191,8 +219,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         }
 
         // 화단 편집
-        val btnEditCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_edit_category)
-        btnEditCategory.setOnClickListener {
+        binding.mainNaviHeader.btnEditCategory.setOnClickListener {
             val categoryEditDialog = CategoryEditDialog(this, binding.mainViewModel!!.showCategory())
             categoryEditDialog.showDialog()
             categoryList.collapseGroup(0)
