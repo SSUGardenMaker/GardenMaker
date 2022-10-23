@@ -75,7 +75,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         initCategoryList()
     }
 
-    // 네비게이션 카테고리 리스트를 초기화
+    // 네비게이션 화단 리스트를 초기화
     private fun initCategoryList() {
         val parentList = mutableListOf("전체 화단")
         val childList = mutableListOf(binding.mainViewModel!!.showCategory())
@@ -94,7 +94,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             false
         }
 
-        // 카테고리 추가
+        // 화단 추가
         val btnAddCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_add_category)
         btnAddCategory.setOnClickListener {
             if (categoryExpandableListAdapter.getChildrenCount(0) < 4) {
@@ -111,7 +111,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
             }
         }
 
-        // 카테고리 편집
+        // 화단 편집
         val btnEditCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_edit_category)
         btnEditCategory.setOnClickListener {
             val categoryEditDialog = CategoryEditDialog(this, binding.mainViewModel!!.showCategory())

@@ -41,7 +41,7 @@
                     android:id="@+id/main_navi_header"
                     layout="@layout/navi_header" />
 
-                <!-- 카테고리 동적 입력을 위한 Expandable List View -->
+                <!-- 화단 동적 입력을 위한 Expandable List View -->
                 <ExpandableListView
                     android:id="@+id/main_navi_listview"
                     android:layout_width="match_parent"
