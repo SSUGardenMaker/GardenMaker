@@ -4,86 +4,74 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseExpandableListAdapter
-import android.widget.ImageView
+import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import com.ssu.gardenmaker.R
+import okhttp3.internal.notify
 
 class CategoryListAdapter(
     private val context: Context,
-    private val parentList: MutableList<String>,
-    private val childList: MutableList<MutableList<String>>
-    ): BaseExpandableListAdapter() {
+    private val categoryList : MutableList<String>
+    ) : BaseAdapter() {
 
-        override fun getGroupCount(): Int {
-            return parentList.size
+    private class ViewHolder {
+        var categoryName : TextView? = null
+        var ButtonModify : ImageButton? = null
+        var ButtonDelete : ImageButton? = null
+    }
+
+    override fun getCount(): Int {
+        return categoryList.size
+    }
+
+    override fun getItem(position : Int): Any {
+        return categoryList[position]
+    }
+
+    override fun getItemId(position : Int): Long {
+        return position.toLong()
+    }
+
+    override fun getView(position : Int, convertView : View?, parent : ViewGroup?): View {
+        val viewHolder : ViewHolder
+        val view : View
+
+        if (convertView == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.listview_category, parent, false)
+            viewHolder = ViewHolder()
+            viewHolder.categoryName = view.findViewById(R.id.tv_listview)
+            viewHolder.ButtonModify = view.findViewById(R.id.btn_modify)
+            viewHolder.ButtonDelete = view.findViewById(R.id.btn_delete)
+            view.tag = viewHolder
+        }
+        else {
+            viewHolder = convertView.tag as ViewHolder
+            view = convertView
         }
 
-        override fun getChildrenCount(groupPosition: Int): Int {
-            return childList[groupPosition].size
+        viewHolder.categoryName?.text = categoryList[position]
+
+        viewHolder.ButtonModify?.setOnClickListener {
+            val categoryChangeNameDialog = CategoryChangeNameDialog(context)
+            categoryChangeNameDialog.showDialog()
+            categoryChangeNameDialog.setOnClickListener(object : CategoryChangeNameDialog.CategoryChangeNameDialogClickListener {
+                override fun onClicked(name: String) {
+                    categoryList[position] = name
+                    notifyDataSetChanged()
+                    Toast.makeText(context, "화단 이름이 변경되었습니다", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
-        override fun getGroup(groupPosition: Int): Any {
-            return parentList[groupPosition]
+        viewHolder.ButtonDelete?.setOnClickListener {
+            // 해당 화단 안에 아무것도 없을 경우에만 삭제 가능
+            categoryList.removeAt(position)
+            notifyDataSetChanged()
+            Toast.makeText(context, "화단이 삭제되었습니다", Toast.LENGTH_SHORT).show()
         }
 
-        override fun getChild(groupPosition: Int, childPosition: Int): Any {
-            return childList[groupPosition][childPosition]
-        }
-
-        override fun getGroupId(groupPosition: Int): Long {
-            return groupPosition.toLong()
-        }
-
-        override fun getChildId(groupPosition: Int, childPosition: Int): Long {
-            return childPosition.toLong()
-        }
-
-        override fun hasStableIds(): Boolean {
-            return false
-        }
-
-        override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
-            return true
-        }
-
-        // 부모 리스트 아이템 레이아웃 설정
-        override fun getGroupView(
-            groupPosition: Int,
-            isExpanded: Boolean,
-            convertView: View?,
-            parent: ViewGroup?
-        ): View {
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val parentView = inflater.inflate(R.layout.parent_list_item, parent,false)
-            val parentCategory = parentView.findViewById<TextView>(R.id.category_parent)
-            parentCategory.text = parentList[groupPosition]
-
-            val expandGroup = parentView.findViewById<ImageView>(R.id.category_parent_expand)
-            val reduceGroup = parentView.findViewById<ImageView>(R.id.category_parent_reduce)
-            if (isExpanded) {
-                expandGroup.visibility = View.GONE
-                reduceGroup.visibility = View.VISIBLE
-            } else {
-                expandGroup.visibility = View.VISIBLE
-                reduceGroup.visibility = View.GONE
-            }
-
-            return parentView
-        }
-
-        // 자식 리스트 아이템 레이아웃 설정
-        override fun getChildView(
-            groupPosition: Int,
-            childPosition: Int,
-            isLastChild: Boolean,
-            convertView: View?,
-            parent: ViewGroup?
-        ): View {
-            val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val childView = inflater.inflate(R.layout.child_list_item, parent,false)
-            val childCategory = childView.findViewById<TextView>(R.id.category_child)
-            childCategory.text = getChild(groupPosition, childPosition) as String
-            return childView
-        }
+        return view
+    }
 }
