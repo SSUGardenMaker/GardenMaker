@@ -77,7 +77,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
     // 네비게이션 카테고리 리스트를 초기화
     private fun initCategoryList() {
-        val parentList = mutableListOf("전체 카테고리")
+        val parentList = mutableListOf("전체 화단")
         val childList = mutableListOf(binding.mainViewModel!!.showCategory())
 
         val categoryList = binding.mainNaviListview.findViewById<ExpandableListView>(R.id.main_navi_listview)
@@ -107,7 +107,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 })
             }
             else {
-                Toast.makeText(this@MainActivity, "카테고리는 최대 4개까지 만들 수 있습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "화단은 최대 4개까지 만들 수 있습니다", Toast.LENGTH_SHORT).show()
             }
         }
 

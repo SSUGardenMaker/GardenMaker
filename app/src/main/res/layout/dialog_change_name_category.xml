@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
-        android:text="카테고리 이름 변경"
-        android:textSize="18sp"
+        android:text="화단 이름 변경"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:padding="15dp" />

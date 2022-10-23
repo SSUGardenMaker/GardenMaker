@@ -36,7 +36,7 @@ class CategoryAddDialog(context : Context) {
 
         btnCategoryAdd.setOnClickListener {
             if (etCategoryAdd.text.toString().replace(" ", "") == "") {
-                Toast.makeText(mContext, "카테고리 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
+                Toast.makeText(mContext, "화단 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
             else {
                 onClickListener.onClicked(etCategoryAdd.text.toString())

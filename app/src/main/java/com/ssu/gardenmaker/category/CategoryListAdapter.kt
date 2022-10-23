@@ -60,16 +60,16 @@ class CategoryListAdapter(
                 override fun onClicked(name: String) {
                     categoryList[position] = name
                     notifyDataSetChanged()
-                    Toast.makeText(context, "카테고리 이름이 변경되었습니다", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "화단 이름이 변경되었습니다", Toast.LENGTH_SHORT).show()
                 }
             })
         }
 
         viewHolder.ButtonDelete?.setOnClickListener {
-            // 해당 카테고리 안에 아무것도 없을 경우에만 삭제 가능
+            // 해당 화단 안에 아무것도 없을 경우에만 삭제 가능
             categoryList.removeAt(position)
             notifyDataSetChanged()
-            Toast.makeText(context, "카테고리가 삭제되었습니다", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "화단이 삭제되었습니다", Toast.LENGTH_SHORT).show()
         }
 
         return view

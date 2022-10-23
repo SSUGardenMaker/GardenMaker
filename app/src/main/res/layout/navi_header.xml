@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:background="?android:attr/selectableItemBackground"
-            android:text="카테고리 추가"
+            android:text="화단 추가"
             android:textSize="16sp"
             android:textColor="@color/btn_text_color"/>
 
@@ -36,7 +36,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:background="?android:attr/selectableItemBackground"
-            android:text="카테고리 편집"
+            android:text="화단 편집"
             android:textSize="16sp"
             android:textColor="@color/btn_text_color"/>
     </LinearLayout>

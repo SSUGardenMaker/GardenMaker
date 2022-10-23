@@ -9,6 +9,7 @@ class MainViewModel : ViewModel() {
     init {
         categoryLists.add("건강")
         categoryLists.add("학업")
+        categoryLists.add("저축")
     }
 
     fun showCategory() : MutableList<String> {
