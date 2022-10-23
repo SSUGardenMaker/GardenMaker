@@ -54,7 +54,15 @@ class CategoryListAdapter(
         viewHolder.categoryName?.text = categoryList[position]
 
         viewHolder.ButtonModify?.setOnClickListener {
-
+            val categoryChangeNameDialog = CategoryChangeNameDialog(context)
+            categoryChangeNameDialog.showDialog()
+            categoryChangeNameDialog.setOnClickListener(object : CategoryChangeNameDialog.CategoryChangeNameDialogClickListener {
+                override fun onClicked(name: String) {
+                    categoryList[position] = name
+                    notifyDataSetChanged()
+                    Toast.makeText(context, "카테고리 이름이 변경되었습니다", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
         viewHolder.ButtonDelete?.setOnClickListener {
