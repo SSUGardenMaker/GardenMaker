@@ -97,18 +97,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         // 카테고리 추가
         val btnAddCategory = binding.mainNaviHeader.findViewById<TextView>(R.id.btn_add_category)
         btnAddCategory.setOnClickListener {
-            val categoryAddDialog = CategoryAddDialog(this)
-            categoryAddDialog.showDialog()
-            categoryAddDialog.setOnClickListener(object : CategoryAddDialog.CategoryAddDialogClickListener {
-                override fun onClicked(name: String) {
-                    if (categoryExpandableListAdapter.getChildrenCount(0) < 4) {
+            if (categoryExpandableListAdapter.getChildrenCount(0) < 4) {
+                val categoryAddDialog = CategoryAddDialog(this)
+                categoryAddDialog.showDialog()
+                categoryAddDialog.setOnClickListener(object : CategoryAddDialog.CategoryAddDialogClickListener {
+                    override fun onClicked(name: String) {
                         binding.mainViewModel?.addCategory(name, categoryExpandableListAdapter)
                     }
-                    else {
-                        Toast.makeText(this@MainActivity, "카테고리는 최대 4개까지 만들 수 있습니다", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            })
+                })
+            }
+            else {
+                Toast.makeText(this@MainActivity, "카테고리는 최대 4개까지 만들 수 있습니다", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // 카테고리 편집
