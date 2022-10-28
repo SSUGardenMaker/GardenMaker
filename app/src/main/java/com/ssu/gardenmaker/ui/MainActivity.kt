@@ -1,6 +1,7 @@
-package com.ssu.gardenmaker.ui.view.activity
+package com.ssu.gardenmaker.ui
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.MenuItem
@@ -8,32 +9,35 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
-import com.ssu.gardenmaker.ui.viewmodel.MainViewModel
 import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 import kotlin.system.exitProcess
 
-class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private val mViewModel: MainViewModel by viewModels()
     private var backKeyPressedTime: Long = 0
+
+    private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
+
+    private var categoryLists = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding.mainViewModel = mViewModel
-        binding.lifecycleOwner = this
+        binding = ActivityMainBinding.inflate(layoutInflater);
+        setContentView(binding.root)
 
+        initButtonFunction()
         initNavigationMenu()
 
         binding.mainLayout.btnPlusPlan.setOnClickListener {
@@ -167,6 +171,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
         return false
     }
 
+    // 버튼 기능 구현
+    private fun initButtonFunction() {
+        val toolbarChecklist = binding.mainLayout.mainLayoutToolbar.findViewById<ImageView>(R.id.iv_toolbar_checklist)
+        toolbarChecklist.setOnClickListener {
+            val intent = Intent(this, GardenActivity::class.java)
+            startActivity(intent)
+        }
+
+        val toolbarCalendar = binding.mainLayout.mainLayoutToolbar.findViewById<ImageView>(R.id.iv_toolbar_calendar)
+        toolbarCalendar.setOnClickListener {  }
+    }
+
     // 네비게이션 메뉴를 초기화
     private fun initNavigationMenu() {
         drawerLayout = binding.mainDrawerLayout
@@ -185,8 +201,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
     // 네비게이션 화단 리스트를 초기화
     private fun initCategoryList() {
+        getCategoryList()
+
         val parentList = mutableListOf("전체 화단")
-        val childList = mutableListOf(binding.mainViewModel!!.showCategory())
+        val childList = mutableListOf(categoryLists)
 
         val categoryList = binding.mainNaviListview.findViewById<ExpandableListView>(R.id.main_navi_listview)
         val categoryExpandableListAdapter = CategoryExpandableListAdapter(this, parentList, childList)  // List Adapter 초기화
@@ -209,7 +227,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
                 categoryAddDialog.showDialog()
                 categoryAddDialog.setOnClickListener(object : CategoryAddDialog.CategoryAddDialogClickListener {
                     override fun onClicked(name: String) {
-                        binding.mainViewModel?.addCategory(name, categoryExpandableListAdapter)
+                        categoryLists.add(name)
+                        categoryExpandableListAdapter.notifyDataSetChanged()
                     }
                 })
             }
@@ -220,9 +239,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main), 
 
         // 화단 편집
         binding.mainNaviHeader.btnEditCategory.setOnClickListener {
-            val categoryEditDialog = CategoryEditDialog(this, binding.mainViewModel!!.showCategory())
+            val categoryEditDialog = CategoryEditDialog(this, categoryLists)
             categoryEditDialog.showDialog()
             categoryList.collapseGroup(0)
         }
+    }
+
+    // 사용자가 설정해놓은 카테고리 리스트 가져오기
+    private fun getCategoryList() {
+        categoryLists.add("건강")
+        categoryLists.add("학업")
+        categoryLists.add("저축")
     }
 }

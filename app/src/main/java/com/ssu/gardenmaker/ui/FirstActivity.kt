@@ -1,4 +1,4 @@
-package com.ssu.gardenmaker.ui.view.activity
+package com.ssu.gardenmaker.ui
 
 import android.content.Intent
 import android.os.Bundle

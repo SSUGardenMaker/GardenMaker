@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:background="@drawable/main_image"
     android:weightSum="5"
-    tools:context=".ui.view.activity.FirstActivity">
+    tools:context=".ui.FirstActivity">
 
     <TextView
         android:layout_width="wrap_content"

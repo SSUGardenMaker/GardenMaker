@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ssu.gardenmaker">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ApplicationClass"
         android:allowBackup="true"
@@ -17,13 +19,16 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".ui.view.activity.MainActivity"
+            android:name=".ui.GardenActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.activity.LoginActivity"
+            android:name=".ui.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.view.activity.FirstActivity"
+            android:name=".ui.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.FirstActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,4 +37,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

@@ -25,6 +25,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tv_toolbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
@@ -37,6 +38,7 @@
                     android:textSize="25sp" />
 
                 <ImageButton
+                    android:id="@+id/iv_toolbar_checklist"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_checklist"
@@ -47,6 +49,7 @@
                     app:layout_constraintHorizontal_bias="0.8"/>
 
                 <ImageButton
+                    android:id="@+id/iv_toolbar_calendar"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_calendar"
