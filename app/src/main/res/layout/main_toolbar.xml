@@ -35,10 +35,11 @@
                     app:layout_constraintHorizontal_bias="0.25"
                     android:text="GardenMaker"
                     android:textColor="@color/white"
-                    android:textSize="25sp" />
+                    android:textSize="25sp"
+                    android:fontFamily="@font/fuzzy_bubbles_regular"/>
 
                 <ImageButton
-                    android:id="@+id/iv_toolbar_checklist"
+                    android:id="@+id/ib_toolbar_checklist"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_checklist"
@@ -49,7 +50,7 @@
                     app:layout_constraintHorizontal_bias="0.8"/>
 
                 <ImageButton
-                    android:id="@+id/iv_toolbar_calendar"
+                    android:id="@+id/ib_toolbar_calendar"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:background="@drawable/ic_calendar"

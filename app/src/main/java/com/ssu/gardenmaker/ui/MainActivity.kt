@@ -173,13 +173,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // 버튼 기능 구현
     private fun initButtonFunction() {
-        val toolbarChecklist = binding.mainLayout.mainLayoutToolbar.findViewById<ImageView>(R.id.iv_toolbar_checklist)
-        toolbarChecklist.setOnClickListener {
-            val intent = Intent(this, GardenActivity::class.java)
-            startActivity(intent)
-        }
+        val toolbarChecklist = binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist)
+        toolbarChecklist.setOnClickListener {  }
 
-        val toolbarCalendar = binding.mainLayout.mainLayoutToolbar.findViewById<ImageView>(R.id.iv_toolbar_calendar)
+        val toolbarCalendar = binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar)
         toolbarCalendar.setOnClickListener {  }
     }
 
@@ -217,6 +214,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // 자식 아이템 클릭 이벤트
         categoryList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
+            val intent = Intent(this, GardenActivity::class.java)
+            intent.putExtra("NAME", categoryLists[childPosition])
+            startActivity(intent)
             false
         }
 
