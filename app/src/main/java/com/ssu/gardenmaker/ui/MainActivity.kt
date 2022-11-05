@@ -42,8 +42,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initNavigationMenu()
 
         binding.mainLayout.btnPlusPlan.setOnClickListener {
-            val CustomDialog= CustomDialog_CPlant(this@MainActivity,layoutInflater)
-            CustomDialog.showDialog()
+            CustomDialog_CPlant(this@MainActivity, layoutInflater).showDialog()
         }
     }
 
