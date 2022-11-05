@@ -5,7 +5,7 @@
 
 
     <!--식물추가 Dialog-->
-    <dimen name="dialog_subtitle_Textsize">23sp</dimen>
+    <dimen name="dialog_subtitle_Textsize">22sp</dimen>
     <dimen name="dialog_normal_Textsize">20sp</dimen>
 
     <dimen name="dialog_borderline_Size">1.5dp</dimen>
@@ -17,7 +17,7 @@
     <dimen name="dialog_subtitile_Topmargin">15dp</dimen>
     <dimen name="dialog_btn_Rightmargin">10dp</dimen>
     <dimen name="dialog_btn_Topmargin">10dp</dimen>
-    <dimen name="dialog_Subtitletext_Leftmargin">3dp</dimen>
+    <dimen name="dialog_Subtitletext_Leftmargin">5dp</dimen>
     <dimen name="dialog_Normaltext_Leftmargin">10dp</dimen>
 
     <!-- 만보기, 달성횟수 Dialog-->

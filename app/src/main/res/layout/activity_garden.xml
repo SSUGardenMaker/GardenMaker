@@ -21,7 +21,7 @@
             android:id="@+id/ib_garden_back"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:background="@drawable/ic_back"
+            android:background="@drawable/ic_previous_white"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

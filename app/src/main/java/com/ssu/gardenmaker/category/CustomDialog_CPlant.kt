@@ -4,11 +4,14 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.icu.util.Calendar
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,18 +23,19 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-//Container가 아닌 check박스에 이벤트 주기
+// Container가 아닌 check박스에 이벤트 주기
 /*
 문제1. 다이얼러그를 꺼도 메모리에 남아 있어서인지, 입력하던 정보가 그대로 남아 있다.
 문제2. 다이얼러그에서 기능을 선택하고 세부계획을 정하고, 다른 기능으로 넘어갔다가 다시 해당 기능으로 돌아오면 입력 정보가 그대로 있다.
         예시: 만보기->횟수->만보기 클릭시, 기존에 입력했던 만보기 정보가 그대로 남아있다.
 * */
-class CustomDialog_CPlant(context: Context,layoutinflater:LayoutInflater):View.OnClickListener{
-    private var TAG="CustomDialog_CPlant"
+class CustomDialog_CPlant(context: Context, layoutinflater: LayoutInflater): View.OnClickListener {
+
     private val context1=context
     private val dialog=Dialog(context)
     private val currentTime=System.currentTimeMillis()
     private val binding=DialogCreateplantBinding.inflate(layoutinflater)
+
     //체크박스 뷰
     val checkbox1:CheckBox by lazy{
         binding.CheckboxCheck
@@ -110,12 +114,12 @@ class CustomDialog_CPlant(context: Context,layoutinflater:LayoutInflater):View.O
     }
 
     fun showDialog(){
-         dialog.setContentView(binding.root)
+        dialog.setContentView(binding.root)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
 
-         val_listener()
-         five_fuction()
-
-         dialog.show()
+        val_listener()
+        five_fuction()
     }
 
     fun val_listener(){
