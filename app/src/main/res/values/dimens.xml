@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="dialog_normal_Textsize">20dp</dimen>
-    <dimen name="dialog_subtitle_Textsize">23dp</dimen>
-    <dimen name="dialog_borderline_Size">1.5dp</dimen>
-    <dimen name="dialog_subtitile_Topmargin">15dp</dimen>
-    <dimen name="dialog_Rightmargin">20dp</dimen>
-    <dimen name="dialog_width_Buttonsize">150dp</dimen>
-    <dimen name="dialog_height_Buttonsize">35dp</dimen>
     <dimen name="dialog_btn_Margintop">10dp</dimen>
     <dimen name="dialog_contariner_Margin">10dp</dimen>
+
+
+    <!--식물추가 Dialog-->
+    <dimen name="dialog_subtitle_Textsize">23sp</dimen>
+    <dimen name="dialog_normal_Textsize">20sp</dimen>
+
+    <dimen name="dialog_borderline_Size">1.5dp</dimen>
+
+    <dimen name="dialog_width_Buttonsize">150sp</dimen>
+    <dimen name="dialog_height_Buttonsize">35sp</dimen>
+
+    <dimen name="dialog_container_Topmargin">12dp</dimen>
+    <dimen name="dialog_subtitile_Topmargin">15dp</dimen>
+    <dimen name="dialog_btn_Rightmargin">10dp</dimen>
+    <dimen name="dialog_btn_Topmargin">10dp</dimen>
+    <dimen name="dialog_Subtitletext_Leftmargin">3dp</dimen>
+    <dimen name="dialog_Normaltext_Leftmargin">10dp</dimen>
+
+    <!-- 만보기, 달성횟수 Dialog-->
+    <dimen name="dialog_pedoANDcount_titletext">24sp</dimen>
+    <dimen name="dialog_pedoANDcount_text">18sp</dimen>
+    <dimen name="dialog_pedoANDcount_btntext">16sp</dimen>
+
+    <dimen name="dialog_Rightmargin">10dp</dimen>
+
 </resources>

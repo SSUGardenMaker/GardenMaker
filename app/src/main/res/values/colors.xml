@@ -18,9 +18,11 @@
     <color name="title_color">#1ec460</color>
     <color name="status_color">#199a4c</color>
 
-    <!--Customzie Dialog -->
+
+    <!--Dialog-->
     <color name="Subtitle_Dialog">#719ac8</color>
     <color name="Normaltext_Dialog">#413f3f</color>
     <color name="Borderline_Dialog">#a5a5a5</color>
+    <color name="pedoANDcount_btn_color_Dialog">#FF03DAC5</color>
 
 </resources>
