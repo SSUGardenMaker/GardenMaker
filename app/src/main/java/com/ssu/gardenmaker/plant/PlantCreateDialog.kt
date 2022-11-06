@@ -5,16 +5,15 @@ import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
+import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.databinding.DialogCreateplantBinding
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -111,6 +110,12 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         checkbox3.setOnClickListener(this)
         checkbox4.setOnClickListener(this)
         checkbox5.setOnClickListener(this)
+
+        // 카테고리 선택 버튼
+        binding.CategoryBtnDialog.setOnClickListener {
+            val plantSelectCategoryDialog = PlantSelectCategoryDialog(context1, ApplicationClass.categoryLists, binding.CategoryBtnDialog)
+            plantSelectCategoryDialog.showDialog()
+        }
     }
 
     private fun fiveFuction() {
@@ -279,14 +284,14 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 checkbox_alarmtimer_tv.visibility=View.VISIBLE
                 checkbox_alarmtimer_btn.visibility=View.VISIBLE
                 precaution_tv.visibility=View.GONE
-                precautionex_tv.text="식물을 만들지 않고 홈 화면에 따로 모아 둡니다."
+                precautionex_tv.text="화단에 저장되지 않고 홈 화면에 따로 모아 둡니다"
             }
             checkbox2.id->{
                 checkbox2.isChecked=true
                 goaltimer_accumulate_tv.visibility=View.VISIBLE
                 goaltimer_accumulate_btn.visibility=View.VISIBLE
                 precaution_tv.visibility=View.VISIBLE
-                precaution_tv.text="총 누적시간을 입력해주세요."
+                precaution_tv.text="목표 누적 시간을 입력해주세요"
                 precautionex_tv.text="예시) 한 달 내에 목표를 위해 총 120시간 수행하기"
             }
             checkbox3.id->{
@@ -296,7 +301,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 goal_count_tv.visibility=View.VISIBLE
                 goal_count_btn.visibility=View.VISIBLE
                 precaution_tv.visibility=View.VISIBLE
-                precaution_tv.text="반복해서 수행할 시간을 입력해주세요."
+                precaution_tv.text="반복해서 수행할 목표 시간을 입력해주세요"
                 precautionex_tv.text="예시) 한 달 내에 1시간 30회 목표 수행하기"
             }
             checkbox4.id->{
@@ -306,7 +311,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 countparameter_tv.visibility=View.VISIBLE
                 countparameter_btn.visibility=View.VISIBLE
                 precaution_tv.visibility=View.VISIBLE
-                precaution_tv.text="목표 걸음수와 달성 횟수를 입력해주세요."
+                precaution_tv.text="목표 걸음 수와 목표 달성 횟수를 입력해주세요"
                 precautionex_tv.text="예시) 한 달 내에 10,000걸음 10회 달성하기"
             }
             checkbox5.id->{
@@ -314,7 +319,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 countgoalcounter_tv.visibility=View.VISIBLE
                 countgoalcounter_btn.visibility=View.VISIBLE
                 precaution_tv.visibility=View.VISIBLE
-                precaution_tv.text="목표 횟수를 입력해주세요."
+                precaution_tv.text="목표 달성 횟수를 입력해주세요"
                 precautionex_tv.text="예시) 금연을 위해 담배 50번 참기"
             }
         }

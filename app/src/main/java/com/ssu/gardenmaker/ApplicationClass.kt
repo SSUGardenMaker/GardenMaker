@@ -11,11 +11,13 @@ class ApplicationClass : Application() {
         const val TAG: String = "GardenMaker"
         lateinit var retrofit: Retrofit
         lateinit var mSharedPreferences: SharedPreferences
+        lateinit var categoryLists : MutableList<String>
     }
 
     override fun onCreate() {
         super.onCreate()
 
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
+        categoryLists = mutableListOf()
     }
 }

@@ -1,5 +1,6 @@
 package com.ssu.gardenmaker.ui
 
+import android.app.Application
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.category.CategoryAddDialog
@@ -27,8 +29,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
-
-    private var categoryLists = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -124,7 +124,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         getCategoryList()
 
         val parentList = mutableListOf("전체 화단")
-        val childList = mutableListOf(categoryLists)
+        val childList = mutableListOf(ApplicationClass.categoryLists)
 
         val categoryList = binding.mainNaviListview.findViewById<ExpandableListView>(R.id.main_navi_listview)
         val categoryExpandableListAdapter = CategoryExpandableListAdapter(this, parentList, childList)  // List Adapter 초기화
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // 자식 아이템 클릭 이벤트
         categoryList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
             val intent = Intent(this, GardenActivity::class.java)
-            intent.putExtra("NAME", categoryLists[childPosition])
+            intent.putExtra("NAME", ApplicationClass.categoryLists[childPosition])
             startActivity(intent)
             false
         }
@@ -150,7 +150,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 categoryAddDialog.showDialog()
                 categoryAddDialog.setOnClickListener(object : CategoryAddDialog.CategoryAddDialogClickListener {
                     override fun onClicked(name: String) {
-                        categoryLists.add(name)
+                        ApplicationClass.categoryLists.add(name)
                         categoryExpandableListAdapter.notifyDataSetChanged()
                     }
                 })
@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // 화단 편집
         binding.mainNaviHeader.btnEditCategory.setOnClickListener {
-            val categoryEditDialog = CategoryEditDialog(this, categoryLists)
+            val categoryEditDialog = CategoryEditDialog(this, ApplicationClass.categoryLists)
             categoryEditDialog.showDialog()
             categoryList.collapseGroup(0)
         }
@@ -170,8 +170,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // 사용자가 설정해놓은 카테고리 리스트 가져오기
     private fun getCategoryList() {
-        categoryLists.add("건강")
-        categoryLists.add("학업")
-        categoryLists.add("저축")
+        ApplicationClass.categoryLists.add("건강")
+        ApplicationClass.categoryLists.add("학업")
+        ApplicationClass.categoryLists.add("저축")
     }
 }
