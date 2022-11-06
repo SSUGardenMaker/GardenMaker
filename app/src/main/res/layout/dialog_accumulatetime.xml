@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/layout_dialog"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
     android:orientation="vertical">
 
     <TextView
@@ -11,85 +13,63 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
-        android:text="하루 목표 걸음 수를 입력해주세요!"
+        android:text="총 목표 시간 입력"
         android:textSize="@dimen/dialog_pedoANDcount_titletext"
+        android:textStyle="bold"
         android:textColor="@color/black"
+        android:fontFamily="@font/gmarket_sans_regular"
         android:padding="15dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
         android:gravity="center">
 
         <EditText
             android:id="@+id/et1_accumulatetime_dialog"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
             android:hint="시간"
+            android:textSize="@dimen/dialog_pedoANDcount_btntext"
+            android:fontFamily="@font/gmarket_sans_regular"
             android:gravity="center"
             android:inputType="number"/>
 
         <TextView
+            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=":"
-            android:textSize="@dimen/dialog_pedoANDcount_text"
+            android:textSize="@dimen/dialog_pedoANDcount_btntext"
             android:textColor="@color/black"
+            android:fontFamily="@font/gmarket_sans_regular"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:padding="5dp"/>
+
         <EditText
             android:id="@+id/et2_accumulatetime_dialog"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:gravity="center"
             android:hint="분"
+            android:textSize="@dimen/dialog_pedoANDcount_btntext"
+            android:fontFamily="@font/gmarket_sans_regular"
+            android:gravity="center"
             android:inputType="number"/>
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/ok_btn_dialog_parameter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_cancel_p"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="취소"
-            android:textSize="@dimen/dialog_pedoANDcount_btntext"
-            android:background="@color/pedoANDcount_btn_color_Dialog"
-            android:textColor="@color/black"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/ok_btn_dialog_paramter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:text="확인"
-            android:textSize="@dimen/dialog_pedoANDcount_btntext"
-            android:background="@color/pedoANDcount_btn_color_Dialog"
-            android:textColor="@color/black"/>
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-    </LinearLayout>
-
+        android:text="확인"
+        android:textSize="@dimen/dialog_pedoANDcount_btntext"
+        android:textColor="@color/white"
+        android:fontFamily="@font/gmarket_sans_regular"
+        android:backgroundTint="@color/purple_500"/>
 </LinearLayout>

@@ -20,6 +20,7 @@
             android:text="식물 추가"
             android:textColor="@color/black"
             android:textSize="25sp"
+            android:textStyle="bold"
             android:fontFamily="@font/gmarket_sans_regular"
             android:id="@+id/plan_tv"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -52,94 +53,102 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:orientation="vertical">
 
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <EditText
+                android:id="@+id/PlainName_Edt_Dialog"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:padding="10dp"
+                android:hint="꽃의 이름을 입력해주세요."
+                android:textSize="18sp"
+                android:fontFamily="@font/gmarket_sans_regular"
+                android:gravity="center"
+                android:inputType="text"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@drawable/layout_edittext"/>
 
-                <EditText
-                    android:id="@+id/PlainName_Edt_Dialog"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:padding="10dp"
-                    android:hint="꽃의 이름을 입력해주세요."
-                    android:textSize="18sp"
-                    android:fontFamily="@font/gmarket_sans_regular"
-                    android:gravity="center"
-                    android:inputType="text"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:background="@drawable/layout_edittext"/>
-
-                <TextView
-                    android:id="@+id/Category_tv_Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="화단 선택"
-                    android:textSize="@dimen/dialog_normal_Textsize"
-                    android:textColor="@color/Normaltext_Dialog"
-                    android:fontFamily="@font/gmarket_sans_regular"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/PlainName_Edt_Dialog"
-                    app:layout_constraintBottom_toBottomOf="parent" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/Category_btn_Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:fontFamily="@font/gmarket_sans_regular"
-                    android:background="@drawable/border_btn_dialog"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/Category_tv_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/Category_tv_Dialog"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/Category_tv_Dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dialog_container_Topmargin">
+                android:text="화단 선택"
+                android:textSize="@dimen/dialog_normal_Textsize"
+                android:textColor="@color/Normaltext_Dialog"
+                android:fontFamily="@font/gmarket_sans_regular"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/PlainName_Edt_Dialog"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dialog_borderline_Size"
-                    android:background="@color/Borderline_Dialog"
-                    android:id="@+id/View1_Dialog"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/Category_btn_Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:fontFamily="@font/gmarket_sans_regular"
+                android:background="@drawable/border_btn_dialog"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/Category_tv_Dialog"
+                app:layout_constraintBottom_toBottomOf="@id/Category_tv_Dialog"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="종류 선택하기"
-                    android:textSize="@dimen/dialog_subtitle_Textsize"
-                    android:textColor="@color/Subtitle_Dialog"
-                    android:fontFamily="@font/gmarket_sans_regular"
-                    android:id="@+id/tv3_Dialog"
-                    android:layout_marginTop="@dimen/dialog_subtitile_Topmargin"
-                    android:layout_marginStart="5dp"
-                    app:layout_constraintTop_toBottomOf="@id/View1_Dialog"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dialog_container_Topmargin">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dialog_borderline_Size"
+                android:background="@color/Borderline_Dialog"
+                android:id="@+id/View1_Dialog"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="종류 선택하기"
+                android:textSize="@dimen/dialog_subtitle_Textsize"
+                android:textColor="@color/Subtitle_Dialog"
+                android:fontFamily="@font/gmarket_sans_regular"
+                android:id="@+id/tv3_Dialog"
+                android:layout_marginTop="@dimen/dialog_subtitile_Topmargin"
+                android:layout_marginStart="5dp"
+                app:layout_constraintTop_toBottomOf="@id/View1_Dialog"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Container_checkboxes_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/tv3_Dialog"
+                app:layout_constraintBottom_toTopOf="@+id/Container_checkboxes_2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/Container_checkbox1"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv3_Dialog">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -165,7 +174,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/Container_checkbox2"
                     app:layout_constraintLeft_toRightOf="@id/Container_checkbox1"
-                    app:layout_constraintTop_toBottomOf="@id/tv3_Dialog">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -190,7 +200,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/Container_checkbox3"
                     app:layout_constraintLeft_toRightOf="@id/Container_checkbox2"
-                    app:layout_constraintTop_toBottomOf="@id/tv3_Dialog">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -209,13 +220,24 @@
                         app:layout_constraintTop_toTopOf="@id/Checkbox_Goalcounter"
                         app:layout_constraintBottom_toBottomOf="@id/Checkbox_Goalcounter"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/Container_checkboxes_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/Container_checkboxes_1"
+                app:layout_constraintBottom_toTopOf="@id/Precaution_Tv_Dialog"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/Container_checkbox4"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/Container_checkbox1">
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -240,7 +262,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/Container_checkbox5"
                     app:layout_constraintLeft_toRightOf="@id/Container_checkbox4"
-                    app:layout_constraintTop_toTopOf="@id/Container_checkbox4">
+                    app:layout_constraintTop_toTopOf="@id/Container_checkbox4"
+                    app:layout_constraintBottom_toBottomOf="@+id/Container_checkbox4">
 
                     <CheckBox
                         android:layout_width="wrap_content"
@@ -259,350 +282,354 @@
                         app:layout_constraintTop_toTopOf="@id/Checkbox_TimerCount"
                         app:layout_constraintBottom_toBottomOf="@id/Checkbox_TimerCount"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/Precaution_Tv_Dialog"
-                    android:text=""
-                    android:textColor="@color/red"
-                    app:layout_constraintTop_toBottomOf="@+id/Container_checkbox4"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:id="@+id/PrecautionEx_Tv_Dialog"
-                    android:text="식물을 만들지 않고 홈 화면에 따로 모아 둡니다."
-                    android:textColor="@color/red"
-                    app:layout_constraintTop_toBottomOf="@+id/Precaution_Tv_Dialog"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dialog_container_Topmargin"
-                android:orientation="vertical">
+                android:layout_marginTop="5dp"
+                android:id="@+id/Precaution_Tv_Dialog"
+                android:text=""
+                android:textSize="12sp"
+                android:textColor="@color/red"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/Container_checkboxes_2"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/PrecautionEx_Tv_Dialog"
+                android:text="식물을 만들지 않고 홈 화면에 따로 모아 둡니다."
+                android:textSize="12sp"
+                android:textColor="@color/red"
+                app:layout_constraintTop_toBottomOf="@+id/Precaution_Tv_Dialog"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dialog_borderline_Size"
-                        android:background="@color/Borderline_Dialog"
-                        android:id="@+id/View3_Dialog"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="세부 계획 정하기"
-                        android:textSize="@dimen/dialog_subtitle_Textsize"
-                        android:textColor="@color/Subtitle_Dialog"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:layout_marginTop="@dimen/dialog_subtitile_Topmargin"
-                        android:layout_marginStart="@dimen/dialog_Subtitletext_Leftmargin"
-                        android:id="@+id/SubTile2_Dialog"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/View3_Dialog"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <!--체크박스-->
-                    <TextView
-                        android:id="@+id/Checkbox_Alarm_tv_Dialog"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:text="알람"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/Checkbox_Alarm_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/Checkbox_Alarm_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/Checkbox_Alarm_btn_Dialog"
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:background="@drawable/border_btn_dialog"
-                        android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                        android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                        android:text="OFF"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/Checkbox_AlarmTimer_tv_Dialog"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:text="알람 시간"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/Checkbox_AlarmTimer_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/Checkbox_AlarmTimer_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/Checkbox_AlarmTimer_btn_Dialog"
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@drawable/border_btn_dialog"
-                        android:text="@string/dialog_non_time"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/Checkbox_Alarm_btn_Dialog" />
-
-                    <!-- 만보계 -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="목표 걸음 수"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:id="@+id/GoalParmeter_tv_Dialog"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        android:visibility="gone"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/GoalParameter_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/GoalParameter_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:text="0"
-                        android:background="@drawable/border_btn_dialog"
-                        android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                        android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                        android:visibility="gone"
-                        android:id="@+id/GoalParameter_btn_Dialog"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="달성 횟수"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:id="@+id/CountParameter_tv_Dialog"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        android:visibility="gone"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/CountParameter_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/CountParameter_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/CountParameter_btn_Dialog"
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                        android:background="@drawable/border_btn_dialog"
-                        android:text="0"
-                        android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                        android:visibility="gone"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/GoalParameter_btn_Dialog" />
-
-                    <!-- 횟수 -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="달성 횟수"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:visibility="gone"
-                        android:id="@+id/CountGoalcounter_tv_Dialog"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/CountGoalcounter_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/CountGoalcounter_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                        android:id="@+id/CountGoalcounter_btn_Dialog"
-                        android:visibility="gone"
-                        android:background="@drawable/border_btn_dialog"
-                        android:text="0"
-                        android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="parent" />
-
-                    <!-- 누적 타이머 -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="달성 누적 시간"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:visibility="gone"
-                        android:id="@+id/GoalTimer_Accumulate_tv_Dialog"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/GoalTimer_Accumulate_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/GoalTimer_Accumulate_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                        android:id="@+id/GoalTimer_Accumulate_btn_Dialog"
-                        android:text="@string/dialog_non_time"
-                        android:background="@drawable/border_btn_dialog"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="parent" />
-
-                    <!-- 횟수 타이머 -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="반복 시간"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:visibility="gone"
-                        android:id="@+id/GoalTimer_Count_tv_Dialog"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/GoalTimer_Count_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/GoalTimer_Count_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                        android:id="@+id/GoalTimer_Count_btn_Dialog"
-                        android:text="@string/dialog_non_time"
-                        android:background="@drawable/border_btn_dialog"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="parent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="달성 횟수"
-                        android:textColor="@color/Normaltext_Dialog"
-                        android:textSize="@dimen/dialog_normal_Textsize"
-                        android:fontFamily="@font/gmarket_sans_regular"
-                        android:visibility="gone"
-                        android:id="@+id/Goal_Count_tv_Dialog"
-                        android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/Goal_Count_btn_Dialog"
-                        app:layout_constraintBottom_toBottomOf="@id/Goal_Count_btn_Dialog"/>
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:layout_width="100dp"
-                        android:layout_height="@dimen/dialog_height_Buttonsize"
-                        android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                        android:id="@+id/Goal_Count_btn_Dialog"
-                        android:text="@string/dialog_non_time"
-                        android:background="@drawable/border_btn_dialog"
-                        android:visibility="gone"
-                        android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                        app:layout_constraintTop_toBottomOf="@id/GoalTimer_Count_btn_Dialog"
-                        app:layout_constraintRight_toRightOf="parent"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dialog_container_Topmargin"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dialog_container_Topmargin">
+                android:layout_height="wrap_content">
 
                 <View
-                    android:id="@+id/View4_Dialog"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/dialog_borderline_Size"
                     android:background="@color/Borderline_Dialog"
+                    android:id="@+id/View3_Dialog"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="세부 계획 정하기"
+                    android:textSize="@dimen/dialog_subtitle_Textsize"
+                    android:textColor="@color/Subtitle_Dialog"
+                    android:fontFamily="@font/gmarket_sans_regular"
+                    android:layout_marginTop="@dimen/dialog_subtitile_Topmargin"
+                    android:layout_marginStart="@dimen/dialog_Subtitletext_Leftmargin"
+                    android:id="@+id/SubTile2_Dialog"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/View3_Dialog"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!--체크박스-->
+                <TextView
+                    android:id="@+id/Checkbox_Alarm_tv_Dialog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/Normaltext_Dialog"
+                    android:textSize="@dimen/dialog_normal_Textsize"
+                    android:fontFamily="@font/gmarket_sans_regular"
+                    android:text="알람"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/Checkbox_Alarm_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/Checkbox_Alarm_btn_Dialog"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/Checkbox_Alarm_btn_Dialog"
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/dialog_height_Buttonsize"
+                    android:background="@drawable/border_btn_dialog"
+                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                    android:text="OFF"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv4_Dialog"
+                    android:id="@+id/Checkbox_AlarmTimer_tv_Dialog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="목표 시간 정하기"
-                    android:layout_marginStart="@dimen/dialog_Subtitletext_Leftmargin"
-                    android:layout_marginTop="@dimen/dialog_subtitile_Topmargin"
-                    android:textColor="@color/Subtitle_Dialog"
-                    android:textSize="@dimen/dialog_subtitle_Textsize"
-                    android:fontFamily="@font/gmarket_sans_regular"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/View4_Dialog" />
-
-                <TextView
-                    android:id="@+id/tv4_1_Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="시작 날짜"
-                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    android:textColor="@color/Normaltext_Dialog"
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
-                    android:textColor="@color/Normaltext_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/StartDay_Dialog"
+                    android:text="알람 시간"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/StartDay_Dialog" />
+                    app:layout_constraintTop_toTopOf="@id/Checkbox_AlarmTimer_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/Checkbox_AlarmTimer_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/StartDay_Dialog"
-                    android:layout_width="@dimen/dialog_width_Buttonsize"
+                    android:id="@+id/Checkbox_AlarmTimer_btn_Dialog"
+                    android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
-                    android:text="@string/dialog_non_time"
-                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
                     android:background="@drawable/border_btn_dialog"
+                    android:text="@string/dialog_non_time"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv4_Dialog" />
+                    app:layout_constraintTop_toBottomOf="@id/Checkbox_Alarm_btn_Dialog" />
 
+                <!-- 만보계 -->
                 <TextView
-                    android:id="@+id/tv4_2_Dialog"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="종료 날짜"
-                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    android:text="목표 걸음 수"
+                    android:textColor="@color/Normaltext_Dialog"
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
-                    android:textColor="@color/Normaltext_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/EndDay_Dialog"
+                    android:id="@+id/GoalParmeter_tv_Dialog"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/EndDay_Dialog" />
+                    app:layout_constraintTop_toTopOf="@id/GoalParameter_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalParameter_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/EndDay_Dialog"
-                    android:layout_width="@dimen/dialog_width_Buttonsize"
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/dialog_height_Buttonsize"
+                    android:text="0"
+                    android:background="@drawable/border_btn_dialog"
+                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:visibility="gone"
+                    android:id="@+id/GoalParameter_btn_Dialog"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="달성 횟수"
+                    android:textSize="@dimen/dialog_normal_Textsize"
+                    android:textColor="@color/Normaltext_Dialog"
+                    android:fontFamily="@font/gmarket_sans_regular"
+                    android:id="@+id/CountParameter_tv_Dialog"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/CountParameter_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/CountParameter_btn_Dialog"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/CountParameter_btn_Dialog"
+                    android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
                     android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:background="@drawable/border_btn_dialog"
+                    android:text="0"
                     android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                    android:visibility="gone"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/GoalParameter_btn_Dialog" />
+
+                <!-- 횟수 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="달성 횟수"
+                    android:textColor="@color/Normaltext_Dialog"
+                    android:textSize="@dimen/dialog_normal_Textsize"
+                    android:fontFamily="@font/gmarket_sans_regular"
+                    android:visibility="gone"
+                    android:id="@+id/CountGoalcounter_tv_Dialog"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/CountGoalcounter_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/CountGoalcounter_btn_Dialog"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/dialog_height_Buttonsize"
+                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:id="@+id/CountGoalcounter_btn_Dialog"
+                    android:visibility="gone"
+                    android:background="@drawable/border_btn_dialog"
+                    android:text="0"
+                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <!-- 누적 타이머 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="달성 누적 시간"
+                    android:textColor="@color/Normaltext_Dialog"
+                    android:textSize="@dimen/dialog_normal_Textsize"
+                    android:fontFamily="@font/gmarket_sans_regular"
+                    android:visibility="gone"
+                    android:id="@+id/GoalTimer_Accumulate_tv_Dialog"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/GoalTimer_Accumulate_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalTimer_Accumulate_btn_Dialog"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/dialog_height_Buttonsize"
+                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:id="@+id/GoalTimer_Accumulate_btn_Dialog"
                     android:text="@string/dialog_non_time"
                     android:background="@drawable/border_btn_dialog"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/StartDay_Dialog" />
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <!-- 횟수 타이머 -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="반복 시간"
+                    android:textColor="@color/Normaltext_Dialog"
+                    android:textSize="@dimen/dialog_normal_Textsize"
+                    android:fontFamily="@font/gmarket_sans_regular"
+                    android:visibility="gone"
+                    android:id="@+id/GoalTimer_Count_tv_Dialog"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/GoalTimer_Count_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalTimer_Count_btn_Dialog"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/dialog_height_Buttonsize"
+                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:id="@+id/GoalTimer_Count_btn_Dialog"
+                    android:text="@string/dialog_non_time"
+                    android:background="@drawable/border_btn_dialog"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="달성 횟수"
+                    android:textColor="@color/Normaltext_Dialog"
+                    android:textSize="@dimen/dialog_normal_Textsize"
+                    android:fontFamily="@font/gmarket_sans_regular"
+                    android:visibility="gone"
+                    android:id="@+id/Goal_Count_tv_Dialog"
+                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/Goal_Count_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/Goal_Count_btn_Dialog"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:layout_width="100dp"
+                    android:layout_height="@dimen/dialog_height_Buttonsize"
+                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                    android:id="@+id/Goal_Count_btn_Dialog"
+                    android:text="@string/dialog_non_time"
+                    android:background="@drawable/border_btn_dialog"
+                    android:visibility="gone"
+                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                    app:layout_constraintTop_toBottomOf="@id/GoalTimer_Count_btn_Dialog"
+                    app:layout_constraintRight_toRightOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dialog_container_Topmargin">
+
+            <View
+                android:id="@+id/View4_Dialog"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dialog_borderline_Size"
+                android:background="@color/Borderline_Dialog"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv4_Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="목표 시간 정하기"
+                android:layout_marginStart="@dimen/dialog_Subtitletext_Leftmargin"
+                android:layout_marginTop="@dimen/dialog_subtitile_Topmargin"
+                android:textColor="@color/Subtitle_Dialog"
+                android:textSize="@dimen/dialog_subtitle_Textsize"
+                android:fontFamily="@font/gmarket_sans_regular"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/View4_Dialog" />
+
+            <TextView
+                android:id="@+id/tv4_1_Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="시작 날짜"
+                android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                android:textSize="@dimen/dialog_normal_Textsize"
+                android:fontFamily="@font/gmarket_sans_regular"
+                android:textColor="@color/Normaltext_Dialog"
+                app:layout_constraintBottom_toBottomOf="@id/StartDay_Dialog"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/StartDay_Dialog" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/StartDay_Dialog"
+                android:layout_width="@dimen/dialog_width_Buttonsize"
+                android:layout_height="@dimen/dialog_height_Buttonsize"
+                android:text="@string/dialog_non_time"
+                android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                android:background="@drawable/border_btn_dialog"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv4_Dialog" />
+
+            <TextView
+                android:id="@+id/tv4_2_Dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="종료 날짜"
+                android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
+                android:textSize="@dimen/dialog_normal_Textsize"
+                android:fontFamily="@font/gmarket_sans_regular"
+                android:textColor="@color/Normaltext_Dialog"
+                app:layout_constraintBottom_toBottomOf="@id/EndDay_Dialog"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/EndDay_Dialog" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/EndDay_Dialog"
+                android:layout_width="@dimen/dialog_width_Buttonsize"
+                android:layout_height="@dimen/dialog_height_Buttonsize"
+                android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
+                android:layout_marginTop="@dimen/dialog_btn_Topmargin"
+                android:text="@string/dialog_non_time"
+                android:background="@drawable/border_btn_dialog"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/StartDay_Dialog" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </LinearLayout>

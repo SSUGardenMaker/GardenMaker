@@ -21,7 +21,7 @@
     <dimen name="dialog_Normaltext_Leftmargin">10dp</dimen>
 
     <!-- 만보기, 달성횟수 Dialog-->
-    <dimen name="dialog_pedoANDcount_titletext">24sp</dimen>
+    <dimen name="dialog_pedoANDcount_titletext">20sp</dimen>
     <dimen name="dialog_pedoANDcount_text">18sp</dimen>
     <dimen name="dialog_pedoANDcount_btntext">16sp</dimen>
 

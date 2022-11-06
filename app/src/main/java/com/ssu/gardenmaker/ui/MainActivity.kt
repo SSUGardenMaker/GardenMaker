@@ -17,7 +17,7 @@ import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
-import com.ssu.gardenmaker.category.CustomDialog_CPlant
+import com.ssu.gardenmaker.plant.PlantCreateDialog
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initNavigationMenu()
 
         binding.mainLayout.btnPlusPlan.setOnClickListener {
-            CustomDialog_CPlant(this@MainActivity, layoutInflater).showDialog()
+            PlantCreateDialog(this@MainActivity, layoutInflater).showDialog()
         }
     }
 
