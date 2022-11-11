@@ -1,6 +1,5 @@
 package com.ssu.gardenmaker.ui
 
-import android.app.Application
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle

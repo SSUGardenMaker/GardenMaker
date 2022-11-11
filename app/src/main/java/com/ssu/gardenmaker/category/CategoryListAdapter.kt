@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.ssu.gardenmaker.R
-import okhttp3.internal.notify
 
 class CategoryListAdapter(
     private val context: Context,
@@ -67,9 +66,15 @@ class CategoryListAdapter(
 
         viewHolder.ButtonDelete?.setOnClickListener {
             // 해당 화단 안에 아무것도 없을 경우에만 삭제 가능
-            categoryList.removeAt(position)
-            notifyDataSetChanged()
-            Toast.makeText(context, "화단이 삭제되었습니다", Toast.LENGTH_SHORT).show()
+            val categoryDeleteDialog = CategoryDeleteDialog(context, categoryList[position])
+            categoryDeleteDialog.showDialog()
+            categoryDeleteDialog.setOnClickListener(object : CategoryDeleteDialog.CategoryDeleteDialogClickListener {
+                override fun onClicked() {
+                    categoryList.removeAt(position)
+                    notifyDataSetChanged()
+                    Toast.makeText(context, "화단이 삭제되었습니다", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
 
         return view
