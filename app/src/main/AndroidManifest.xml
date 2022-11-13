@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ssu.gardenmaker">
 
@@ -17,7 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GardenMaker"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.CalendarActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.GardenActivity"
             android:exported="false" />
@@ -37,4 +42,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

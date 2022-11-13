@@ -2,17 +2,21 @@ package com.ssu.gardenmaker.ui
 
 import android.content.Intent
 import android.graphics.Rect
+import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.ssu.gardenmaker.ApplicationClass
+import com.ssu.gardenmaker.CalendarAndCheckList.CalendarDialog
+import com.ssu.gardenmaker.CalendarAndCheckList.CheckboxDialog
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.category.CategoryAddDialog
@@ -29,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
 
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -94,12 +99,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     // 버튼 기능 구현
+    @RequiresApi(Build.VERSION_CODES.P)
     private fun initButtonFunction() {
-        val toolbarChecklist = binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist)
-        toolbarChecklist.setOnClickListener {  }
+        binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist).setOnClickListener {
+            CheckboxDialog(this@MainActivity,applicationContext,layoutInflater).showDialog()
+        }
 
-        val toolbarCalendar = binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar)
-        toolbarCalendar.setOnClickListener {  }
+        binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar).setOnClickListener {
+            CalendarDialog(this@MainActivity,applicationContext,layoutInflater).showDialog()
+        }
     }
 
     // 네비게이션 메뉴를 초기화
