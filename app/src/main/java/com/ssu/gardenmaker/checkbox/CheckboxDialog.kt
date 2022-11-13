@@ -22,8 +22,8 @@ class CheckboxDialog(context: Context, aContext: Context, layoutInflater: Layout
     private val arraylist: ArrayList<ListCheckboxAdapter.ListCheckboxDB> by lazy { ArrayList() }
 
     private lateinit var db: SQLiteDatabase
-    private val adapter by lazy{ ListCheckboxAdapter(aContext, arraylist) }
-    private val dbHelper by lazy{ MyDBHelper(aContext) }
+    private val adapter by lazy { ListCheckboxAdapter(aContext, arraylist) }
+    private val dbHelper by lazy { MyDBHelper(aContext) }
 
     private val list: ListView by lazy { binding.dialogCheckboxListview }
 
@@ -36,7 +36,7 @@ class CheckboxDialog(context: Context, aContext: Context, layoutInflater: Layout
         list.adapter=adapter
 
         db=dbHelper.writableDatabase
-        db.execSQL(ContractDB.insertCheckboxTB(1,"저녁먹기",20220301,20220301))
+        db.execSQL(ContractDB.insertCheckboxTB(1,"저녁먹기",20220301))
 
         val cursor=db.rawQuery(ContractDB.SELECTAll_Checkbox_TB,null)
         while (cursor.moveToNext()) {
@@ -44,8 +44,7 @@ class CheckboxDialog(context: Context, aContext: Context, layoutInflater: Layout
                 ListCheckboxAdapter.ListCheckboxDB(
                     cursor.getInt(0),
                     cursor.getString(1),
-                    cursor.getInt(2),
-                    cursor.getInt(3)
+                    cursor.getInt(2)
                 )
             )
         }

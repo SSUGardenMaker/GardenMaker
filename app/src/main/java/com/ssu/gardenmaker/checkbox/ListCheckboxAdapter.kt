@@ -10,7 +10,7 @@ import com.ssu.gardenmaker.R
 
 class ListCheckboxAdapter(context: Context, itemList: ArrayList<ListCheckboxDB>) : BaseAdapter() {
 
-    class ListCheckboxDB(var id: Int, var title: String, var start_day: Int, var end_day: Int)
+    class ListCheckboxDB(var id: Int, var title: String, var today: Int)
 
     private var mContext = context
     private var mItemlist = itemList
@@ -36,7 +36,7 @@ class ListCheckboxAdapter(context: Context, itemList: ArrayList<ListCheckboxDB>)
         }
 
         view?.findViewById<TextView>(R.id.dialog_checkbox_list_title_text)?.text= mItemlist[p0].title
-        view?.findViewById<TextView>(R.id.dialog_checkbox_list_sub_text)?.text= mItemlist[p0].end_day.toString()
+        view?.findViewById<TextView>(R.id.dialog_checkbox_list_sub_text)?.text= mItemlist[p0].today.toString()
 
         return view
     }

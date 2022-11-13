@@ -31,12 +31,11 @@ class ContractDB {
         const val CREATE_Checkbox_TB = "CREATE TABLE IF NOT exists Checkbox_TB(" +
                 "ID INTEGER,"+
                 "TITLE TEXT," +
-                "START_DAY INTEGER,"+
-                "END_DAY INTEGER" +
+                "TODAY INTEGER" +
                 ")"
 
-        fun insertCheckboxTB(id: Int, title: String, start_day: Int, end_day: Int): String {
-            return "INSERT INTO $Check_TBL VALUES('$id','$title','$start_day','$end_day')"
+        fun insertCheckboxTB(id: Int, title: String, today: Int): String {
+            return "INSERT INTO $Check_TBL VALUES('$id','$title','$today')"
         }
     }
 }

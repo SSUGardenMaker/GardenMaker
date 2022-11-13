@@ -7,7 +7,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 
 @RequiresApi(Build.VERSION_CODES.P)
-class MyDBHelper(context: Context?):SQLiteOpenHelper(context, ContractDB.DB_NAME,null, ContractDB.DB_VERSION) {
+class MyDBHelper(context: Context?): SQLiteOpenHelper(context, ContractDB.DB_NAME,null, ContractDB.DB_VERSION) {
 
     // DB가 생성되는 최초의 한번만 실행된다. 즉 DB가 생성되어 있다면, 해당 메소드는 실행되지 않는다.
     override fun onCreate(db: SQLiteDatabase?) {
