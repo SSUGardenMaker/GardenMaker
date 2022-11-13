@@ -11,6 +11,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.category.CategoryAddDialog
@@ -67,6 +68,9 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
     // 주의 사항 텍스트
     private val precaution_tv: TextView by lazy { binding.PrecautionTvDialog }
     private val precautionex_tv: TextView by lazy { binding.PrecautionExTvDialog }
+
+    // 목표 시간 설정 레이아웃
+    private val goal_time_layout: ConstraintLayout by lazy { binding.layoutGoalTime }
 
     fun showDialog(){
         dialog.setContentView(binding.root)
@@ -283,16 +287,17 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 checkbox_alarm_btn.visibility=View.VISIBLE
                 checkbox_alarmtimer_tv.visibility=View.VISIBLE
                 checkbox_alarmtimer_btn.visibility=View.VISIBLE
-                precaution_tv.visibility=View.GONE
+                precaution_tv.text="오늘 하루의 계획을 입력해주세요"
                 precautionex_tv.text="화단에 저장되지 않고 홈 화면에 따로 모아 둡니다"
+                goal_time_layout.visibility=View.GONE
             }
             checkbox2.id->{
                 checkbox2.isChecked=true
                 goaltimer_accumulate_tv.visibility=View.VISIBLE
                 goaltimer_accumulate_btn.visibility=View.VISIBLE
-                precaution_tv.visibility=View.VISIBLE
                 precaution_tv.text="목표 누적 시간을 입력해주세요"
                 precautionex_tv.text="예시) 한 달 내에 목표를 위해 총 120시간 수행하기"
+                goal_time_layout.visibility=View.VISIBLE
             }
             checkbox3.id->{
                 checkbox3.isChecked=true
@@ -300,9 +305,9 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 goaltimer_count_btn.visibility=View.VISIBLE
                 goal_count_tv.visibility=View.VISIBLE
                 goal_count_btn.visibility=View.VISIBLE
-                precaution_tv.visibility=View.VISIBLE
                 precaution_tv.text="반복해서 수행할 목표 시간을 입력해주세요"
                 precautionex_tv.text="예시) 한 달 내에 1시간 30회 목표 수행하기"
+                goal_time_layout.visibility=View.VISIBLE
             }
             checkbox4.id->{
                 checkbox4.isChecked=true
@@ -310,17 +315,17 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 goalparameter_btn.visibility=View.VISIBLE
                 countparameter_tv.visibility=View.VISIBLE
                 countparameter_btn.visibility=View.VISIBLE
-                precaution_tv.visibility=View.VISIBLE
                 precaution_tv.text="목표 걸음 수와 목표 달성 횟수를 입력해주세요"
                 precautionex_tv.text="예시) 한 달 내에 10,000걸음 10회 달성하기"
+                goal_time_layout.visibility=View.VISIBLE
             }
             checkbox5.id->{
                 checkbox5.isChecked=true
                 countgoalcounter_tv.visibility=View.VISIBLE
                 countgoalcounter_btn.visibility=View.VISIBLE
-                precaution_tv.visibility=View.VISIBLE
                 precaution_tv.text="목표 달성 횟수를 입력해주세요"
                 precautionex_tv.text="예시) 금연을 위해 담배 50번 참기"
+                goal_time_layout.visibility=View.VISIBLE
             }
         }
     }
