@@ -15,8 +15,8 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.ssu.gardenmaker.ApplicationClass
-import com.ssu.gardenmaker.CalendarAndCheckList.CalendarDialog
-import com.ssu.gardenmaker.CalendarAndCheckList.CheckboxDialog
+import com.ssu.gardenmaker.calendar.CalendarDialog
+import com.ssu.gardenmaker.checkbox.CheckboxDialog
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.category.CategoryAddDialog
@@ -102,11 +102,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @RequiresApi(Build.VERSION_CODES.P)
     private fun initButtonFunction() {
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist).setOnClickListener {
-            CheckboxDialog(this@MainActivity,applicationContext,layoutInflater).showDialog()
+            CheckboxDialog(this, applicationContext, layoutInflater).showDialog()
         }
 
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar).setOnClickListener {
-            CalendarDialog(this@MainActivity,applicationContext,layoutInflater).showDialog()
+            CalendarDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
         }
     }
 

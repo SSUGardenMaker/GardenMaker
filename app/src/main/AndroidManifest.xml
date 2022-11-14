@@ -16,13 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GardenMaker"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.CalendarActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".ui.GardenActivity"
             android:exported="false" />
