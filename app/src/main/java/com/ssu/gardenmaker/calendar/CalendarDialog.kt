@@ -2,16 +2,15 @@ package com.ssu.gardenmaker.calendar
 
 import android.app.Dialog
 import android.content.Context
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.LayoutInflater
 import android.widget.ListView
 import androidx.annotation.RequiresApi
+import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.databinding.DialogCalendarBinding
 import com.ssu.gardenmaker.db.ContractDB
-import com.ssu.gardenmaker.db.MyDBHelper
 import java.text.SimpleDateFormat
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -19,13 +18,9 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
 
     private val dialog = Dialog(context)
     private val binding = DialogCalendarBinding.inflate(layoutInflater)
-    private val currentTime=System.currentTimeMillis()
-
-    private val arraylist:ArrayList<ListCalendarAdapter.ListCalendarDB> by lazy { ArrayList() }
-
-    private lateinit var db: SQLiteDatabase
+    private val currentTime = System.currentTimeMillis()
+    private val arraylist: ArrayList<ListCalendarAdapter.ListCalendarDB> by lazy { ArrayList() }
     private val adapter by lazy { ListCalendarAdapter(aContext,arraylist) }
-    private val dbHelper by lazy { MyDBHelper(aContext) }
     private val list: ListView by lazy { binding.dialogCalendarListview }
 
     fun showDialog() {
@@ -33,13 +28,7 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
 
-        db=dbHelper.readableDatabase
         list.adapter=adapter
-
-        val db=dbHelper.writableDatabase
-        db.execSQL(ContractDB.insertCalendarTB("개나리","건강","만보기",20220301,20220601))
-        db.execSQL(ContractDB.insertCalendarTB("개나리","건강","만보기",20220420,20220701))
-        db.execSQL(ContractDB.insertCalendarTB("개나리","건강","만보기",20220515,20221211))
 
         // 현재 날짜에 맞는 데이터 출력(현재날짜 정보를 가진 static data를 하나 만들까?)
         val cur_day= SimpleDateFormat("dd").format(currentTime).toInt()
@@ -60,7 +49,7 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
     }
 
     private fun selectSqlCalendarDB(sql: String) {
-        val cursor=db.rawQuery(sql,null)
+        val cursor=ApplicationClass.db.rawQuery(sql,null)
         while (cursor.moveToNext()) {
             arraylist.add(
                 ListCalendarAdapter.ListCalendarDB(

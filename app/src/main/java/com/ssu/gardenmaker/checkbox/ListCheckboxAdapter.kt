@@ -27,18 +27,18 @@ class ListCheckboxAdapter(context: Context, itemList: ArrayList<ListCheckboxDB>)
         return p0.toLong()
     }
 
-
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View? {
         var view: View? =p1
         if (view == null) {
             val inflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            view=inflater.inflate(R.layout.dialog_checkbox_list,p2,false)
+            view=inflater.inflate(R.layout.dialog_checkbox_list, p2, false)
         }
 
-        view?.findViewById<TextView>(R.id.dialog_checkbox_list_title_text)?.text= mItemlist[p0].title
-        view?.findViewById<TextView>(R.id.dialog_checkbox_list_sub_text)?.text= mItemlist[p0].today.toString()
+        view?.findViewById<TextView>(R.id.dialog_checkbox_list_title_text)?.text = mItemlist[p0].title
+
+        val checkDate = mItemlist[p0].today.toString().substring(0, 4) + "-" + mItemlist[p0].today.toString().substring(4, 6) + "-" + mItemlist[p0].today.toString().substring(6)
+        view?.findViewById<TextView>(R.id.dialog_checkbox_list_sub_text)?.text = checkDate
 
         return view
     }
-
 }

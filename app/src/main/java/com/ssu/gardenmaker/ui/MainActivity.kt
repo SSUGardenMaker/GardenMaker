@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     @RequiresApi(Build.VERSION_CODES.P)
     private fun initButtonFunction() {
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist).setOnClickListener {
-            CheckboxDialog(this, applicationContext, layoutInflater).showDialog()
+            CheckboxDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
         }
 
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar).setOnClickListener {
