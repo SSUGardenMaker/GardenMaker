@@ -570,7 +570,6 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_goal_time"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dialog_container_Topmargin">
@@ -597,7 +596,7 @@
                 app:layout_constraintTop_toBottomOf="@id/View4_Dialog" />
 
             <TextView
-                android:id="@+id/tv4_1_Dialog"
+                android:id="@+id/tv_start_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="시작 날짜"
@@ -622,7 +621,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv4_Dialog" />
 
             <TextView
-                android:id="@+id/tv4_2_Dialog"
+                android:id="@+id/tv_end_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="종료 날짜"
@@ -630,6 +629,7 @@
                 android:textSize="@dimen/dialog_normal_Textsize"
                 android:fontFamily="@font/gmarket_sans_regular"
                 android:textColor="@color/Normaltext_Dialog"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/EndDay_Dialog"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/EndDay_Dialog" />
@@ -643,6 +643,7 @@
                 android:text="@string/dialog_non_time"
                 android:background="@drawable/border_btn_dialog"
                 android:backgroundTint="@color/bg_color"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/StartDay_Dialog" />
         </androidx.constraintlayout.widget.ConstraintLayout>

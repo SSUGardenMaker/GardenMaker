@@ -44,6 +44,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
     private val checkbox_alarm_btn: Button by lazy { binding.CheckboxAlarmBtnDialog }
     private val checkbox_alarmtimer_tv: TextView by lazy { binding.CheckboxAlarmTimerTvDialog }
     private val checkbox_alarmtimer_btn: Button by lazy { binding.CheckboxAlarmTimerBtnDialog }
+    private val checkbox_endday_tv: TextView by lazy { binding.tvEndDay }
+    private val checkbox_endday_btn: TextView by lazy { binding.EndDayDialog }
 
     // 만보기 기능 뷰
     private val goalparameter_tv: TextView by lazy { binding.GoalParmeterTvDialog }
@@ -68,9 +70,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
     // 주의 사항 텍스트
     private val precaution_tv: TextView by lazy { binding.PrecautionTvDialog }
     private val precautionex_tv: TextView by lazy { binding.PrecautionExTvDialog }
-
-    // 목표 시간 설정 레이아웃
-    private val goal_time_layout: ConstraintLayout by lazy { binding.layoutGoalTime }
 
     fun showDialog(){
         dialog.setContentView(binding.root)
@@ -97,33 +96,50 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             datePickerDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             datePickerDialog.show()
         }
+
         binding.StartDayDialog.setOnClickListener(listener_day)
         binding.EndDayDialog.setOnClickListener(listener_day)
 
         // 상단의 저장, 뒤로가기 리스너
         binding.okBtnDialog.setOnClickListener {
-            if (checkbox1.isChecked) {
-                Toast.makeText(mContext, "체크박스 선택", Toast.LENGTH_SHORT).show()
-                val today = SimpleDateFormat("yyyyMMdd").format(currentTime).toInt()
-                ApplicationClass.db.execSQL(ContractDB.insertCheckboxTB(1, binding.PlainNameEdtDialog.text.toString(), today))
+            if (binding.PlainNameEdtDialog.text.toString().trim().isEmpty()) {
+                Toast.makeText(mContext, "꽃 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
-            else if (checkbox2.isChecked) {
-                Toast.makeText(mContext, "만보기 선택", Toast.LENGTH_SHORT).show()
-                ApplicationClass.db.execSQL(ContractDB.insertCalendarTB("개나리", "건강", "만보기", 20221101, 20221201))
-            }
-            else if (checkbox3.isChecked) {
-                Toast.makeText(mContext, "횟수 선택", Toast.LENGTH_SHORT).show()
-            }
-            else if (checkbox4.isChecked) {
-                Toast.makeText(mContext, "누적 타이머 선택", Toast.LENGTH_SHORT).show()
-            }
-            else if (checkbox5.isChecked) {
-                Toast.makeText(mContext, "횟수 타이머 선택", Toast.LENGTH_SHORT).show()
-            }
-            else
-                Toast.makeText(mContext, "아무것도 선택 X", Toast.LENGTH_SHORT).show()
+            else {
+                if (checkbox1.isChecked) {
+                    Toast.makeText(mContext, "체크박스 선택", Toast.LENGTH_SHORT).show()
+                    val regex = "[^0-9]".toRegex()
+                    val start_day = binding.StartDayDialog.text.toString().replace(regex, "").toInt()
+                    ApplicationClass.db.execSQL(
+                        ContractDB.insertCheckboxTB(
+                            1,
+                            binding.PlainNameEdtDialog.text.toString(),
+                            start_day
+                        )
+                    )
+                } else if (checkbox2.isChecked) {
+                    Toast.makeText(mContext, "만보기 선택", Toast.LENGTH_SHORT).show()
+                    ApplicationClass.db.execSQL(
+                        ContractDB.insertCalendarTB(
+                            "개나리",
+                            "건강",
+                            "만보기",
+                            20221101,
+                            20221201
+                        )
+                    )
+                } else if (checkbox3.isChecked) {
+                    Toast.makeText(mContext, "횟수 선택", Toast.LENGTH_SHORT).show()
+                } else if (checkbox4.isChecked) {
+                    Toast.makeText(mContext, "누적 타이머 선택", Toast.LENGTH_SHORT).show()
+                } else if (checkbox5.isChecked) {
+                    Toast.makeText(mContext, "횟수 타이머 선택", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(mContext, "아무것도 선택 X", Toast.LENGTH_SHORT).show()
+                }
 
-            dialog.dismiss()
+                dialog.dismiss()
+            }
         }
 
         binding.backBtnDialog.setOnClickListener {
@@ -132,10 +148,10 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
 
         // 체크 박스 리스너
         checkbox1.setOnClickListener(this)
-        checkbox4.setOnClickListener(this)
-        checkbox5.setOnClickListener(this)
         checkbox2.setOnClickListener(this)
         checkbox3.setOnClickListener(this)
+        checkbox4.setOnClickListener(this)
+        checkbox5.setOnClickListener(this)
 
         // 카테고리 선택 버튼
         binding.CategoryBtnDialog.setOnClickListener {
@@ -156,12 +172,13 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
 
         checkbox_alarmtimer_btn.setOnClickListener {v->
             v as Button
-            if(checkbox_alarm_btn.text.equals("ON")){
+            if (checkbox_alarm_btn.text.equals("ON")) {
                 val timepicker_dialog=TimePickerDialog(mContext,android.R.style.Theme_Holo_Dialog_NoActionBar,
                     { timePicker, i, i2 ->
-                        if(i.toString().equals("0") && i2.toString().equals("0")){
+                        if (i.toString().trim() == "0" && i2.toString().trim() == "0") {
                             v.text="-"
-                        }else{
+                        }
+                        else {
                             if (i < 10) {
                                 if (i2 < 10)
                                     v.text= "0$i : 0$i2"
@@ -191,11 +208,10 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             dialog_goalparameter.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
             dialog_goalparameter.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog_goalparameter.findViewById<Button>(R.id.ok_btn_dialog_parameter).setOnClickListener {
-                if(v.text.toString().length!=0){
-                    v.text= DecimalFormat("###,###").format(dialog_goalparameter.findViewById<EditText>(R.id.et_pedometer_dialog).text.toString().toInt())+" 걸음"
-                }else{
+                if (v.text.toString().trim().isNotEmpty() && v.text.toString().trim() != "0")
+                    v.text = DecimalFormat("###,###").format(dialog_goalparameter.findViewById<EditText>(R.id.et_pedometer_dialog).text.toString().trim().toInt())+" 걸음"
+                else
                     v.text="-"
-                }
                 dialog_goalparameter.dismiss()
             }
             dialog_goalparameter.show()
@@ -208,40 +224,18 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             dialog_goalcount.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog_goalcount.findViewById<Button>(R.id.ok_btn_dialog_parameter).setOnClickListener {
                 val et=dialog_goalcount.findViewById<EditText>(R.id.et_goalcount_dialog)
-                if(et.text.toString().length!=0&&!et.text.toString().equals("0")) {
-                    v.text =et.text.toString() + " 회"
-                }else{
+                if (et.text.toString().trim().isNotEmpty() && et.text.toString().trim() != "0")
+                    v.text = et.text.toString().trim() + " 회"
+                else
                     v.text="-"
-                }
                 dialog_goalcount.dismiss()
             }
             dialog_goalcount.show()
         }
         countparameter_btn.setOnClickListener(listener_count)
 
-
-        // 3. 횟수 타이머
-        // 예외: 반복 시간을 spinner가 아닌, text로 입력하고 바로 확인을 누르면 적용이 되지 않는다.
-        goaltimer_count_btn.setOnClickListener { v->
-            v as Button
-            val timepicker_dialog=TimePickerDialog(mContext,android.R.style.Theme_Holo_Dialog_NoActionBar,TimePickerDialog.OnTimeSetListener { timePicker, i, i2 ->
-                if(i.toString() == "0" && i2.toString() == "0"){
-                 v.text="-"
-                }
-                else if(i.toString() == "0"){
-                    v.text="$i2 분"
-                }
-                else if(i2.toString() == "0"){
-                    v.text="$i 시간"
-                }
-                else {
-                    v.text= "$i 시간 $i2 분"
-                }}, 0, 30,true)
-            timepicker_dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-            timepicker_dialog.show()
-        }
-        goal_count_btn.setOnClickListener(listener_count)
-
+        // 3. 횟수
+        countgoalcounter_btn.setOnClickListener(listener_count)
 
         // 4. 누적 타이머
         goaltimer_accumulate_btn.setOnClickListener { v->
@@ -253,38 +247,52 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             dialog_accumulatetime.findViewById<Button>(R.id.ok_btn_dialog_parameter).setOnClickListener {
                 val et1_str=dialog_accumulatetime.findViewById<EditText>(R.id.et1_accumulatetime_dialog).text.toString()
                 val et2_str=dialog_accumulatetime.findViewById<EditText>(R.id.et2_accumulatetime_dialog).text.toString()
-                if(et1_str.isEmpty() && et2_str.isEmpty()){
+                if ((et1_str.trim().isEmpty() && et2_str.trim().isEmpty()) || (et1_str.trim() == "0" && et2_str.trim() == "0"))
                     v.text="-"
-                }
-                else if(et1_str.isEmpty()){
+                else if (et1_str.trim().isEmpty() && et2_str.trim() != "0")
                     v.text="$et2_str 분"
-                }
-                else if(et2_str.isEmpty()){
+                else if (et2_str.trim().isEmpty() && et1_str.trim() != "0")
                     v.text="$et1_str 시간"
-                }
-                else{
+                else
                     v.text= "$et1_str 시간 $et2_str 분"
-                }
                 dialog_accumulatetime.dismiss()
             }
             dialog_accumulatetime.show()
         }
 
-        // 5. 횟수
-        countgoalcounter_btn.setOnClickListener(listener_count)
+        // 5. 횟수 타이머
+        // 예외: 반복 시간을 spinner가 아닌, text로 입력하고 바로 확인을 누르면 적용이 되지 않는다.
+        goaltimer_count_btn.setOnClickListener { v->
+            v as Button
+            val timepicker_dialog=TimePickerDialog(mContext,android.R.style.Theme_Holo_Dialog_NoActionBar,TimePickerDialog.OnTimeSetListener { timePicker, i, i2 ->
+                if ((i.toString().trim().isEmpty() && i2.toString().trim().isEmpty()) || (i.toString().trim() == "0" && i2.toString().trim() == "0"))
+                    v.text="-"
+                else if (i.toString().trim().isEmpty() && i2.toString().trim() != "0")
+                    v.text="$i2 분"
+                else if (i2.toString().trim().isEmpty() && i.toString().trim() != "0")
+                    v.text="$i 시간"
+                else
+                    v.text= "$i 시간 $i2 분"
+                }, 0, 30,true)
+            timepicker_dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+            timepicker_dialog.show()
+        }
+        goal_count_btn.setOnClickListener(listener_count)
     }
 
     override fun onClick(p0: View?) {
         checkbox1.isChecked=false
-        checkbox4.isChecked=false
-        checkbox5.isChecked=false
         checkbox2.isChecked=false
         checkbox3.isChecked=false
+        checkbox4.isChecked=false
+        checkbox5.isChecked=false
 
         checkbox_alarm_tv.visibility=View.GONE
         checkbox_alarm_btn.visibility=View.GONE
         checkbox_alarmtimer_tv.visibility=View.GONE
         checkbox_alarmtimer_btn.visibility=View.GONE
+        checkbox_endday_tv.visibility=View.GONE
+        checkbox_endday_btn.visibility=View.GONE
 
         goaltimer_accumulate_tv.visibility=View.GONE
         goaltimer_accumulate_btn.visibility=View.GONE
@@ -302,7 +310,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         countgoalcounter_tv.visibility=View.GONE
         countgoalcounter_btn.visibility=View.GONE
 
-        when(p0?.id){
+        when (p0?.id) {
             checkbox1.id-> {
                 checkbox1.isChecked=true
                 checkbox_alarm_tv.visibility=View.VISIBLE
@@ -311,25 +319,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 checkbox_alarmtimer_btn.visibility=View.VISIBLE
                 precaution_tv.text="오늘 하루의 계획을 입력해주세요"
                 precautionex_tv.text="화단에 저장되지 않고 홈 화면에 따로 모아 둡니다"
-                goal_time_layout.visibility=View.GONE
-            }
-            checkbox4.id->{
-                checkbox4.isChecked=true
-                goaltimer_accumulate_tv.visibility=View.VISIBLE
-                goaltimer_accumulate_btn.visibility=View.VISIBLE
-                precaution_tv.text="목표 누적 시간을 입력해주세요"
-                precautionex_tv.text="예시) 한 달 내에 목표를 위해 총 120시간 수행하기"
-                goal_time_layout.visibility=View.VISIBLE
-            }
-            checkbox5.id->{
-                checkbox5.isChecked=true
-                goaltimer_count_tv.visibility=View.VISIBLE
-                goaltimer_count_btn.visibility=View.VISIBLE
-                goal_count_tv.visibility=View.VISIBLE
-                goal_count_btn.visibility=View.VISIBLE
-                precaution_tv.text="반복해서 수행할 목표 시간을 입력해주세요"
-                precautionex_tv.text="예시) 한 달 내에 1시간 30회 목표 수행하기"
-                goal_time_layout.visibility=View.VISIBLE
+                checkbox_endday_tv.visibility=View.GONE
+                checkbox_endday_btn.visibility=View.GONE
             }
             checkbox2.id->{
                 checkbox2.isChecked=true
@@ -339,7 +330,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 countparameter_btn.visibility=View.VISIBLE
                 precaution_tv.text="목표 걸음 수와 목표 달성 횟수를 입력해주세요"
                 precautionex_tv.text="예시) 한 달 내에 10,000걸음 10회 달성하기"
-                goal_time_layout.visibility=View.VISIBLE
+                checkbox_endday_tv.visibility=View.VISIBLE
+                checkbox_endday_btn.visibility=View.VISIBLE
             }
             checkbox3.id->{
                 checkbox3.isChecked=true
@@ -347,7 +339,28 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 countgoalcounter_btn.visibility=View.VISIBLE
                 precaution_tv.text="목표 달성 횟수를 입력해주세요"
                 precautionex_tv.text="예시) 금연을 위해 담배 50번 참기"
-                goal_time_layout.visibility=View.VISIBLE
+                checkbox_endday_tv.visibility=View.VISIBLE
+                checkbox_endday_btn.visibility=View.VISIBLE
+            }
+            checkbox4.id->{
+                checkbox4.isChecked=true
+                goaltimer_accumulate_tv.visibility=View.VISIBLE
+                goaltimer_accumulate_btn.visibility=View.VISIBLE
+                precaution_tv.text="목표 누적 시간을 입력해주세요"
+                precautionex_tv.text="예시) 한 달 내에 목표를 위해 총 120시간 수행하기"
+                checkbox_endday_tv.visibility=View.VISIBLE
+                checkbox_endday_btn.visibility=View.VISIBLE
+            }
+            checkbox5.id->{
+                checkbox5.isChecked=true
+                goaltimer_count_tv.visibility=View.VISIBLE
+                goaltimer_count_btn.visibility=View.VISIBLE
+                goal_count_tv.visibility=View.VISIBLE
+                goal_count_btn.visibility=View.VISIBLE
+                precaution_tv.text="반복해서 수행할 목표 시간을 입력해주세요"
+                precautionex_tv.text="예시) 한 달 내에 1시간 30회 목표 수행하기"
+                checkbox_endday_tv.visibility=View.VISIBLE
+                checkbox_endday_btn.visibility=View.VISIBLE
             }
         }
     }
