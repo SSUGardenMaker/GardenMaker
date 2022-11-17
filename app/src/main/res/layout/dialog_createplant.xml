@@ -586,7 +586,7 @@
                 android:id="@+id/tv4_Dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="목표 시간 정하기"
+                android:text="목표 기간 정하기"
                 android:layout_marginStart="@dimen/dialog_Subtitletext_Leftmargin"
                 android:layout_marginTop="@dimen/dialog_subtitile_Topmargin"
                 android:textColor="@color/Subtitle_Dialog"

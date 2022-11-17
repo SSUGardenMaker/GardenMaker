@@ -4,23 +4,24 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
+import android.widget.*
+import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.db.ContractDB
 
 class ListCheckboxAdapter(context: Context, itemList: ArrayList<ListCheckboxDB>) : BaseAdapter() {
 
-    class ListCheckboxDB(var id: Int, var title: String, var today: Int)
+    class ListCheckboxDB(var id: Int, var title: String, var today: Int, var flag: String)
 
     private var mContext = context
-    private var mItemlist = itemList
+    private var mItemList = itemList
 
     override fun getCount(): Int {
-        return mItemlist.size
+        return mItemList.size
     }
 
     override fun getItem(p0: Int): Any {
-        return mItemlist[p0]
+        return mItemList[p0]
     }
 
     override fun getItemId(p0: Int): Long {
@@ -34,10 +35,45 @@ class ListCheckboxAdapter(context: Context, itemList: ArrayList<ListCheckboxDB>)
             view=inflater.inflate(R.layout.dialog_checkbox_list, p2, false)
         }
 
-        view?.findViewById<TextView>(R.id.dialog_checkbox_list_title_text)?.text = mItemlist[p0].title
+        val checkBox = view?.findViewById<CheckBox>(R.id.dialog_checkbox_list_checkbox)
+        checkBox?.isChecked = mItemList[p0].flag == "Y"
 
-        val checkDate = mItemlist[p0].today.toString().substring(0, 4) + "-" + mItemlist[p0].today.toString().substring(4, 6) + "-" + mItemlist[p0].today.toString().substring(6)
+        view?.findViewById<TextView>(R.id.dialog_checkbox_list_title_text)?.text = mItemList[p0].title
+
+        val checkDate = mItemList[p0].today.toString().substring(0, 4) + "-" + mItemList[p0].today.toString().substring(4, 6) + "-" + mItemList[p0].today.toString().substring(6)
         view?.findViewById<TextView>(R.id.dialog_checkbox_list_sub_text)?.text = checkDate
+
+        // 체크박스 클릭 이벤트
+        checkBox?.setOnClickListener {
+            if (checkBox.isChecked) {
+                ApplicationClass.db.execSQL(
+                    ContractDB.updateCheckboxTB(
+                        mItemList[p0].id,
+                        "Y"
+                    )
+                )
+            }
+            else {
+                ApplicationClass.db.execSQL(
+                    ContractDB.updateCheckboxTB(
+                        mItemList[p0].id,
+                        "N"
+                    )
+                )
+            }
+        }
+
+        // 체크리스트 원소 삭제
+        view?.findViewById<ImageButton>(R.id.btn_checkbox_delete)?.setOnClickListener {
+            Toast.makeText(mContext, mItemList[p0].title + " 삭제", Toast.LENGTH_SHORT).show()
+            ApplicationClass.db.execSQL(
+                ContractDB.deleteCheckboxTB(
+                    mItemList[p0].id
+                )
+            )
+            mItemList.removeAt(p0)
+            notifyDataSetChanged()
+        }
 
         return view
     }

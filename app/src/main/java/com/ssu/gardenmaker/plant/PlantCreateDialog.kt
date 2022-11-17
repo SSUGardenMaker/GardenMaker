@@ -10,14 +10,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.DialogCreateplantBinding
 import com.ssu.gardenmaker.db.ContractDB
+import com.ssu.gardenmaker.db.ContractDB.Companion.COUNT_Checkbox_TB
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
-import java.util.*
 
 // Container가 아닌 check박스에 이벤트 주기
 /*
@@ -107,16 +106,27 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             }
             else {
                 if (checkbox1.isChecked) {
-                    Toast.makeText(mContext, "체크박스 선택", Toast.LENGTH_SHORT).show()
-                    val regex = "[^0-9]".toRegex()
-                    val start_day = binding.StartDayDialog.text.toString().replace(regex, "").toInt()
-                    ApplicationClass.db.execSQL(
-                        ContractDB.insertCheckboxTB(
-                            1,
-                            binding.PlainNameEdtDialog.text.toString(),
-                            start_day
+                    if (binding.StartDayDialog.text.toString() == "-")
+                        Toast.makeText(mContext, "목표 기간을 입력해주세요", Toast.LENGTH_SHORT).show()
+                    else {
+                        // 체크박스 하루에 다섯 개까지 설정 가능하게 코드 추가
+
+                        Toast.makeText(mContext, "체크박스 선택", Toast.LENGTH_SHORT).show()
+                        val regex = "[^0-9]".toRegex()
+                        val start_day = binding.StartDayDialog.text.toString().replace(regex, "").toInt()
+
+                        // id로 cursor.count+1 을 하면서 부여하려 했으나 count=1 문제
+                        val cursor = ApplicationClass.db.rawQuery(COUNT_Checkbox_TB, null)
+
+                        ApplicationClass.db.execSQL(
+                            ContractDB.insertCheckboxTB(
+                                (Math.random() * 10).toInt() + 1,
+                                binding.PlainNameEdtDialog.text.toString(),
+                                start_day,
+                                "N"
+                            )
                         )
-                    )
+                    }
                 } else if (checkbox2.isChecked) {
                     Toast.makeText(mContext, "만보기 선택", Toast.LENGTH_SHORT).show()
                     ApplicationClass.db.execSQL(

@@ -38,4 +38,15 @@
         app:layout_constraintTop_toBottomOf="@id/dialog_checkbox_list_title_text"
         app:layout_constraintLeft_toLeftOf="@id/dialog_checkbox_list_title_text"/>
 
+    <ImageButton
+        android:id="@+id/btn_checkbox_delete"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/ic_delete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

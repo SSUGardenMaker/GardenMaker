@@ -37,7 +37,8 @@ class CheckboxDialog(context: Context, aContext: Context, layoutInflater: Layout
                 ListCheckboxAdapter.ListCheckboxDB(
                     cursor.getInt(0),
                     cursor.getString(1),
-                    cursor.getInt(2)
+                    cursor.getInt(2),
+                    cursor.getString(3)
                 )
             )
         }
