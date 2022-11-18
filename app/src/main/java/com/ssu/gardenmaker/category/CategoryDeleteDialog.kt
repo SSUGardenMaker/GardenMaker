@@ -26,8 +26,8 @@ class CategoryDeleteDialog(context : Context, name : String) {
         dialog.setContentView(R.layout.dialog_delete_category)
         dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(true)
-        dialog.setCancelable(true)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.setCancelable(false)
         dialog.show()
 
         val nameCategoryDelete = dialog.findViewById<TextView>(R.id.tv_category_delete)

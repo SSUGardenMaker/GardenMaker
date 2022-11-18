@@ -1,71 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="400dp"
-    android:layout_height="wrap_content"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="15dp"
-    android:layout_marginLeft="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/layout_dialog"
     android:orientation="vertical">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
+        android:padding="10dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:text="Today"
             android:textSize="25sp"
-            android:textStyle="bold"
-            android:layout_marginLeft="20dp"
-            app:layout_constraintLeft_toRightOf="@id/dialog_checkbox_backimg"
+            android:fontFamily="@font/fuzzy_bubbles_bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
         <ImageView
-            android:layout_width="25sp"
-            android:layout_height="25sp"
-            android:background="@drawable/back"
+            android:id="@+id/dialog_checkbox_back"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:background="@drawable/ic_previous_black"
             android:scaleType="centerCrop"
-            android:id="@+id/dialog_checkbox_backimg"
+            android:layout_marginStart="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
+
         <ImageView
-            android:layout_width="25sp"
-            android:layout_height="25sp"
-            android:background="@drawable/plus"
+            android:id="@+id/dialog_checkbox_plus"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:background="@drawable/plus_checkbox"
             android:scaleType="centerCrop"
+            android:layout_marginEnd="5dp"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#2F9D27">
+        android:padding="5dp"
+        android:background="@color/title_color">
+
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/tv_checkbox_today"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2022/11/12(목요일)"
-            android:textStyle="bold"
-            android:textSize="15sp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
+            android:text="2022/11/13"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:fontFamily="@font/fuzzy_bubbles_bold"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="270sp">
+        android:layout_height="350sp">
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/dialog_checkbox_listview"/>
     </LinearLayout>
-
-
 </LinearLayout>
