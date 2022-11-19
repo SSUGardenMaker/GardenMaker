@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
 
+    private lateinit var plantCreateMap: HashMap<String, String>
+
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initNavigationMenu()
 
         binding.mainLayout.btnPlusPlan.setOnClickListener {
-            PlantCreateDialog(this@MainActivity, layoutInflater).showDialog()
+            val plantCreateDialog = PlantCreateDialog(this@MainActivity, layoutInflater)
+            plantCreateDialog.showDialog()
         }
     }
 

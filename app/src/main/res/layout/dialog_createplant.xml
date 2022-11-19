@@ -404,27 +404,27 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="목표 걸음 수"
+                    android:text="목표 걸음"
                     android:textColor="@color/Normaltext_Dialog"
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
-                    android:id="@+id/GoalParmeter_tv_Dialog"
+                    android:id="@+id/GoalStepPedometer_tv_Dialog"
                     android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
                     android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/GoalParameter_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/GoalParameter_btn_Dialog"/>
+                    app:layout_constraintTop_toTopOf="@id/GoalStepPedometer_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalStepPedometer_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
-                    android:text="0"
+                    android:text="@string/dialog_non_time"
                     android:background="@drawable/border_btn_dialog"
                     android:backgroundTint="@color/bg_color"
                     android:layout_marginTop="@dimen/dialog_btn_Topmargin"
                     android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
                     android:visibility="gone"
-                    android:id="@+id/GoalParameter_btn_Dialog"
+                    android:id="@+id/GoalStepPedometer_btn_Dialog"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"/>
 
@@ -435,25 +435,25 @@
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:textColor="@color/Normaltext_Dialog"
                     android:fontFamily="@font/gmarket_sans_regular"
-                    android:id="@+id/CountParameter_tv_Dialog"
+                    android:id="@+id/GoalCountPedometer_tv_Dialog"
                     android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
                     android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/CountParameter_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/CountParameter_btn_Dialog"/>
+                    app:layout_constraintTop_toTopOf="@id/GoalCountPedometer_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalCountPedometer_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/CountParameter_btn_Dialog"
+                    android:id="@+id/GoalCountPedometer_btn_Dialog"
                     android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
                     android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
                     android:background="@drawable/border_btn_dialog"
                     android:backgroundTint="@color/bg_color"
-                    android:text="0"
+                    android:text="@string/dialog_non_time"
                     android:layout_marginTop="@dimen/dialog_btn_Topmargin"
                     android:visibility="gone"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/GoalParameter_btn_Dialog" />
+                    app:layout_constraintTop_toBottomOf="@id/GoalStepPedometer_btn_Dialog" />
 
                 <!-- 횟수 -->
                 <TextView
@@ -464,21 +464,21 @@
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
                     android:visibility="gone"
-                    android:id="@+id/CountGoalcounter_tv_Dialog"
+                    android:id="@+id/GoalCountCounter_tv_Dialog"
                     android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/CountGoalcounter_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/CountGoalcounter_btn_Dialog"/>
+                    app:layout_constraintTop_toTopOf="@id/GoalCountCounter_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalCountCounter_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
                     android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                    android:id="@+id/CountGoalcounter_btn_Dialog"
+                    android:id="@+id/GoalCountCounter_btn_Dialog"
                     android:visibility="gone"
                     android:background="@drawable/border_btn_dialog"
                     android:backgroundTint="@color/bg_color"
-                    android:text="0"
+                    android:text="@string/dialog_non_time"
                     android:layout_marginTop="@dimen/dialog_btn_Topmargin"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
@@ -492,17 +492,17 @@
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
                     android:visibility="gone"
-                    android:id="@+id/GoalTimer_Accumulate_tv_Dialog"
+                    android:id="@+id/GoalTimerAccumulate_tv_Dialog"
                     android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/GoalTimer_Accumulate_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/GoalTimer_Accumulate_btn_Dialog"/>
+                    app:layout_constraintTop_toTopOf="@id/GoalTimerAccumulate_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalTimerAccumulate_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
                     android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                    android:id="@+id/GoalTimer_Accumulate_btn_Dialog"
+                    android:id="@+id/GoalTimerAccumulate_btn_Dialog"
                     android:text="@string/dialog_non_time"
                     android:background="@drawable/border_btn_dialog"
                     android:backgroundTint="@color/bg_color"
@@ -520,17 +520,17 @@
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
                     android:visibility="gone"
-                    android:id="@+id/GoalTimer_Count_tv_Dialog"
+                    android:id="@+id/GoalTimerRecursive_tv_Dialog"
                     android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/GoalTimer_Count_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/GoalTimer_Count_btn_Dialog"/>
+                    app:layout_constraintTop_toTopOf="@id/GoalTimerRecursive_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalTimerRecursive_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
                     android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                    android:id="@+id/GoalTimer_Count_btn_Dialog"
+                    android:id="@+id/GoalTimerRecursive_btn_Dialog"
                     android:text="@string/dialog_non_time"
                     android:background="@drawable/border_btn_dialog"
                     android:backgroundTint="@color/bg_color"
@@ -547,23 +547,23 @@
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
                     android:visibility="gone"
-                    android:id="@+id/Goal_Count_tv_Dialog"
+                    android:id="@+id/GoalCountTimerRecursive_tv_Dialog"
                     android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/Goal_Count_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/Goal_Count_btn_Dialog"/>
+                    app:layout_constraintTop_toTopOf="@id/GoalCountTimerRecursive_btn_Dialog"
+                    app:layout_constraintBottom_toBottomOf="@id/GoalCountTimerRecursive_btn_Dialog"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="100dp"
                     android:layout_height="@dimen/dialog_height_Buttonsize"
                     android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                    android:id="@+id/Goal_Count_btn_Dialog"
+                    android:id="@+id/GoalCountTimerRecursive_btn_Dialog"
                     android:text="@string/dialog_non_time"
                     android:background="@drawable/border_btn_dialog"
                     android:backgroundTint="@color/bg_color"
                     android:visibility="gone"
                     android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                    app:layout_constraintTop_toBottomOf="@id/GoalTimer_Count_btn_Dialog"
+                    app:layout_constraintTop_toBottomOf="@id/GoalTimerRecursive_btn_Dialog"
                     app:layout_constraintRight_toRightOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>

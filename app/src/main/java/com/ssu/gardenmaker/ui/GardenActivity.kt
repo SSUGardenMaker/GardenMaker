@@ -1,21 +1,28 @@
 package com.ssu.gardenmaker.ui
 
 import android.os.Bundle
-import android.widget.ImageButton
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
-import com.ssu.gardenmaker.R
+import androidx.viewpager2.widget.ViewPager2
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.databinding.ActivityGardenBinding
+import com.ssu.gardenmaker.plant.PlantData
 import com.ssu.gardenmaker.slider.SliderAdapter
+import java.lang.reflect.Type
 import kotlin.math.abs
 
 class GardenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGardenBinding
-    private val sliderItems : ArrayList<String> = ArrayList()
+    private lateinit var gardenName: String
+    private val sliderItems: ArrayList<String> = ArrayList()
+    private val dataArray: ArrayList<PlantData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +31,9 @@ class GardenActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         if (intent.hasExtra("NAME"))
-            binding.tvGardenName.text = intent.getStringExtra("NAME")
+            gardenName = intent.getStringExtra("NAME").toString()
+
+        binding.tvGardenName.text = gardenName
 
         initSlider()
     }
@@ -44,22 +53,50 @@ class GardenActivity : AppCompatActivity() {
         binding.vpImageSlider.offscreenPageLimit = 3
         binding.vpImageSlider.getChildAt(0).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
 
-        // Viewpager의 좌우 프리뷰를 구현
+        // Viewpager 의 좌우 프리뷰를 구현
         val compositePageTransformer = CompositePageTransformer()
         compositePageTransformer.addTransformer(MarginPageTransformer(30))
         compositePageTransformer.addTransformer { page, position ->
-            page.scaleY = 0.85f + (1 - abs(position)) * 0.15f
+            val scaleFactor = 0.85f + (1 - abs(position)) * 0.15f
+            page.scaleY = scaleFactor
+            page.alpha = scaleFactor
         }
         binding.vpImageSlider.setPageTransformer(compositePageTransformer)
+
+        // Paging 할 때마다 호출
+        binding.vpImageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                Log.d("GardenActivity", "Page ${position+1}")
+            }
+        })
     }
 
     private fun initItem() {
+        // 만보기
         sliderItems.add("https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg")
-        sliderItems.add("https://cdn.pixabay.com/photo/2020/11/04/15/29/coffee-beans-5712780_1280.jpg")
-        sliderItems.add("https://cdn.pixabay.com/photo/2020/11/10/01/34/pet-5728249_1280.jpg")
-        sliderItems.add("https://cdn.pixabay.com/photo/2020/12/21/19/05/window-5850628_1280.png")
-        sliderItems.add("https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg")
+
+        // 횟수
         sliderItems.add("https://cdn.pixabay.com/photo/2019/10/15/13/33/red-deer-4551678_1280.jpg")
+
+        // 누적 타이머
+        sliderItems.add("https://cdn.pixabay.com/photo/2020/11/10/01/34/pet-5728249_1280.jpg")
+
+        // 횟수 타이머
+        sliderItems.add("https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg")
+
+        // 화단 종류에 따라 SharedPreferences 에서 해당하는 값 가져옴
+        val gson = GsonBuilder().create()
+        val groupListType: Type = object: TypeToken<ArrayList<PlantData?>?>() {}.type // json 을 객체로 만들 때 타입을 추론하는 역할
+        val prev = ApplicationClass.mSharedPreferences.getString(gardenName, "NONE") // json list 가져오기
+
+        if (prev != "NONE") {
+            if (prev != "[]" || prev != "")
+                dataArray.addAll(gson.fromJson(prev, groupListType))
+        }
+        else {
+            Toast.makeText(this@GardenActivity, "화단에 꽃이 비어 있어요", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun initButton() {

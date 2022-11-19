@@ -11,7 +11,7 @@ import com.ssu.gardenmaker.db.ContractDB
 
 class ListCheckboxAdapter(context: Context, itemList: ArrayList<ListCheckboxDB>) : BaseAdapter() {
 
-    class ListCheckboxDB(var id: Int, var title: String, var today: Int, var flag: String)
+    data class ListCheckboxDB(var id: Int, var title: String, var today: Int, var flag: String)
 
     private var mContext = context
     private var mItemList = itemList

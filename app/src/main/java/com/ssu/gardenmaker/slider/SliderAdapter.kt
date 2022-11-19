@@ -14,12 +14,12 @@ class SliderAdapter(context: Context, viewPager2: ViewPager2, sliderImage: Array
 
     private val mContext: Context
     private val mViewPager2 : ViewPager2
-    private val sliderItems: ArrayList<String>
+    private val mSliderItems: ArrayList<String>
 
     init {
         mContext = context
         mViewPager2 = viewPager2
-        sliderItems = sliderImage
+        mSliderItems = sliderImage
     }
 
     inner class SliderViewHolder(binding: SliderItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -45,10 +45,10 @@ class SliderAdapter(context: Context, viewPager2: ViewPager2, sliderImage: Array
     }
 
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
-        holder.bind(sliderItems[position])
+        holder.bind(mSliderItems[position])
     }
 
     override fun getItemCount(): Int {
-        return sliderItems.size
+        return mSliderItems.size
     }
 }
