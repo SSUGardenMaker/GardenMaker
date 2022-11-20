@@ -109,20 +109,22 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             }
             else {
                 if (checkbox1.isChecked) {
+                    var count = 0
+                    val cursor = ApplicationClass.db.rawQuery(COUNT_Checkbox_TB, null)
+                    while (cursor.moveToNext()) {
+                        count = cursor.getInt(0)
+                    }
+
+//                    // 체크박스 하루에 다섯 개까지 설정 가능하게 코드 추가 (오늘 날짜 비교해서 오늘 날짜로 된 것이 5개 이상일 때)
+//                    if (count >= 5)
+//                        Toast.makeText(mContext, "하루에 체크박스는 5개까지만 생성할 수 있습니다.", Toast.LENGTH_SHORT).show()
+
                     if (binding.StartDayDialog.text.toString() == "-")
                         Toast.makeText(mContext, "목표 기간을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
-                        // 체크박스 하루에 다섯 개까지 설정 가능하게 코드 추가
-
                         val regex = "[^0-9]".toRegex()
                         val startDay =
                             binding.StartDayDialog.text.toString().replace(regex, "").toInt()
-
-                        var count = 0
-                        val cursor = ApplicationClass.db.rawQuery(COUNT_Checkbox_TB, null)
-                        while (cursor.moveToNext()) {
-                            count = cursor.getInt(0)
-                        }
 
                         ApplicationClass.db.execSQL(
                             ContractDB.insertCheckboxTB(
