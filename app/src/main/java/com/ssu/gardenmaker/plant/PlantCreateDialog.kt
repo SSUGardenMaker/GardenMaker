@@ -63,7 +63,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
     private val tvGoalTimerAccumulate: TextView by lazy { binding.GoalTimerAccumulateTvDialog }
     private val btnGoalTimerAccumulate: Button by lazy { binding.GoalTimerAccumulateBtnDialog }
 
-    // 횟수 타이머 기능 뷰
+    // 반복 타이머 기능 뷰
     private val tvGoalTimerRecursive: TextView by lazy { binding.GoalTimerRecursiveTvDialog }
     private val btnGoalTimerRecursive: Button by lazy { binding.GoalTimerRecursiveBtnDialog }
     private val tvGoalCountTimerRecursive: TextView by lazy { binding.GoalCountTimerRecursiveTvDialog}
@@ -310,7 +310,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                 val gson = GsonBuilder().create()
                                 val data = PlantData(
                                     binding.PlainNameEdtDialog.text.toString(),
-                                    "횟수 타이머",
+                                    "반복 타이머",
                                     binding.StartDayDialog.text.toString(),
                                     binding.EndDayDialog.text.toString(),
                                     "",
@@ -474,7 +474,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             dialog_accumulatetime.show()
         }
 
-        // 5. 횟수 타이머
+        // 5. 반복 타이머
         // 예외: 반복 시간을 spinner가 아닌, text로 입력하고 바로 확인을 누르면 적용이 되지 않는다.
         btnGoalTimerRecursive.setOnClickListener { v->
             v as Button

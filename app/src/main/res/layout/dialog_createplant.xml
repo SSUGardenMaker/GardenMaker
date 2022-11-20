@@ -279,7 +279,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="횟수 타이머"
+                        android:text="반복 타이머"
                         android:textSize="16sp"
                         android:fontFamily="@font/gmarket_sans_regular"
                         app:layout_constraintLeft_toRightOf="@id/Checkbox_TimerCount"
@@ -487,7 +487,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="달성 누적 시간"
+                    android:text="누적 시간"
                     android:textColor="@color/Normaltext_Dialog"
                     android:textSize="@dimen/dialog_normal_Textsize"
                     android:fontFamily="@font/gmarket_sans_regular"
@@ -511,7 +511,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
 
-                <!-- 횟수 타이머 -->
+                <!-- 반복 타이머 -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

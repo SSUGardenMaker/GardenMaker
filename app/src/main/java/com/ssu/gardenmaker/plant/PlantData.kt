@@ -5,10 +5,10 @@ data class PlantData(
     var plantType: String,
     var startDate: String,
     var endDate: String,
-    var goalStepPedometer: String,
-    var goalCountPedometer: String,
-    var goalCountCounter: String,
-    var goalTimerAccumulate: String,
-    var goalTimerRecursive: String,
-    var goalCountTimerRecursive: String
+    var goalStepPedometer: String,      // 만보기
+    var goalCountPedometer: String,     // 만보기
+    var goalCountCounter: String,       // 횟수
+    var goalTimerAccumulate: String,    // 누적 타이머
+    var goalTimerRecursive: String,     // 반복 타이머
+    var goalCountTimerRecursive: String // 반복 타이머
 )
