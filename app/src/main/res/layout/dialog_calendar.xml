@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_dialog"
-    android:orientation="vertical">
-    <CalendarView
+    android:orientation="vertical"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp">
+    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dialog_calendar_calendar"/>
+        android:id="@+id/dialogCalendarCalendar"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="270sp">

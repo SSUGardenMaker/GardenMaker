@@ -9,7 +9,7 @@ class ContractDB {
         // Calendar 관련 DB 명령어
         const val Cal_TBL = "Calendar_TB"
         const val SELECTAll_Calendar_TB = "SELECT * FROM $Cal_TBL"
-        const val CREATE_Calendar_TB = "CREATE TABLE IF NOT exists Calendar_TB(" +
+        const val CREATE_Calendar_TB = "CREATE TABLE IF NOT exists $Cal_TBL(" +
                 "NAME TEXT," +
                 "CATEGORY TEXT," +
                 "FUNCTION TEXT," +
@@ -29,7 +29,7 @@ class ContractDB {
         const val Check_TBL = "Checkbox_TB"
         const val COUNT_Checkbox_TB = "SELECT COUNT(*) FROM $Check_TBL"
         const val SELECTAll_Checkbox_TB = "SELECT * FROM $Check_TBL"
-        const val CREATE_Checkbox_TB = "CREATE TABLE IF NOT exists Checkbox_TB(" +
+        const val CREATE_Checkbox_TB = "CREATE TABLE IF NOT exists $Check_TBL(" +
                 "ID INTEGER, " +
                 "TITLE TEXT, " +
                 "TODAY INTEGER, " +

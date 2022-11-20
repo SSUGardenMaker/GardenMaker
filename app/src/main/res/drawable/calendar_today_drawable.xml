@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size
+        android:width="10sp"
+        android:height="10sp"/>
+    <!-- 내부 색깔 -->
+    <solid
+        android:color="#00FFFFFF"/>
+    <!-- 테두리 색깔 및 두께 -->
+    <stroke
+        android:color="#F0F0F0"
+        android:width="1.5dp"/>
+    <corners
+        android:radius="10dp"/>
+    <!-- padding 설정 -->
+    <padding android:left="0dip" android:top="0dip" android:right="0dip" android:bottom="0dip" />
+</shape>
