@@ -2,8 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ssu.gardenmaker">
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- 만보계 센서 권한 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+
+    <!--ForegroundService등록-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".ApplicationClass"
@@ -35,6 +40,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--PedometerService 등록-->
+        <service android:name=".features.pedometer.PedometerService"/>
     </application>
 
 </manifest>
