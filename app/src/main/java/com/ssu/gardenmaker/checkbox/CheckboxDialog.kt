@@ -56,6 +56,6 @@ class CheckboxDialog(context: Context, aContext: Context, layoutInflater: Layout
 }
 
 /*
-db=dbHelper.writableDatabase
-db.execSQL(ContractDB.insertCheckBoxTB(1,"저녁먹기",20220301,20220301))
+ var db1=dbHelper.writableDatabase
+ db1.execSQL(ContractDB.insertCheckboxTB(1,"저녁먹자1",20201118,"Y"))
 */

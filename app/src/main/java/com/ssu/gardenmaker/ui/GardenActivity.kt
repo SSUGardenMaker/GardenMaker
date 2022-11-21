@@ -135,10 +135,10 @@ class GardenActivity : AppCompatActivity() {
     private fun setPage(position: Int) {
         when (dataArray[position].plantType) {
             "만보기" -> {
-                sliderItems.add("https://cdn.pixabay.com/photo/2019/12/26/10/44/horse-4720178_1280.jpg")
+                sliderItems.add("https://pixabay.com/get/g98c11dbb97b386a55836adb810fbea3a5ecfb04aa668ed63f3cc3d9ec82ff9c320bd3da1563c5c29e65741022582f63fdc765646cba321d658b70c0e71d5fa3d1e9cf899edfb444f11d0e1b14da3a3c2_640.png?attachment=")
             }
             "횟수" -> {
-                sliderItems.add("https://cdn.pixabay.com/photo/2019/10/15/13/33/red-deer-4551678_1280.jpg")
+                sliderItems.add("https://pixabay.com/get/g542151b4fe8504ebb5a95b9f67b2682fa92db44d6a4a06d4bd84492963235a1f637e842daa4d5e031be92978e7f7c43d83f2a10bec572b557c7dc68f48748f9992164642c418f03877efe8de7f40d060_640.png?attachment=")
             }
             "누적 타이머" -> {
                 sliderItems.add("https://cdn.pixabay.com/photo/2020/11/10/01/34/pet-5728249_1280.jpg")
