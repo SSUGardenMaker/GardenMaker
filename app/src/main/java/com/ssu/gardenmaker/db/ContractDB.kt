@@ -22,7 +22,7 @@ class ContractDB {
         }
 
         fun selectDateCalendarTB(cal_day: Int): String {
-            return "SELECT * FROM $Cal_TBL WHERE $cal_day>start_day AND $cal_day<end_day ORDER BY end_day"
+            return "SELECT * FROM $Cal_TBL WHERE $cal_day>=start_day AND $cal_day<=end_day ORDER BY end_day"
         }
 
         // CheckList 관련 DB 명령어
