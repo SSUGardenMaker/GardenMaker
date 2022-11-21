@@ -1,9 +1,12 @@
 package com.ssu.gardenmaker.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.os.Build
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
@@ -11,10 +14,12 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.ssu.gardenmaker.ApplicationClass
+import com.ssu.gardenmaker.ApplicationClass.Companion.dbHelper
 import com.ssu.gardenmaker.calendar.CalendarDialog
 import com.ssu.gardenmaker.checkbox.CheckboxDialog
 import com.ssu.gardenmaker.R
@@ -22,6 +27,8 @@ import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
+import com.ssu.gardenmaker.db.ContractDB
+import com.ssu.gardenmaker.features.pedometer.PedometerService
 import com.ssu.gardenmaker.plant.PlantCreateDialog
 import kotlin.system.exitProcess
 
@@ -35,7 +42,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private lateinit var plantCreateMap: HashMap<String, String>
 
-    @RequiresApi(Build.VERSION_CODES.P)
+    private lateinit var intent1:Intent
+    @RequiresApi(VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,6 +57,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val plantCreateDialog = PlantCreateDialog(this@MainActivity, layoutInflater)
             plantCreateDialog.showDialog()
         }
+
+        //만보기 권한요청
+        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED){
+            var permissions = arrayOf(
+                android.Manifest.permission.ACTIVITY_RECOGNITION
+            )
+            requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
+        }
+    }
+
+    override fun onStop() {
+    //    stopService(intent1)
+        super.onStop()
     }
 
     // 화면 터치 시 키보드 내려감
@@ -102,7 +123,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     // 버튼 기능 구현
-    @RequiresApi(Build.VERSION_CODES.P)
+    @RequiresApi(VERSION_CODES.P)
     private fun initButtonFunction() {
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist).setOnClickListener {
             CheckboxDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
