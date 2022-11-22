@@ -4,15 +4,12 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
-import androidx.annotation.RequiresApi
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.ssu.gardenmaker.ApplicationClass
@@ -20,7 +17,6 @@ import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.DialogCreateplantBinding
 import com.ssu.gardenmaker.db.ContractDB
 import com.ssu.gardenmaker.db.ContractDB.Companion.COUNT_Checkbox_TB
-import com.ssu.gardenmaker.features.pedometer.PedometerService
 import java.lang.reflect.Type
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -88,7 +84,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         fiveFuction()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun valListener() {
         // 시작 날짜, 종료 날짜 리스너(DatePicker Spinner모드)
         val listener_day = View.OnClickListener { v->
@@ -117,7 +112,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                     while (cursor.moveToNext()) {
                         count = cursor.getInt(0)
                     }
-                    val cursor1= ApplicationClass.db.rawQuery(COUNT_Checkbox_TB, null)
+
 //                    // 체크박스 하루에 다섯 개까지 설정 가능하게 코드 추가 (오늘 날짜 비교해서 오늘 날짜로 된 것이 5개 이상일 때)
 //                    if (count >= 5)
 //                        Toast.makeText(mContext, "하루에 체크박스는 5개까지만 생성할 수 있습니다.", Toast.LENGTH_SHORT).show()
@@ -163,29 +158,29 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                             if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
                                 toast()
                             else
-                                store_feature( binding.PlainNameEdtDialog.text.toString(),"횟수", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
+                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"만보기", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
                                         stepPedometer =  binding.GoalStepPedometerBtnDialog.text.toString(), countPedometer = binding.GoalCountPedometerBtnDialog.text.toString())
 
                         } else if (checkbox3.isChecked) {
                             if (binding.GoalCountCounterBtnDialog.text.toString() == "-")
                                 toast()
                             else
-                                store_feature( binding.PlainNameEdtDialog.text.toString(),"횟수", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
+                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"횟수", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
                                         countCounter =  binding.GoalCountCounterBtnDialog.text.toString())
 
                         } else if (checkbox4.isChecked) {
                             if (binding.GoalTimerAccumulateBtnDialog.text.toString() == "-")
                                 toast()
                             else
-                                store_feature( binding.PlainNameEdtDialog.text.toString(),"누적 타이머", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
+                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"누적 타이머", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
                                         timerAccumulate =  binding.GoalTimerAccumulateBtnDialog.text.toString())
 
                         } else if (checkbox5.isChecked) {
                             if (binding.GoalTimerRecursiveBtnDialog.text.toString() == "-" || binding.GoalCountTimerRecursiveBtnDialog.text.toString() == "-")
                                 toast()
                             else
-                                store_feature( binding.PlainNameEdtDialog.text.toString(),"반복 타이머", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
-                                        timerRecursive = binding.GoalTimerRecursiveBtnDialog.text.toString(), counttimerRecursive = binding.GoalCountTimerRecursiveBtnDialog.text.toString())
+                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"반복 타이머", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
+                                        timerRecursive = binding.GoalTimerRecursiveBtnDialog.text.toString(), countTimerRecursive = binding.GoalCountTimerRecursiveBtnDialog.text.toString())
 
                         }
                     }
@@ -405,11 +400,14 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             }
         }
     }
-    fun store_feature(name:String,type:String,startDate:String,endDate:String,                 //공통 값
-             stepPedometer:String="",countPedometer:String="",                       //만보기
-             countCounter:String="",                                                 //횟수
-             timerAccumulate:String="",                                             //누적타이머
-             timerRecursive:String="",counttimerRecursive:String=""){               //반복타이머
+
+    private fun storeFeature(
+        name: String, type: String, startDate: String, endDate: String,            // 공통 값
+        stepPedometer: String = "", countPedometer: String = "",                   // 만보기
+        countCounter: String = "",                                                 // 횟수
+        timerAccumulate: String = "",                                              // 누적타이머
+        timerRecursive: String = "", countTimerRecursive: String = "") {           // 반복타이머
+
             val editor = ApplicationClass.mSharedPreferences.edit()
             val gson = GsonBuilder().create()
             val data = PlantData(
@@ -417,7 +415,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                stepPedometer, countPedometer,
                countCounter,
                timerAccumulate,
-               timerRecursive, counttimerRecursive
+               timerRecursive, countTimerRecursive
             )
 
             val tempArray = ArrayList<PlantData>()
@@ -448,7 +446,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             editor.apply()
             dialog.dismiss()
     }
-    fun toast(){
+
+    private fun toast() {
         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
     }
 }

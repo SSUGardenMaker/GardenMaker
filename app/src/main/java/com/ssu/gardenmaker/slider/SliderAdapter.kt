@@ -9,12 +9,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.ssu.gardenmaker.databinding.SliderItemBinding
 
-class SliderAdapter(context: Context, viewPager2: ViewPager2, sliderImage: ArrayList<String>) :
+class SliderAdapter(context: Context, viewPager2: ViewPager2, sliderImage: ArrayList<Int>) :
     RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
     private val mContext: Context
     private val mViewPager2 : ViewPager2
-    private val mSliderItems: ArrayList<String>
+    private val mSliderItems: ArrayList<Int>
 
     init {
         mContext = context
@@ -30,7 +30,7 @@ class SliderAdapter(context: Context, viewPager2: ViewPager2, sliderImage: Array
             mBinding = binding
         }
 
-        fun bind(sliderItem: String?) {
+        fun bind(sliderItem: Int?) {
             try {
                 Glide.with(mContext).load(sliderItem).into(mBinding.ivImageSlider)
             }

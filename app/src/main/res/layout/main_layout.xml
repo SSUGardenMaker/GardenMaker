@@ -20,6 +20,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@drawable/main_image"
         android:layout_weight="12">
 
         <!-- 메인 view -->
@@ -32,7 +33,6 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:gravity="center"
-            android:text="메인 화면"
             android:textColor="@color/black"
             android:textSize="30sp"/>
 

@@ -1,5 +1,7 @@
 package com.ssu.gardenmaker.ui
 
+import android.annotation.SuppressLint
+import android.content.res.TypedArray
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -11,9 +13,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.ssu.gardenmaker.ApplicationClass
+import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityGardenBinding
 import com.ssu.gardenmaker.plant.PlantData
 import com.ssu.gardenmaker.slider.SliderAdapter
+import okhttp3.internal.notify
 import java.lang.reflect.Type
 import kotlin.math.abs
 
@@ -21,7 +25,9 @@ class GardenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGardenBinding
     private lateinit var gardenName: String
-    private val sliderItems: ArrayList<String> = ArrayList()
+    private lateinit var typedArray: TypedArray
+    private var currentPage: Int = 0
+    private val sliderItems: ArrayList<Int> = ArrayList()
     private val dataArray: ArrayList<PlantData> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +40,8 @@ class GardenActivity : AppCompatActivity() {
             gardenName = intent.getStringExtra("NAME").toString()
 
         binding.tvGardenName.text = gardenName
+
+        typedArray = resources.obtainTypedArray(R.array.img_flowers)
 
         initSlider()
     }
@@ -69,6 +77,7 @@ class GardenActivity : AppCompatActivity() {
         binding.vpImageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
+                currentPage = position
                 setPlantData(position)
             }
         })
@@ -129,22 +138,37 @@ class GardenActivity : AppCompatActivity() {
 
         binding.btnDeletePlant.setOnClickListener {
             Toast.makeText(this@GardenActivity, "식물이 삭제되었습니다", Toast.LENGTH_SHORT).show()
+            deletePlant()
+            sliderItems.removeAt(currentPage)
+            binding.vpImageSlider.adapter?.notifyDataSetChanged()
         }
     }
 
+    // 식물 삭제
+    private fun deletePlant() {
+        dataArray.removeAt(currentPage)
+        val editor = ApplicationClass.mSharedPreferences.edit()
+        val gson = GsonBuilder().create()
+        val groupListType: Type = object: TypeToken<ArrayList<PlantData?>?>() {}.type // json 을 객체로 만들 때 타입을 추론하는 역할
+        val strList = gson.toJson(dataArray, groupListType)
+        editor.putString(gardenName, strList)
+        editor.apply()
+    }
+
+    @SuppressLint("ResourceType")
     private fun setPage(position: Int) {
         when (dataArray[position].plantType) {
             "만보기" -> {
-                sliderItems.add("https://pixabay.com/get/g98c11dbb97b386a55836adb810fbea3a5ecfb04aa668ed63f3cc3d9ec82ff9c320bd3da1563c5c29e65741022582f63fdc765646cba321d658b70c0e71d5fa3d1e9cf899edfb444f11d0e1b14da3a3c2_640.png?attachment=")
+                sliderItems.add(typedArray.getResourceId(0, -1))
             }
             "횟수" -> {
-                sliderItems.add("https://pixabay.com/get/g542151b4fe8504ebb5a95b9f67b2682fa92db44d6a4a06d4bd84492963235a1f637e842daa4d5e031be92978e7f7c43d83f2a10bec572b557c7dc68f48748f9992164642c418f03877efe8de7f40d060_640.png?attachment=")
+                sliderItems.add(typedArray.getResourceId(1, -1))
             }
             "누적 타이머" -> {
-                sliderItems.add("https://cdn.pixabay.com/photo/2020/11/10/01/34/pet-5728249_1280.jpg")
+                sliderItems.add(typedArray.getResourceId(2, -1))
             }
             "반복 타이머" -> {
-                sliderItems.add("https://cdn.pixabay.com/photo/2014/03/03/16/15/mosque-279015_1280.jpg")
+                sliderItems.add(typedArray.getResourceId(3, -1))
             }
         }
     }

@@ -12,6 +12,15 @@ import com.ssu.gardenmaker.R
 class CategoryEditDialog(context : Context, categoryList : MutableList<String>) {
     private val mAdapter = CategoryListAdapter(context, categoryList)
     private val dialog = Dialog(context)
+    private lateinit var onClickListener: CategoryEditDialogClickListener
+
+    interface CategoryEditDialogClickListener {
+        fun onClicked()
+    }
+
+    fun setOnClickListener(listener: CategoryEditDialogClickListener) {
+        onClickListener = listener
+    }
 
     fun showDialog() {
         dialog.setContentView(R.layout.dialog_edit_category)
@@ -28,6 +37,7 @@ class CategoryEditDialog(context : Context, categoryList : MutableList<String>) 
 
         btnCategoryEdit.setOnClickListener {
             mAdapter.notifyDataSetChanged()
+            onClickListener.onClicked()
             dialog.dismiss()
         }
     }

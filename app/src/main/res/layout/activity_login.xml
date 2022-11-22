@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="4"
-    android:background="@drawable/main_image"
+    android:background="@drawable/first_image"
     tools:context=".ui.LoginActivity">
 
     <ImageView

@@ -1,6 +1,7 @@
 package com.ssu.gardenmaker.ui
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.os.Build
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.gson.JsonArray
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.ApplicationClass.Companion.dbHelper
 import com.ssu.gardenmaker.calendar.CalendarDialog
@@ -30,6 +32,7 @@ import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 import com.ssu.gardenmaker.db.ContractDB
 import com.ssu.gardenmaker.features.pedometer.PedometerService
 import com.ssu.gardenmaker.plant.PlantCreateDialog
+import org.json.JSONArray
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -40,10 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
 
-    private lateinit var plantCreateMap: HashMap<String, String>
-
-    private lateinit var intent1:Intent
-    @RequiresApi(VERSION_CODES.P)
+    @RequiresApi(VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -58,18 +58,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             plantCreateDialog.showDialog()
         }
 
-        //만보기 권한요청
+        // 만보기 권한요청
         if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED){
-            var permissions = arrayOf(
-                android.Manifest.permission.ACTIVITY_RECOGNITION
-            )
+            var permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
             requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
         }
-    }
-
-    override fun onStop() {
-    //    stopService(intent1)
-        super.onStop()
     }
 
     // 화면 터치 시 키보드 내려감
@@ -183,6 +176,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     override fun onClicked(name: String) {
                         ApplicationClass.categoryLists.add(name)
                         categoryExpandableListAdapter.notifyDataSetChanged()
+                        setCategoryList()
                     }
                 })
             }
@@ -195,14 +189,50 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.mainNaviHeader.btnEditCategory.setOnClickListener {
             val categoryEditDialog = CategoryEditDialog(this, ApplicationClass.categoryLists)
             categoryEditDialog.showDialog()
-            categoryList.collapseGroup(0)
+            categoryEditDialog.setOnClickListener(object: CategoryEditDialog.CategoryEditDialogClickListener {
+                override fun onClicked() {
+                    categoryList.collapseGroup(0)
+                    setCategoryList()
+                }
+            })
         }
     }
 
-    // 사용자가 설정해놓은 카테고리 리스트 가져오기
+    // 카테고리 리스트 저장하기
+    private fun setCategoryList() {
+        val editor = ApplicationClass.mSharedPreferences.edit()
+        val jsonArray = JSONArray()
+
+        for (i in 0 until ApplicationClass.categoryLists.size) {
+            jsonArray.put(ApplicationClass.categoryLists[i])
+        }
+
+        if (ApplicationClass.categoryLists.isNotEmpty())
+            editor.putString("category", jsonArray.toString())
+        else
+            editor.putString("category", null)
+
+        editor.apply()
+    }
+
+    // 카테고리 리스트 가져오기
     private fun getCategoryList() {
-        ApplicationClass.categoryLists.add("건강")
-        ApplicationClass.categoryLists.add("학업")
-        ApplicationClass.categoryLists.add("저축")
+        val json = ApplicationClass.mSharedPreferences.getString("category", null)
+        val urls = ArrayList<String>()
+        if (json != null) {
+            try {
+                val jsonArray = JSONArray(json)
+
+                for (i in 0 until jsonArray.length()) {
+                    val url = jsonArray.optString(i)
+                    urls.add(url)
+                }
+            }
+            catch(e: Exception) {
+              e.printStackTrace()
+            }
+        }
+
+        ApplicationClass.categoryLists = urls.toMutableList()
     }
 }
