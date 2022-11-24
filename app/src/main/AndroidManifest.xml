@@ -2,12 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ssu.gardenmaker">
-    <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- 만보계 센서 권한 -->
-    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-
-    <!--ForegroundService등록-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 만보계 센서 권한 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- ForegroundService등록 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -21,7 +18,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GardenMaker"
         tools:targetApi="31">
+        <activity
+            android:name=".features.ExFeatureActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ui.GardenActivity"
             android:exported="false" />
@@ -34,14 +42,10 @@
         <activity
             android:name=".ui.FirstActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <!--PedometerService 등록-->
-        <service android:name=".features.pedometer.PedometerService"/>
+        </activity> <!-- PedometerService 등록 -->
+        <service android:name=".features.pedometer.PedometerService" />
+        <service android:name=".features.recursiveTimer.recursiveTimerService"/>
     </application>
 
 </manifest>
