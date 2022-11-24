@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ssu.gardenmaker">
+
+    <!-- 인터넷 사용 권한 -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- 만보계 센서 권한 -->
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 
-    <!--ForegroundService등록-->
+    <!-- ForegroundService 등록 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -20,13 +22,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GardenMaker"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <!-- PedometerService 등록 -->
+        <service android:name=".features.pedometer.PedometerService" />
 
         <activity
             android:name=".ui.GardenActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SignupActivity"
             android:exported="false" />
         <activity
             android:name=".ui.LoginActivity"
@@ -40,8 +49,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--PedometerService 등록-->
-        <service android:name=".features.pedometer.PedometerService"/>
     </application>
-
 </manifest>
