@@ -1,5 +1,8 @@
 package com.ssu.gardenmaker.retrofit
 
+import com.ssu.gardenmaker.retrofit.garden.RequestGardenCreateEdit
+import com.ssu.gardenmaker.retrofit.garden.ResponseGarden
+import com.ssu.gardenmaker.retrofit.garden.ResponseGardenCreateEditDelete
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
@@ -33,4 +36,24 @@ interface RetrofitAPI {
     @Headers("Content-Type: application/json")
     @DELETE("/users/token")
     fun tokenDeleteRequest(): Call<Any>
+
+    // 화단 보기
+    @Headers("Content-Type: application/json")
+    @GET("/garden")
+    fun gardenCheckRequest(): Call<ResponseGarden>
+
+    // 화단 생성
+    @Headers("Content-Type: application/json")
+    @POST("/garden")
+    fun gardenCreateRequest(@Body body: RequestGardenCreateEdit): Call<ResponseGardenCreateEditDelete>
+
+    // 화단 수정
+    @Headers("Content-Type: application/json")
+    @PUT("/garden")
+    fun gardenEditRequest(@Body body: RequestGardenCreateEdit): Call<ResponseGardenCreateEditDelete>
+
+    // 화단 삭제
+    @Headers("Content-Type: application/json")
+    @DELETE("/garden/{gardenId}")
+    fun gardenDeleteRequest(@Path("gardenId") id: Int): Call<ResponseGardenCreateEditDelete>
 }
