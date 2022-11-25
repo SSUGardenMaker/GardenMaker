@@ -33,7 +33,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:hint="이메일"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:inputType="textEmailAddress"
             android:fontFamily="@font/gmarket_sans_regular" />
 
@@ -47,7 +47,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:hint="비밀번호"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:inputType="textPassword"
             android:fontFamily="@font/gmarket_sans_regular" />
 
@@ -57,7 +57,9 @@
             android:id="@+id/login_checkbox"
             android:buttonTint="@color/category_color"
             android:text="로그인 상태 유지"
+            android:textSize="16sp"
             android:textStyle="bold"
+            android:gravity="center_vertical"
             android:layout_width="200dp"
             android:layout_height="20dp"
             android:layout_marginTop="10dp"/>

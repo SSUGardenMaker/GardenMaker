@@ -9,26 +9,26 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ssu.gardenmaker.ApplicationClass
-import com.ssu.gardenmaker.databinding.ActivitySignupBinding
+import com.ssu.gardenmaker.databinding.ActivityFindBinding
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 
-class SignupActivity : AppCompatActivity() {
+class FindActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivitySignupBinding
-    private val TAG = "SignupActivity"
+    private lateinit var binding : ActivityFindBinding
+    private val TAG = "FindActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySignupBinding.inflate(layoutInflater)
+        binding = ActivityFindBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.btnSignup.setOnClickListener {
-            signup()
+        binding.tvFindEmail.setOnClickListener {
+            findEmail()
         }
 
-        binding.tvSignupGoLogin.setOnClickListener {
+        binding.tvFindGoLogin.setOnClickListener {
             finish()
-            startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
+            startActivity(Intent(this@FindActivity, LoginActivity::class.java))
         }
     }
 
@@ -49,20 +49,19 @@ class SignupActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
-    // 회원가입 기능
-    private fun signup() {
-        ApplicationClass.retrofitManager.signup(binding.etSignupEmail.text.toString(), binding.etSignupPassword.text.toString(), binding.etSignupNickname.text.toString(), object : RetrofitCallback {
+    // 비밀번호 찾기 기능
+    private fun findEmail() {
+        ApplicationClass.retrofitManager.findPassword(binding.etFindEmail.text.toString(), object : RetrofitCallback {
             override fun onError(t: Throwable) {
                 Log.d(TAG, "onError : " + t.localizedMessage)
             }
 
             override fun onSuccess(message: String, data: String) {
-                Log.d(TAG, "onSuccess : message -> $message")
-                Log.d(TAG, "onSuccess : email -> $data")
-                Toast.makeText(this@SignupActivity, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "onSuccess : $message $data")
+                Toast.makeText(this@FindActivity, "입력하신 이메일로 전송된 인증 메일을 확인해주세요", Toast.LENGTH_SHORT).show()
 
                 finish()
-                startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
+                startActivity(Intent(this@FindActivity, LoginActivity::class.java))
             }
 
             override fun onFailure(errorMessage: String, errorCode: Int) {

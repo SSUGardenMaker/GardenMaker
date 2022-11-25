@@ -35,6 +35,9 @@
             android:name=".ui.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.FindActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.SignupActivity"
             android:exported="false" />
         <activity
@@ -50,4 +53,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>

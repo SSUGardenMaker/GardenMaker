@@ -9,6 +9,7 @@ import com.ssu.gardenmaker.db.MyDBHelper
 import com.ssu.gardenmaker.retrofit.RetrofitAPI
 import com.ssu.gardenmaker.retrofit.RetrofitClient
 import com.ssu.gardenmaker.retrofit.RetrofitManager
+import com.ssu.gardenmaker.util.FcmTokenUtil
 
 class ApplicationClass : Application() {
 
@@ -37,5 +38,7 @@ class ApplicationClass : Application() {
 
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
         categoryLists = mutableListOf()
+
+        //FcmTokenUtil().loadFcmToken()
     }
 }

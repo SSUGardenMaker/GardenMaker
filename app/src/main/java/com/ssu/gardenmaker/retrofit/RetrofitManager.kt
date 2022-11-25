@@ -7,6 +7,7 @@ import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.login.ErrorLogin
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
+import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
 import com.ssu.gardenmaker.retrofit.signup.ErrorSignup
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
@@ -79,6 +80,33 @@ class RetrofitManager {
 
             override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
                 Log.d("RetrofitManager_login", "onFailure : " + t.localizedMessage)
+                callback.onError(t)
+            }
+        })
+    }
+
+    // 비밀번호 찾기
+    fun findPassword(email: String, callback: RetrofitCallback) {
+        val call: Call<ResponseFindPassword> = ApplicationClass.retrofitAPI.findPasswordRequest(email)
+
+        call.enqueue(object : Callback<ResponseFindPassword> {
+            override fun onResponse(call: Call<ResponseFindPassword>, response: Response<ResponseFindPassword>) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    Log.d("RetrofitManager_findPassword", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_findPassword", "onResponse : status code is " + response.code())
+                    callback.onSuccess("findPassword 호출 : ", body.message)
+                }
+                else {
+                    val body = response.body()
+                    Log.d("RetrofitManager_findPassword", "onResponse : 실패, error message : " + body!!.errorMessage)
+                    Log.d("RetrofitManager_findPassword", "onResponse : 실패, error code : " + response.code())
+                    callback.onFailure(body.errorMessage, response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseFindPassword>, t: Throwable) {
+                Log.d("RetrofitManager_findPassword", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
         })

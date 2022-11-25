@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/layout_dialog"
     android:orientation="vertical"
-    android:layout_marginLeft="15dp"
-    android:layout_marginRight="15dp">
+    android:padding="10dp">
+
     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dialogCalendarCalendar"/>
+        android:id="@+id/dialogCalendarCalendar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="270sp">
+
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

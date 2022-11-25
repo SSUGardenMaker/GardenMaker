@@ -1,5 +1,6 @@
 package com.ssu.gardenmaker.ui
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.databinding.ActivityLoginBinding
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
+import com.ssu.gardenmaker.util.FcmTokenUtil
+import com.ssu.gardenmaker.util.SharedPreferenceManager
 import kotlin.system.exitProcess
 
 class LoginActivity : AppCompatActivity() {
@@ -32,6 +35,10 @@ class LoginActivity : AppCompatActivity() {
 
         binding.tvRegister.setOnClickListener {
             startActivity(Intent(this@LoginActivity, SignupActivity::class.java))
+        }
+
+        binding.tvFind.setOnClickListener {
+            startActivity(Intent(this@LoginActivity, FindActivity::class.java))
         }
     }
 
@@ -65,23 +72,58 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun login() {
-        ApplicationClass.retrofitManager.login("test1234@naver.com", "test1234", object : RetrofitCallback {
-            override fun onError(t: Throwable) {
-                Log.d(TAG, "onError : " + t.localizedMessage)
-            }
+        if (binding.etEmailLogin.text.toString().trim().isEmpty() || binding.etPasswordLogin.text.toString().trim().isEmpty()) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val dialog = dialogBuilder.create()
 
-            override fun onSuccess(message: String, data: String) {
-                Log.d(TAG, "onSuccess : message -> $message")
-                Log.d(TAG, "onSuccess : accessToken -> $data")
+            dialogBuilder.setTitle("알림")
+            dialogBuilder.setMessage("빈 칸을 전부 채워주세요.")
+            dialogBuilder.setPositiveButton("확인", null)
+            dialogBuilder.show()
+            dialog.dismiss()
+        }
+        else {
+            ApplicationClass.retrofitManager.login(binding.etEmailLogin.text.toString(), binding.etPasswordLogin.text.toString(), object : RetrofitCallback {
+                override fun onError(t: Throwable) {
+                    Log.d(TAG, "onError : " + t.localizedMessage)
+                }
 
-                finish()
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
-            }
+                override fun onSuccess(message: String, data: String) {
+                    Log.d(TAG, "onSuccess : message -> $message")
+                    Log.d(TAG, "onSuccess : accessToken -> $data")
 
-            override fun onFailure(errorMessage: String, errorCode: Int) {
-                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                Log.d(TAG, "onFailure : errorCode -> $errorCode")
-            }
-        })
+                    SharedPreferenceManager().setString("email", binding.etEmailLogin.text.toString())
+                    SharedPreferenceManager().setString("password", binding.etPasswordLogin.text.toString())
+                    SharedPreferenceManager().setString("accessToken", data)
+
+                    if (binding.loginCheckbox.isChecked)
+                        SharedPreferenceManager().setString("keepLogin", "ON")
+                    else
+                        SharedPreferenceManager().setString("keepLogin", "OFF")
+
+//                    ApplicationClass.retrofitManager.postToken(FcmTokenUtil().getFcmToken()!!, object : RetrofitCallback {
+//                        override fun onError(t: Throwable) {
+//                        }
+//
+//                        override fun onSuccess(message: String, data: String) {
+//                            Log.d(TAG, message + data)
+//                            Log.d(TAG, "FcmToken : " + FcmTokenUtil().getFcmToken()!!)
+//                        }
+//
+//                        override fun onFailure(errorMessage: String, errorCode: Int) {
+//                        }
+//
+//                    })
+
+                    finish()
+                    startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                }
+
+                override fun onFailure(errorMessage: String, errorCode: Int) {
+                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                }
+            })
+        }
     }
 }

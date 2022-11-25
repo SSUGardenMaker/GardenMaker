@@ -1,13 +1,12 @@
 package com.ssu.gardenmaker.calendar
 
-import android.app.ActionBar.LayoutParams
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.WindowManager
 import android.widget.ListView
 import androidx.annotation.RequiresApi
 import com.ssu.gardenmaker.ApplicationClass
@@ -23,8 +22,8 @@ import kotlin.String as String
 //params?.width=1200 값의 의미는
 @RequiresApi(Build.VERSION_CODES.P)
 class CalendarDialog(context: Context, aContext: Context, layoutInflater: LayoutInflater) {
-    private val TAG="CalendarDialog"
-    private val context=context
+
+    private val mContext=context
     private val dialog = Dialog(context)
     private val binding = DialogCalendarBinding.inflate(layoutInflater)
     private val currentTime = System.currentTimeMillis()
@@ -32,6 +31,7 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
     private val adapter by lazy { ListCalendarAdapter(aContext,arraylist) }
     private val list: ListView by lazy { binding.dialogCalendarListview }
     private val calendar by lazy{binding.dialogCalendarCalendar}
+
     fun showDialog() {
         init()
         listener()
@@ -40,7 +40,7 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
         val cur_day= SimpleDateFormat("dd").format(currentTime).toInt()
         val cur_month= SimpleDateFormat("MM").format(currentTime).toInt()
         selectSqlCalendarDB(ContractDB.selectDateCalendarTB((
-                "${SimpleDateFormat("yyyy").format(currentTime).toString()}"+ //년도
+                "${SimpleDateFormat("yyyy").format(currentTime)}"+ //년도
                     "${if(cur_month<10) "0${cur_month}" else "${cur_month}"}"+       //월
                     "${if(cur_day<10) "0$cur_day" else "$cur_day"}").toInt()))       //일
 
@@ -49,15 +49,12 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
     private fun init(){
         dialog.setContentView(binding.root)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        var params=dialog.window?.attributes
-        params?.width=1200
-        dialog.window?.attributes=params as android.view.WindowManager.LayoutParams
+        dialog.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog.show()
 
-        calendar.addDecorators(FontDecorator(context),SaturdayDecorator(),SundayDecorator(),TodayDecorator(context))
+        calendar.addDecorators(FontDecorator(mContext),SaturdayDecorator(),SundayDecorator(),TodayDecorator(mContext))
 
         list.adapter=adapter
-
-        dialog.show()
     }
 
     private fun listener(){

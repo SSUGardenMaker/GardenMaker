@@ -2,6 +2,7 @@ package com.ssu.gardenmaker.retrofit
 
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
+import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
 import retrofit2.Call
@@ -17,6 +18,11 @@ interface RetrofitAPI {
     @Headers("Content-Type: application/json")
     @POST("/users/login")
     fun loginRequest(@Body body: RequestLogin): Call<ResponseLogin>
+
+    // 비밀번호 찾기
+    @Headers("Content-Type: application/json")
+    @GET("/users/password")
+    fun findPasswordRequest(@Query("email") email: String): Call<ResponseFindPassword>
 
     // 토큰 등록
     @Headers("Content-Type: application/json")

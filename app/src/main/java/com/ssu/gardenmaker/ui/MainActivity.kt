@@ -1,10 +1,8 @@
 package com.ssu.gardenmaker.ui
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Rect
-import android.os.Build
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.util.Log
@@ -19,29 +17,27 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
-import com.google.gson.JsonArray
 import com.ssu.gardenmaker.ApplicationClass
-import com.ssu.gardenmaker.ApplicationClass.Companion.dbHelper
-import com.ssu.gardenmaker.calendar.CalendarDialog
-import com.ssu.gardenmaker.checkbox.CheckboxDialog
 import com.ssu.gardenmaker.R
-import com.ssu.gardenmaker.databinding.ActivityMainBinding
+import com.ssu.gardenmaker.calendar.CalendarDialog
 import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
-import com.ssu.gardenmaker.db.ContractDB
-import com.ssu.gardenmaker.features.pedometer.PedometerService
+import com.ssu.gardenmaker.checkbox.CheckboxDialog
+import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.plant.PlantCreateDialog
+import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
+import com.ssu.gardenmaker.util.SharedPreferenceManager
 import org.json.JSONArray
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var backKeyPressedTime: Long = 0
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
+    private val TAG = "MainActivity"
+    private var backKeyPressedTime: Long = 0
 
     @RequiresApi(VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,13 +49,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initButtonFunction()
         initNavigationMenu()
 
-        binding.mainLayout.btnPlusPlan.setOnClickListener {
-            val plantCreateDialog = PlantCreateDialog(this@MainActivity, layoutInflater)
-            plantCreateDialog.showDialog()
-        }
-
         // 만보기 권한요청
-        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED){
+        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED) {
             var permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
             requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
         }
@@ -118,12 +109,58 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // 버튼 기능 구현
     @RequiresApi(VERSION_CODES.P)
     private fun initButtonFunction() {
+        // 체크리스트 기능
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist).setOnClickListener {
             CheckboxDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
         }
 
+        // 캘린더 기능
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar).setOnClickListener {
             CalendarDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
+        }
+
+        // 식물 추가 다이얼로그
+        binding.mainLayout.btnPlusPlan.setOnClickListener {
+            val plantCreateDialog = PlantCreateDialog(this@MainActivity, layoutInflater)
+            plantCreateDialog.showDialog()
+        }
+
+        // 꽃피운 식물들
+        binding.categoryDoneNext.setOnClickListener {
+
+        }
+
+        // 식물 도감
+        binding.plantBookNext.setOnClickListener {
+
+        }
+
+        // 환경설정
+        binding.navigationSettingNext.setOnClickListener {
+
+        }
+
+        // 로그아웃
+        binding.navigationLogoutNext.setOnClickListener {
+//            ApplicationClass.retrofitManager.deleteToken(object : RetrofitCallback {
+//                override fun onError(t: Throwable) {
+//                }
+//
+//                override fun onSuccess(message: String, data: String) {
+//                    Log.d(TAG, message + data)
+//                }
+//
+//                override fun onFailure(errorMessage: String, errorCode: Int) {
+//                }
+//
+//            })
+
+            SharedPreferenceManager().deleteData("email")
+            SharedPreferenceManager().deleteData("password")
+            SharedPreferenceManager().deleteData("accessToken")
+
+            finish()
+            startActivity(Intent(this@MainActivity, LoginActivity::class.java))
         }
     }
 
@@ -217,7 +254,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // 카테고리 리스트 가져오기
     private fun getCategoryList() {
-        val json = ApplicationClass.mSharedPreferences.getString("category", null)
+        val json = SharedPreferenceManager().getString("category")
         val urls = ArrayList<String>()
         if (json != null) {
             try {
