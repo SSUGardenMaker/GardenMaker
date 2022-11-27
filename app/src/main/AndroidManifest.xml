@@ -24,11 +24,6 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.GardenActivity"
@@ -42,10 +37,15 @@
         <activity
             android:name=".ui.FirstActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity> <!-- PedometerService 등록 -->
         <service android:name=".features.pedometer.PedometerService" />
         <service android:name=".features.recursiveTimer.recursiveTimerService"/>
+        <service android:name=".features.accumulateTimer.accumulateTimerService"/>
     </application>
 
 </manifest>
