@@ -24,10 +24,13 @@
         android:theme="@style/Theme.GardenMaker"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
-        <!-- PedometerService 등록 -->
-        <service android:name=".features.pedometer.PedometerService" />
-
+        <activity
+            android:name=".features.ExFeatureActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".ui.GardenActivity"
             android:exported="false" />
@@ -51,7 +54,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- PedometerService 등록 -->
+        <service android:name=".features.pedometer.PedometerService" />
+        <service android:name=".features.recursiveTimer.recursiveTimerService"/>
+        <service android:name=".features.accumulateTimer.accumulateTimerService"/>
     </application>
 
 </manifest>
