@@ -4,10 +4,10 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseGarden(
     @SerializedName("message") val message : String,
-    @SerializedName("data") val data : DataContent
+    @SerializedName("data") val data : List<GardenDataContent>
 )
 
-data class DataContent(
+data class GardenDataContent(
     @SerializedName("category") val category : String,
     @SerializedName("id") val id : Int,
     @SerializedName("name") val name : String,

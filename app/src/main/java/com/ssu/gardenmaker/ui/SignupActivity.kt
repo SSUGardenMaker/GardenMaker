@@ -1,21 +1,26 @@
 package com.ssu.gardenmaker.ui
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
-import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.databinding.ActivitySignupBinding
-import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
+import com.ssu.gardenmaker.runnable.SignupRunnable
+
 
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivitySignupBinding
-    private val TAG = "SignupActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,24 +56,45 @@ class SignupActivity : AppCompatActivity() {
 
     // 회원가입 기능
     private fun signup() {
-        ApplicationClass.retrofitManager.signup(binding.etSignupEmail.text.toString(), binding.etSignupPassword.text.toString(), binding.etSignupNickname.text.toString(), object : RetrofitCallback {
-            override fun onError(t: Throwable) {
-                Log.d(TAG, "onError : " + t.localizedMessage)
+        val dialogBuilder = AlertDialog.Builder(this)
+        val dialog = dialogBuilder.create()
+        dialogBuilder.setTitle("알림")
+        dialogBuilder.setPositiveButton("확인") { p0, p1 -> dialog.dismiss() }
+
+        if (binding.etSignupEmail.text.toString().trim().isEmpty()
+            || binding.etSignupPassword.text.toString().trim().isEmpty()
+            || binding.etSignupPasswordCheck.text.toString().trim().isEmpty()
+            || binding.etSignupNickname.text.toString().trim().isEmpty()) {
+            dialogBuilder.setMessage("빈 칸을 전부 채워주세요.")
+            dialogBuilder.show()
+        }
+        else if (binding.etSignupPassword.text.toString() != binding.etSignupPasswordCheck.text.toString()) {
+            dialogBuilder.setMessage("두 비밀번호가 서로 다릅니다.")
+            dialogBuilder.show()
+        }
+        else {
+            val progressDialog = Dialog(this)
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // 배경을 투명하게
+            progressDialog.setContentView(ProgressBar(this)) // ProgressBar 위젯 생성
+            progressDialog.setCanceledOnTouchOutside(false) // 외부 터치 막음
+            progressDialog.setOnCancelListener { this.finish() } // 뒤로가기시 현재 액티비티 종료
+            progressDialog.show()
+
+            val handlerSignup = object : Handler(Looper.getMainLooper()) {
+                override fun handleMessage(msg: Message) {
+                    super.handleMessage(msg)
+
+                    if (msg.arg1 == 1) {
+                        finish()
+                        startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
+                    }
+
+                    progressDialog.dismiss()
+                }
             }
 
-            override fun onSuccess(message: String, data: String) {
-                Log.d(TAG, "onSuccess : message -> $message")
-                Log.d(TAG, "onSuccess : email -> $data")
-                Toast.makeText(this@SignupActivity, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
-
-                finish()
-                startActivity(Intent(this@SignupActivity, LoginActivity::class.java))
-            }
-
-            override fun onFailure(errorMessage: String, errorCode: Int) {
-                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                Log.d(TAG, "onFailure : errorCode -> $errorCode")
-            }
-        })
+            val thread = Thread(SignupRunnable(handlerSignup, this, binding.etSignupEmail.text.toString(), binding.etSignupPassword.text.toString(), binding.etSignupNickname.text.toString()))
+            thread.start()
+        }
     }
 }

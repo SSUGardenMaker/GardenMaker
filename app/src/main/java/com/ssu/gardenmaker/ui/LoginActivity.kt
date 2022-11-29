@@ -28,9 +28,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLogin.setOnClickListener {
-            //login()
-            finish()
-            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            login()
         }
 
         binding.tvRegister.setOnClickListener {
@@ -91,6 +89,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onSuccess(message: String, data: String) {
                     Log.d(TAG, "onSuccess : message -> $message")
                     Log.d(TAG, "onSuccess : accessToken -> $data")
+                    Toast.makeText(this@LoginActivity, "로그인 완료", Toast.LENGTH_SHORT).show()
 
                     SharedPreferenceManager().setString("email", binding.etEmailLogin.text.toString())
                     SharedPreferenceManager().setString("password", binding.etPasswordLogin.text.toString())
@@ -122,6 +121,7 @@ class LoginActivity : AppCompatActivity() {
                 override fun onFailure(errorMessage: String, errorCode: Int) {
                     Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
                     Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                    Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             })
         }

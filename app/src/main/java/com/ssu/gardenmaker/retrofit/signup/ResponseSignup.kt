@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponseSignup(
     @SerializedName("message") val message : String,
-    @SerializedName("data") val data : DataContent
+    @SerializedName("data") val data : SignupDataContent
 )
 
-data class DataContent(
+data class SignupDataContent(
     @SerializedName("email") val email : String
 )

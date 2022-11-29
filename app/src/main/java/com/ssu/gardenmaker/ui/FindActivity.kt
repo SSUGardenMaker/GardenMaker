@@ -1,5 +1,6 @@
 package com.ssu.gardenmaker.ui
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
@@ -22,7 +23,7 @@ class FindActivity : AppCompatActivity() {
         binding = ActivityFindBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.tvFindEmail.setOnClickListener {
+        binding.btnFindEmail.setOnClickListener {
             findEmail()
         }
 
@@ -51,23 +52,36 @@ class FindActivity : AppCompatActivity() {
 
     // 비밀번호 찾기 기능
     private fun findEmail() {
-        ApplicationClass.retrofitManager.findPassword(binding.etFindEmail.text.toString(), object : RetrofitCallback {
-            override fun onError(t: Throwable) {
-                Log.d(TAG, "onError : " + t.localizedMessage)
-            }
+        if (binding.etFindEmail.text.toString().trim().isEmpty()) {
+            val dialogBuilder = AlertDialog.Builder(this)
+            val dialog = dialogBuilder.create()
 
-            override fun onSuccess(message: String, data: String) {
-                Log.d(TAG, "onSuccess : $message $data")
-                Toast.makeText(this@FindActivity, "입력하신 이메일로 전송된 인증 메일을 확인해주세요", Toast.LENGTH_SHORT).show()
+            dialogBuilder.setTitle("알림")
+            dialogBuilder.setMessage("비밀번호를 찾을 이메일을 입력해주세요.")
+            dialogBuilder.setPositiveButton("확인", null)
+            dialogBuilder.show()
+            dialog.dismiss()
+        }
+        else {
+            ApplicationClass.retrofitManager.findPassword(binding.etFindEmail.text.toString(), object : RetrofitCallback {
+                override fun onError(t: Throwable) {
+                    Log.d(TAG, "onError : " + t.localizedMessage)
+                }
 
-                finish()
-                startActivity(Intent(this@FindActivity, LoginActivity::class.java))
-            }
+                override fun onSuccess(message: String, data: String) {
+                    Log.d(TAG, "onSuccess : $message $data")
+                    Toast.makeText(this@FindActivity, "입력하신 이메일로 전송된 인증 메일을 확인해주세요", Toast.LENGTH_SHORT).show()
 
-            override fun onFailure(errorMessage: String, errorCode: Int) {
-                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                Log.d(TAG, "onFailure : errorCode -> $errorCode")
-            }
-        })
+                    finish()
+                    startActivity(Intent(this@FindActivity, LoginActivity::class.java))
+                }
+
+                override fun onFailure(errorMessage: String, errorCode: Int) {
+                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                    Toast.makeText(this@FindActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 }

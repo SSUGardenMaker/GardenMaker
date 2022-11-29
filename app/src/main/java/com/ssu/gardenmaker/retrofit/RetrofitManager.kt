@@ -11,6 +11,7 @@ import com.ssu.gardenmaker.retrofit.garden.ResponseGardenCreateEditDelete
 import com.ssu.gardenmaker.retrofit.login.ErrorLogin
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
+import com.ssu.gardenmaker.retrofit.password.ErrorFindPassword
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
 import com.ssu.gardenmaker.retrofit.signup.ErrorSignup
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
@@ -38,7 +39,7 @@ class RetrofitManager {
                     val responseBody = response.errorBody()
                     val gson = Gson()
                     try {
-                        val errorSignup: ErrorSignup = gson.fromJson(responseBody!!.string(), ErrorSignup::class.java)
+                        val errorSignup = gson.fromJson(responseBody!!.string(), ErrorSignup::class.java)
                         Log.d("RetrofitManager_signup", "onResponse : 실패, error message : " + errorSignup.errorMessage)
                         Log.d("RetrofitManager_signup", "onResponse : 실패, error code : " + response.code())
                         callback.onFailure(errorSignup.errorMessage, response.code())
@@ -72,7 +73,7 @@ class RetrofitManager {
                     val responseBody = response.errorBody()
                     val gson = Gson()
                     try {
-                        val errorLogin: ErrorLogin = gson.fromJson(responseBody!!.string(), ErrorLogin::class.java)
+                        val errorLogin = gson.fromJson(responseBody!!.string(), ErrorLogin::class.java)
                         Log.d("RetrofitManager_signup", "onResponse : 실패, error message : " + errorLogin.errorMessage)
                         Log.d("RetrofitManager_signup", "onResponse : 실패, error code : " + response.code())
                         callback.onFailure(errorLogin.errorMessage, response.code())
@@ -102,10 +103,16 @@ class RetrofitManager {
                     callback.onSuccess("findPassword 호출 : ", body.message)
                 }
                 else {
-                    val body = response.body()
-                    Log.d("RetrofitManager_findPassword", "onResponse : 실패, error message : " + body!!.errorMessage)
-                    Log.d("RetrofitManager_findPassword", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure(body.errorMessage, response.code())
+                    val responseBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorFindPassword = gson.fromJson(responseBody!!.string(), ErrorFindPassword::class.java)
+                        Log.d("RetrofitManager_findPassword", "onResponse : 실패, error message : " + errorFindPassword.errorMessage)
+                        Log.d("RetrofitManager_findPassword", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorFindPassword.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 

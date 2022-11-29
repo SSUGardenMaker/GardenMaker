@@ -26,7 +26,8 @@ import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 import com.ssu.gardenmaker.checkbox.CheckboxDialog
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.plant.PlantCreateDialog
-import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
+import com.ssu.gardenmaker.retrofit.callback.RetrofitGardenCallback
+import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 import com.ssu.gardenmaker.util.SharedPreferenceManager
 import org.json.JSONArray
 import kotlin.system.exitProcess
@@ -254,6 +255,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // 카테고리 리스트 가져오기
     private fun getCategoryList() {
+        ApplicationClass.retrofitManager.gardenCheck(object : RetrofitGardenCallback {
+            override fun onError(t: Throwable) {
+                Log.d(TAG, "onError : " + t.localizedMessage)
+            }
+
+            override fun onSuccess(message: String, data: List<GardenDataContent>) {
+                Log.d(TAG, "onSuccess : message -> $message")
+                Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onFailure(errorMessage: String, errorCode: Int) {
+                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        })
+
         val json = SharedPreferenceManager().getString("category")
         val urls = ArrayList<String>()
         if (json != null) {
