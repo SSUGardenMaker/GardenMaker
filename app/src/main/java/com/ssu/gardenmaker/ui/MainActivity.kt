@@ -30,7 +30,6 @@ import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitGardenCallback
 import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 import com.ssu.gardenmaker.util.SharedPreferenceManager
-import org.json.JSONArray
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -134,7 +133,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // 식물 도감
         binding.plantBookNext.setOnClickListener {
-
+            startActivity(Intent(this@MainActivity, PlantBookActivity::class.java))
         }
 
         // 환경설정
@@ -226,7 +225,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                                 val newGarden = GardenDataContent(category = name, id = Integer.parseInt(data), name = name)
                                 ApplicationClass.categoryLists.add(newGarden)
                                 categoryExpandableListAdapter.notifyDataSetChanged()
-                                //setCategoryList()
                             }
 
                             override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -250,27 +248,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             categoryEditDialog.setOnClickListener(object: CategoryEditDialog.CategoryEditDialogClickListener {
                 override fun onClicked() {
                     categoryList.collapseGroup(0)
-                    //setCategoryList()
                 }
             })
         }
-    }
-
-    // 카테고리 리스트 저장하기
-    private fun setCategoryList() {
-        val editor = ApplicationClass.mSharedPreferences.edit()
-        val jsonArray = JSONArray()
-
-        for (i in 0 until ApplicationClass.categoryLists.size) {
-            jsonArray.put(ApplicationClass.categoryLists[i])
-        }
-
-        if (ApplicationClass.categoryLists.isNotEmpty())
-            editor.putString("category", jsonArray.toString())
-        else
-            editor.putString("category", null)
-
-        editor.apply()
     }
 
     // 카테고리 리스트 가져오기
@@ -286,23 +266,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
 
                 ApplicationClass.categoryLists.addAll(data)
-
-//                val json = SharedPreferenceManager().getString("category")
-//                val urls = ArrayList<String>()
-//                if (json != null) {
-//                    try {
-//                        val jsonArray = JSONArray(json)
-//
-//                        for (i in 0 until jsonArray.length()) {
-//                            val url = jsonArray.optString(i)
-//                            urls.add(url)
-//                        }
-//                    }
-//                    catch(e: Exception) {
-//                        e.printStackTrace()
-//                    }
-//                }
-//                ApplicationClass.categoryLists = urls.toMutableList()
             }
 
             override fun onFailure(errorMessage: String, errorCode: Int) {

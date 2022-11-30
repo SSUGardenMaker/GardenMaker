@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="img_flowers">
-        <item>@drawable/flowers1</item>
-        <item>@drawable/flowers2</item>
-        <item>@drawable/flowers3</item>
-        <item>@drawable/flowers4</item>
+        <item>@drawable/rose_4</item>
+        <item>@drawable/tulip_4</item>
+        <item>@drawable/pasqueflower_4</item>
+        <item>@drawable/sunflower_4</item>
     </array>
 </resources>
