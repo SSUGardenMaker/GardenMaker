@@ -8,8 +8,9 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ListView
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 
-class CategoryEditDialog(context : Context, categoryList : MutableList<String>) {
+class CategoryEditDialog(context : Context, categoryList : MutableList<GardenDataContent>) {
     private val mAdapter = CategoryListAdapter(context, categoryList)
     private val dialog = Dialog(context)
     private lateinit var onClickListener: CategoryEditDialogClickListener

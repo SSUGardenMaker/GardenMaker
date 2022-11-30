@@ -8,8 +8,9 @@ import android.view.WindowManager
 import android.widget.ListView
 import androidx.appcompat.widget.AppCompatButton
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 
-class PlantSelectCategoryDialog(context : Context, categoryList : MutableList<String>, selectedCategory: AppCompatButton) {
+class PlantSelectCategoryDialog(context : Context, categoryList : MutableList<GardenDataContent>, selectedCategory: AppCompatButton) {
     private val dialog = Dialog(context)
     private val mAdapter = PlantCategoryListAdapter(context, dialog, categoryList, selectedCategory)
 

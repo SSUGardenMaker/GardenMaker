@@ -225,9 +225,9 @@ class RetrofitManager {
     }
 
     // 화단 수정
-    fun gardenEdit(category: String, name: String, callback: RetrofitCallback) {
+    fun gardenEdit(gardenId: Int, category: String, name: String, callback: RetrofitCallback) {
         val requestGardenEdit = RequestGardenCreateEdit(category, name)
-        val call: Call<ResponseGardenCreateEditDelete> = ApplicationClass.retrofitAPI.gardenEditRequest(requestGardenEdit)
+        val call: Call<ResponseGardenCreateEditDelete> = ApplicationClass.retrofitAPI.gardenEditRequest(gardenId, requestGardenEdit)
 
         call.enqueue(object : Callback<ResponseGardenCreateEditDelete> {
             override fun onResponse (call: Call<ResponseGardenCreateEditDelete>, response: Response<ResponseGardenCreateEditDelete>) {

@@ -8,8 +8,7 @@ data class ResponseGarden(
 )
 
 data class GardenDataContent(
-    @SerializedName("category") val category : String,
+    @SerializedName("category") var category : String,
     @SerializedName("id") val id : Int,
-    @SerializedName("name") val name : String,
-    @SerializedName("userId") val userId : Int
+    @SerializedName("name") var name : String
 )

@@ -9,7 +9,7 @@ import com.ssu.gardenmaker.db.MyDBHelper
 import com.ssu.gardenmaker.retrofit.RetrofitAPI
 import com.ssu.gardenmaker.retrofit.RetrofitClient
 import com.ssu.gardenmaker.retrofit.RetrofitManager
-import com.ssu.gardenmaker.util.FcmTokenUtil
+import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 
 class ApplicationClass : Application() {
 
@@ -21,7 +21,7 @@ class ApplicationClass : Application() {
         lateinit var retrofitAPI: RetrofitAPI
         lateinit var retrofitManager: RetrofitManager
         lateinit var mSharedPreferences: SharedPreferences
-        lateinit var categoryLists : MutableList<String>
+        lateinit var categoryLists : MutableList<GardenDataContent>
     }
 
     override fun onCreate() {

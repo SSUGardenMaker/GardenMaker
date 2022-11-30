@@ -8,11 +8,12 @@ import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 
 class CategoryExpandableListAdapter(
     private val context: Context,
     private val parentList: MutableList<String>,
-    private val childList: MutableList<MutableList<String>>
+    private val childList: MutableList<MutableList<GardenDataContent>>
     ): BaseExpandableListAdapter() {
 
         override fun getGroupCount(): Int {
@@ -28,7 +29,7 @@ class CategoryExpandableListAdapter(
         }
 
         override fun getChild(groupPosition: Int, childPosition: Int): Any {
-            return childList[groupPosition][childPosition]
+            return childList[groupPosition][childPosition].name
         }
 
         override fun getGroupId(groupPosition: Int): Long {

@@ -26,6 +26,7 @@ import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 import com.ssu.gardenmaker.checkbox.CheckboxDialog
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.plant.PlantCreateDialog
+import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitGardenCallback
 import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 import com.ssu.gardenmaker.util.SharedPreferenceManager
@@ -200,7 +201,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // 자식 아이템 클릭 이벤트
         categoryList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
             val intent = Intent(this, GardenActivity::class.java)
-            intent.putExtra("NAME", ApplicationClass.categoryLists[childPosition])
+            intent.putExtra("NAME", ApplicationClass.categoryLists[childPosition].name)
             startActivity(intent)
             false
         }
@@ -212,9 +213,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 categoryAddDialog.showDialog()
                 categoryAddDialog.setOnClickListener(object : CategoryAddDialog.CategoryAddDialogClickListener {
                     override fun onClicked(name: String) {
-                        ApplicationClass.categoryLists.add(name)
-                        categoryExpandableListAdapter.notifyDataSetChanged()
-                        setCategoryList()
+                        ApplicationClass.retrofitManager.gardenCreate(name, name, object : RetrofitCallback {
+                            override fun onError(t: Throwable) {
+                                Log.d(TAG, "onError : " + t.localizedMessage)
+                            }
+
+                            override fun onSuccess(message: String, data: String) {
+                                Log.d(TAG, "onSuccess : message -> $message")
+                                Log.d(TAG, "onSuccess : data -> $data")
+                                Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+
+                                val newGarden = GardenDataContent(category = name, id = Integer.parseInt(data), name = name)
+                                ApplicationClass.categoryLists.add(newGarden)
+                                categoryExpandableListAdapter.notifyDataSetChanged()
+                                //setCategoryList()
+                            }
+
+                            override fun onFailure(errorMessage: String, errorCode: Int) {
+                                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                            }
+                        })
                     }
                 })
             }
@@ -230,7 +250,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             categoryEditDialog.setOnClickListener(object: CategoryEditDialog.CategoryEditDialogClickListener {
                 override fun onClicked() {
                     categoryList.collapseGroup(0)
-                    setCategoryList()
+                    //setCategoryList()
                 }
             })
         }
@@ -262,7 +282,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             override fun onSuccess(message: String, data: List<GardenDataContent>) {
                 Log.d(TAG, "onSuccess : message -> $message")
+                Log.d(TAG, "onSuccess : data -> $data")
                 Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+
+                ApplicationClass.categoryLists.addAll(data)
+
+//                val json = SharedPreferenceManager().getString("category")
+//                val urls = ArrayList<String>()
+//                if (json != null) {
+//                    try {
+//                        val jsonArray = JSONArray(json)
+//
+//                        for (i in 0 until jsonArray.length()) {
+//                            val url = jsonArray.optString(i)
+//                            urls.add(url)
+//                        }
+//                    }
+//                    catch(e: Exception) {
+//                        e.printStackTrace()
+//                    }
+//                }
+//                ApplicationClass.categoryLists = urls.toMutableList()
             }
 
             override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -271,23 +311,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
-
-        val json = SharedPreferenceManager().getString("category")
-        val urls = ArrayList<String>()
-        if (json != null) {
-            try {
-                val jsonArray = JSONArray(json)
-
-                for (i in 0 until jsonArray.length()) {
-                    val url = jsonArray.optString(i)
-                    urls.add(url)
-                }
-            }
-            catch(e: Exception) {
-              e.printStackTrace()
-            }
-        }
-
-        ApplicationClass.categoryLists = urls.toMutableList()
     }
 }

@@ -49,11 +49,11 @@ interface RetrofitAPI {
 
     // 화단 수정
     @Headers("Content-Type: application/json")
-    @PUT("/garden")
-    fun gardenEditRequest(@Body body: RequestGardenCreateEdit): Call<ResponseGardenCreateEditDelete>
+    @PUT("/garden/{gardenId}")
+    fun gardenEditRequest(@Path("gardenId") gardenId: Int, @Body body: RequestGardenCreateEdit): Call<ResponseGardenCreateEditDelete>
 
     // 화단 삭제
     @Headers("Content-Type: application/json")
     @DELETE("/garden/{gardenId}")
-    fun gardenDeleteRequest(@Path("gardenId") id: Int): Call<ResponseGardenCreateEditDelete>
+    fun gardenDeleteRequest(@Path("gardenId") gardenId: Int): Call<ResponseGardenCreateEditDelete>
 }

@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.widget.AppCompatButton
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
 
 class PlantCategoryListAdapter(
     private val context: Context,
     private val dialog: Dialog,
-    private val categoryList : MutableList<String>,
+    private val categoryList : MutableList<GardenDataContent>,
     private val selectedCategory: AppCompatButton
     ) : BaseAdapter() {
 
@@ -26,7 +27,7 @@ class PlantCategoryListAdapter(
     }
 
     override fun getItem(position : Int): Any {
-        return categoryList[position]
+        return categoryList[position].name
     }
 
     override fun getItemId(position : Int): Long {
@@ -49,10 +50,10 @@ class PlantCategoryListAdapter(
             view = convertView
         }
 
-        viewHolder.categoryName?.text = categoryList[position]
+        viewHolder.categoryName?.text = categoryList[position].name
 
         viewHolder.categoryLayout?.setOnClickListener {
-            selectedCategory.text = categoryList[position]
+            selectedCategory.text = categoryList[position].name
             dialog.dismiss()
         }
 

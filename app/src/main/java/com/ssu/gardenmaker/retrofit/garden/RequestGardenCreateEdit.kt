@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class RequestGardenCreateEdit(
     @SerializedName("Category") var category: String,
-    @SerializedName("name") var name: String
+    @SerializedName("Name") var name: String
 )
