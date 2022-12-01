@@ -13,5 +13,9 @@ class PlantBookActivity : AppCompatActivity() {
 
         binding = ActivityPlantBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.ibPlantBookBack.setOnClickListener {
+            finish()
+        }
     }
 }

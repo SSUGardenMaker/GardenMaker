@@ -48,7 +48,8 @@
             android:hint="이메일을 입력해주세요"
             android:textSize="18sp"
             android:fontFamily="@font/gmarket_sans_regular"
-            android:inputType="text" />
+            android:inputType="textEmailAddress"
+            android:importantForAutofill="no" />
 
         <Button
             android:id="@+id/btn_find_email"
