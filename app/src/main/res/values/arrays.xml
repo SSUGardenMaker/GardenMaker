@@ -1,9 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="img_flowers">
-        <item>@drawable/rose_4</item>
-        <item>@drawable/tulip_4</item>
-        <item>@drawable/pasqueflower_4</item>
-        <item>@drawable/sunflower_4</item>
+        <item>@drawable/pot</item>
+        <item>@drawable/plant1</item>
+        <item>@drawable/plant2</item>
+        <item>@drawable/plant3</item>
+        <item>@drawable/plant4</item>
+        <item>@drawable/plant5</item>
+        <item>@drawable/plant6</item>
+        <item>@drawable/plant7</item>
+        <item>@drawable/plant8</item>
+        <item>@drawable/plant9</item>
+        <item>@drawable/plant10</item>
+        <item>@drawable/plant11</item>
+        <item>@drawable/plant12</item>
+        <item>@drawable/plant13</item>
+        <item>@drawable/plant14</item>
+        <item>@drawable/plant15</item>
+        <item>@drawable/plant16</item>
+        <item>@drawable/plant17</item>
+        <item>@drawable/plant18</item>
+        <item>@drawable/plant19</item>
+        <item>@drawable/plant20</item>
+        <item>@drawable/plant21</item>
+        <item>@drawable/plant22</item>
+        <item>@drawable/plant23</item>
+        <item>@drawable/plant24</item>
+        <item>@drawable/plant25</item>
+        <item>@drawable/plant26</item>
+        <item>@drawable/plant27</item>
+        <item>@drawable/plant28</item>
+        <item>@drawable/plant29</item>
+        <item>@drawable/plant30</item>
+        <item>@drawable/plant31</item>
+        <item>@drawable/plant32</item>
+        <item>@drawable/plant33</item>
+        <item>@drawable/plant34</item>
+        <item>@drawable/plant35</item>
+        <item>@drawable/plant36</item>
+        <item>@drawable/plant37</item>
     </array>
 </resources>

@@ -6,6 +6,7 @@ import com.ssu.gardenmaker.retrofit.garden.ResponseGardenCreateEditDelete
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
+import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
 import retrofit2.Call
@@ -56,4 +57,14 @@ interface RetrofitAPI {
     @Headers("Content-Type: application/json")
     @DELETE("/garden/{gardenId}")
     fun gardenDeleteRequest(@Path("gardenId") gardenId: Int): Call<ResponseGardenCreateEditDelete>
+
+    // 전체 식물 보기
+    @Headers("Content-Type: application/json")
+    @GET("/plant")
+    fun plantAllCheckRequest(): Call<ResponsePlant>
+
+    // 화단별 식물 보기
+    @Headers("Content-Type: application/json")
+    @GET("/plant/{gardenId}")
+    fun plantGardenCheckRequest(@Path("gardenId") gardenId: Int): Call<ResponsePlant>
 }

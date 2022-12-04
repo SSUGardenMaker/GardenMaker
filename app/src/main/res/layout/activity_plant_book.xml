@@ -60,7 +60,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/weed_1"
+            android:background="@drawable/plant1"
             app:layout_constraintTop_toBottomOf="@+id/tv_weed"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -71,7 +71,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/weed_2"
+            android:background="@drawable/plant2"
             app:layout_constraintTop_toTopOf="@+id/iv_weed_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_weed_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_weed_1" />
@@ -142,7 +142,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/morning_glory_1"
+            android:background="@drawable/plant17"
             app:layout_constraintTop_toBottomOf="@+id/tv_morning_glory"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -153,7 +153,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/morning_glory_2"
+            android:background="@drawable/plant18"
             app:layout_constraintTop_toTopOf="@+id/iv_morning_glory_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_morning_glory_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_morning_glory_1" />
@@ -165,7 +165,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/morning_glory_3"
+            android:background="@drawable/plant27"
             app:layout_constraintTop_toTopOf="@+id/iv_morning_glory_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_morning_glory_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_morning_glory_2" />
@@ -225,7 +225,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/dandelion_1"
+            android:background="@drawable/plant16"
             app:layout_constraintTop_toBottomOf="@+id/tv_dandelion"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -236,7 +236,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/dandelion_2"
+            android:background="@drawable/plant25"
             app:layout_constraintTop_toTopOf="@+id/iv_dandelion_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_dandelion_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_dandelion_1" />
@@ -248,7 +248,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/dandelion_3"
+            android:background="@drawable/plant28"
             app:layout_constraintTop_toTopOf="@+id/iv_dandelion_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_dandelion_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_dandelion_2" />
@@ -308,7 +308,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/lily_1"
+            android:background="@drawable/plant3"
             app:layout_constraintTop_toBottomOf="@+id/tv_lily"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -319,7 +319,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/lily_2"
+            android:background="@drawable/plant24"
             app:layout_constraintTop_toTopOf="@+id/iv_lily_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_lily_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_lily_1" />
@@ -331,7 +331,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/lily_3"
+            android:background="@drawable/plant29"
             app:layout_constraintTop_toTopOf="@+id/iv_lily_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_lily_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_lily_2" />
@@ -391,7 +391,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/rose_1"
+            android:background="@drawable/plant4"
             app:layout_constraintTop_toBottomOf="@+id/tv_rose"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -402,7 +402,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/rose_2"
+            android:background="@drawable/plant15"
             app:layout_constraintTop_toTopOf="@+id/iv_rose_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_rose_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_rose_1" />
@@ -414,7 +414,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/rose_3"
+            android:background="@drawable/plant30"
             app:layout_constraintTop_toTopOf="@+id/iv_rose_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_rose_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_rose_2" />
@@ -426,7 +426,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/rose_4"
+            android:background="@drawable/plant31"
             app:layout_constraintTop_toTopOf="@+id/iv_rose_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_rose_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_rose_3" />
@@ -475,7 +475,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/tulip_1"
+            android:background="@drawable/plant5"
             app:layout_constraintTop_toBottomOf="@+id/tv_tulip"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -486,7 +486,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/tulip_2"
+            android:background="@drawable/plant6"
             app:layout_constraintTop_toTopOf="@+id/iv_tulip_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_tulip_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_tulip_1" />
@@ -498,7 +498,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/tulip_3"
+            android:background="@drawable/plant32"
             app:layout_constraintTop_toTopOf="@+id/iv_tulip_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_tulip_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_tulip_2" />
@@ -510,7 +510,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/tulip_4"
+            android:background="@drawable/plant33"
             app:layout_constraintTop_toTopOf="@+id/iv_tulip_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_tulip_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_tulip_3" />
@@ -559,7 +559,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pasqueflower_1"
+            android:background="@drawable/plant7"
             app:layout_constraintTop_toBottomOf="@+id/tv_pasqueflower"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -570,7 +570,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pasqueflower_2"
+            android:background="@drawable/plant14"
             app:layout_constraintTop_toTopOf="@+id/iv_pasqueflower_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_pasqueflower_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_pasqueflower_1" />
@@ -582,7 +582,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pasqueflower_3"
+            android:background="@drawable/plant19"
             app:layout_constraintTop_toTopOf="@+id/iv_pasqueflower_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_pasqueflower_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_pasqueflower_2" />
@@ -594,7 +594,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pasqueflower_4"
+            android:background="@drawable/plant34"
             app:layout_constraintTop_toTopOf="@+id/iv_pasqueflower_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_pasqueflower_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_pasqueflower_3" />
@@ -643,7 +643,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/sunflower_1"
+            android:background="@drawable/plant8"
             app:layout_constraintTop_toBottomOf="@+id/tv_sunflower"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -654,7 +654,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/sunflower_2"
+            android:background="@drawable/plant13"
             app:layout_constraintTop_toTopOf="@+id/iv_sunflower_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_sunflower_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_sunflower_1" />
@@ -666,7 +666,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/sunflower_3"
+            android:background="@drawable/plant26"
             app:layout_constraintTop_toTopOf="@+id/iv_sunflower_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_sunflower_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_sunflower_2" />
@@ -678,7 +678,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/sunflower_4"
+            android:background="@drawable/plant35"
             app:layout_constraintTop_toTopOf="@+id/iv_sunflower_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_sunflower_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_sunflower_3" />
@@ -727,7 +727,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/apple_tree_1"
+            android:background="@drawable/plant9"
             app:layout_constraintTop_toBottomOf="@+id/tv_apple_tree"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -738,7 +738,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/apple_tree_2"
+            android:background="@drawable/plant12"
             app:layout_constraintTop_toTopOf="@+id/iv_apple_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_apple_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_apple_tree_1" />
@@ -750,7 +750,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/apple_tree_3"
+            android:background="@drawable/plant20"
             app:layout_constraintTop_toTopOf="@+id/iv_apple_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_apple_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_apple_tree_2" />
@@ -762,7 +762,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/apple_tree_4"
+            android:background="@drawable/plant23"
             app:layout_constraintTop_toTopOf="@+id/iv_apple_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_apple_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_apple_tree_3" />
@@ -774,7 +774,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/apple_tree_5"
+            android:background="@drawable/plant36"
             app:layout_constraintTop_toTopOf="@+id/iv_apple_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_apple_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_apple_tree_4" />
@@ -812,7 +812,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pine_tree_1"
+            android:background="@drawable/plant10"
             app:layout_constraintTop_toBottomOf="@+id/tv_pine_tree"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -823,7 +823,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pine_tree_2"
+            android:background="@drawable/plant11"
             app:layout_constraintTop_toTopOf="@+id/iv_pine_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_pine_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_pine_tree_1" />
@@ -835,7 +835,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pine_tree_3"
+            android:background="@drawable/plant21"
             app:layout_constraintTop_toTopOf="@+id/iv_pine_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_pine_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_pine_tree_2" />
@@ -847,7 +847,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pine_tree_4"
+            android:background="@drawable/plant22"
             app:layout_constraintTop_toTopOf="@+id/iv_pine_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_pine_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_pine_tree_3" />
@@ -859,7 +859,7 @@
             app:layout_constraintDimensionRatio="1"
             app:layout_constraintWidth_percent="0.2"
             android:scaleType="centerCrop"
-            android:background="@drawable/pine_tree_5"
+            android:background="@drawable/plant37"
             app:layout_constraintTop_toTopOf="@+id/iv_pine_tree_1"
             app:layout_constraintBottom_toBottomOf="@+id/iv_pine_tree_1"
             app:layout_constraintLeft_toRightOf="@+id/iv_pine_tree_4" />

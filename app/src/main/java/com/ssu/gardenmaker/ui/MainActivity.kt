@@ -201,6 +201,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         categoryList.setOnChildClickListener { parent, v, groupPosition, childPosition, id ->
             val intent = Intent(this, GardenActivity::class.java)
             intent.putExtra("NAME", ApplicationClass.categoryLists[childPosition].name)
+            intent.putExtra("ID", ApplicationClass.categoryLists[childPosition].id)
             startActivity(intent)
             false
         }

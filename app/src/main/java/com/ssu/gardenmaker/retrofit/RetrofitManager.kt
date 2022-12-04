@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitGardenCallback
+import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.garden.RequestGardenCreateEdit
 import com.ssu.gardenmaker.retrofit.garden.ResponseGarden
 import com.ssu.gardenmaker.retrofit.garden.ResponseGardenCreateEditDelete
@@ -13,6 +14,7 @@ import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
 import com.ssu.gardenmaker.retrofit.password.ErrorFindPassword
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
+import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
 import com.ssu.gardenmaker.retrofit.signup.ErrorSignup
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
@@ -270,6 +272,56 @@ class RetrofitManager {
 
             override fun onFailure(call: Call<ResponseGardenCreateEditDelete>, t: Throwable) {
                 Log.d("RetrofitManager_gardenDelete", "onFailure : " + t.localizedMessage)
+                callback.onError(t)
+            }
+        })
+    }
+
+    // 전체 식물 보기
+    fun plantAllCheck(callback: RetrofitPlantCallback) {
+        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantAllCheckRequest()
+
+        call.enqueue(object : Callback<ResponsePlant> {
+            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    Log.d("RetrofitManager_plantAllCheck", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_plantAllCheck", "onResponse : status code is " + response.code())
+                    callback.onSuccess(body.message, body.data)
+                }
+                else {
+                    Log.d("RetrofitManager_plantAllCheck", "onResponse : 실패, error code : " + response.code())
+                    callback.onFailure("", response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
+                Log.e("RetrofitManager_plantAllCheck", "onFailure : " + t.localizedMessage)
+                callback.onError(t)
+            }
+        })
+    }
+
+    // 화단별 식물 보기
+    fun plantGardenCheck(gardenId : Int, callback: RetrofitPlantCallback) {
+        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantGardenCheckRequest(gardenId)
+
+        call.enqueue(object : Callback<ResponsePlant> {
+            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    Log.d("RetrofitManager_plantGardenCheck", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_plantGardenCheck", "onResponse : status code is " + response.code())
+                    callback.onSuccess(body.message, body.data)
+                }
+                else {
+                    Log.d("RetrofitManager_plantGardenCheck", "onResponse : 실패, error code : " + response.code())
+                    callback.onFailure("", response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
+                Log.e("RetrofitManager_plantGardenCheck", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
         })
