@@ -350,55 +350,6 @@
                 android:layout_height="wrap_content">
 
                 <!--체크박스-->
-                <TextView
-                    android:id="@+id/Checkbox_Alarm_tv_Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/Normaltext_Dialog"
-                    android:textSize="@dimen/dialog_normal_Textsize"
-                    android:fontFamily="@font/gmarket_sans_regular"
-                    android:text="알람"
-                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/Checkbox_Alarm_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/Checkbox_Alarm_btn_Dialog"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/Checkbox_Alarm_btn_Dialog"
-                    android:layout_width="100dp"
-                    android:layout_height="@dimen/dialog_height_Buttonsize"
-                    android:background="@drawable/border_btn_dialog"
-                    android:backgroundTint="@color/bg_color"
-                    android:layout_marginEnd="@dimen/dialog_btn_Rightmargin"
-                    android:layout_marginTop="@dimen/dialog_btn_Topmargin"
-                    android:text="OFF"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/Checkbox_AlarmTimer_tv_Dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/Normaltext_Dialog"
-                    android:textSize="@dimen/dialog_normal_Textsize"
-                    android:fontFamily="@font/gmarket_sans_regular"
-                    android:text="알람 시간"
-                    android:layout_marginStart="@dimen/dialog_Normaltext_Leftmargin"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/Checkbox_AlarmTimer_btn_Dialog"
-                    app:layout_constraintBottom_toBottomOf="@id/Checkbox_AlarmTimer_btn_Dialog"/>
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/Checkbox_AlarmTimer_btn_Dialog"
-                    android:layout_width="100dp"
-                    android:layout_height="@dimen/dialog_height_Buttonsize"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:background="@drawable/border_btn_dialog"
-                    android:backgroundTint="@color/bg_color"
-                    android:text="@string/dialog_non_time"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/Checkbox_Alarm_btn_Dialog" />
 
                 <!-- 만보계 -->
                 <TextView
@@ -629,7 +580,6 @@
                 android:textSize="@dimen/dialog_normal_Textsize"
                 android:fontFamily="@font/gmarket_sans_regular"
                 android:textColor="@color/Normaltext_Dialog"
-                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@id/EndDay_Dialog"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="@id/EndDay_Dialog" />
@@ -643,7 +593,6 @@
                 android:text="@string/dialog_non_time"
                 android:background="@drawable/border_btn_dialog"
                 android:backgroundTint="@color/bg_color"
-                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/StartDay_Dialog" />
         </androidx.constraintlayout.widget.ConstraintLayout>

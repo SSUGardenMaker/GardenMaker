@@ -6,7 +6,10 @@ import com.ssu.gardenmaker.retrofit.garden.ResponseGardenCreateEditDelete
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
+import com.ssu.gardenmaker.retrofit.plant.RequestPlantCreate
+import com.ssu.gardenmaker.retrofit.plant.RequestPlantEdit
 import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
+import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCreateEditDelete
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
 import retrofit2.Call
@@ -67,4 +70,19 @@ interface RetrofitAPI {
     @Headers("Content-Type: application/json")
     @GET("/plant/{gardenId}")
     fun plantGardenCheckRequest(@Path("gardenId") gardenId: Int): Call<ResponsePlant>
+
+    // 식물 생성
+    @Headers("Content-Type: application/json")
+    @POST("/plant")
+    fun plantCreateRequest(@Body body: RequestPlantCreate): Call<ResponsePlantCreateEditDelete>
+
+    // 식물 수정
+    @Headers("Content-Type: application/json")
+    @PUT("/plant/{plantId}")
+    fun plantEditRequest(@Path("plantId") plantId: Int, @Body body: RequestPlantEdit): Call<ResponsePlantCreateEditDelete>
+
+    // 식물 삭제
+    @Headers("Content-Type: application/json")
+    @DELETE("/plant/{plantId}")
+    fun plantDeleteRequest(@Path("plantId") plantId: Int): Call<ResponsePlantCreateEditDelete>
 }

@@ -6,6 +6,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -17,6 +18,7 @@ import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.DialogCreateplantBinding
 import com.ssu.gardenmaker.db.ContractDB
 import com.ssu.gardenmaker.db.ContractDB.Companion.COUNT_Checkbox_TB
+import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import java.lang.reflect.Type
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -29,6 +31,7 @@ import java.text.SimpleDateFormat
 * */
 class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.OnClickListener {
 
+    private val TAG = "PlantCreateDialog"
     private val mContext = context
     private val dialog = Dialog(context)
     private val currentTime = System.currentTimeMillis()
@@ -42,12 +45,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
     private val checkbox5: CheckBox by lazy { binding.CheckboxTimerCount }
 
     // 체크박스 기능 뷰
-    private val tvCheckboxAlarm: TextView by lazy { binding.CheckboxAlarmTvDialog }
-    private val btnCheckboxAlarm: Button by lazy { binding.CheckboxAlarmBtnDialog }
-    private val tvCheckboxAlarmTimer: TextView by lazy { binding.CheckboxAlarmTimerTvDialog }
-    private val btnCheckboxAlarmTimer: Button by lazy { binding.CheckboxAlarmTimerBtnDialog }
-    private val tvCheckboxEndDay: TextView by lazy { binding.tvEndDay }
-    private val btnCheckboxEndDay: TextView by lazy { binding.EndDayDialog }
+
 
     // 만보기 기능 뷰
     private val tvGoalStepParameter: TextView by lazy { binding.GoalStepPedometerTvDialog }
@@ -105,86 +103,152 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             if (binding.PlainNameEdtDialog.text.toString().trim().isEmpty()) {
                 Toast.makeText(mContext, "꽃 이름을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
+            else if (binding.CategoryBtnDialog.text.toString().trim().isEmpty()) {
+                Toast.makeText(mContext, "화단을 선택해주세요", Toast.LENGTH_SHORT).show()
+            }
+            else if (binding.StartDayDialog.text.toString() == "-" || binding.EndDayDialog.text.toString() == "-") {
+                Toast.makeText(mContext, "목표 기간을 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
             else {
+                var categoryId = -1
+                for (i in 0 until ApplicationClass.categoryLists.size) {
+                    if (binding.CategoryBtnDialog.text.equals(ApplicationClass.categoryLists[i].name))
+                        categoryId = ApplicationClass.categoryLists[i].id
+                }
+
+                val format = SimpleDateFormat("yyyyMMdd")
+                val startDate = format.parse(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                val endDate = format.parse(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                val days : Int = ((endDate!!.time - startDate!!.time) / (1000 * 24 * 60 * 60)).toInt()
+
                 if (checkbox1.isChecked) {
-                    var count = 0
-                    val cursor = ApplicationClass.db.rawQuery(COUNT_Checkbox_TB, null)
-                    while (cursor.moveToNext()) {
-                        count = cursor.getInt(0)
-                    }
+                    ApplicationClass.retrofitManager.plantCreate(categoryId, "CHECKBOX", binding.PlainNameEdtDialog.text.toString(), days,
+                        0, 0, 0, 0, 0, 0, 0, object : RetrofitCallback {
+                            override fun onError(t: Throwable) {
+                                Log.d(TAG, "onError : " + t.localizedMessage)
+                            }
 
-//                    // 체크박스 하루에 다섯 개까지 설정 가능하게 코드 추가 (오늘 날짜 비교해서 오늘 날짜로 된 것이 5개 이상일 때)
-//                    if (count >= 5)
-//                        Toast.makeText(mContext, "하루에 체크박스는 5개까지만 생성할 수 있습니다.", Toast.LENGTH_SHORT).show()
+                            override fun onSuccess(message: String, data: String) {
+                                Log.d(TAG, "onSuccess : message -> $message")
+                                Log.d(TAG, "onSuccess : data -> $data")
+                                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                            }
 
-                    if (binding.StartDayDialog.text.toString() == "-")
-                        Toast.makeText(mContext, "목표 기간을 입력해주세요", Toast.LENGTH_SHORT).show()
+                            override fun onFailure(errorMessage: String, errorCode: Int) {
+                                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                            }
+                        })
+                }
+                else if (checkbox2.isChecked) {
+                    if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
+                        toast()
                     else {
-                        val regex = "[^0-9]".toRegex()
-                        val startDay =
-                            binding.StartDayDialog.text.toString().replace(regex, "").toInt()
+                        val walkStep = Integer.parseInt(binding.GoalStepPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val walkCountGoal = Integer.parseInt(binding.GoalCountPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
-                        ApplicationClass.db.execSQL(
-                            ContractDB.insertCheckboxTB(
-                                count + 1,
-                                binding.PlainNameEdtDialog.text.toString(),
-                                startDay,
-                                "N"
-                            )
-                        )
+                        ApplicationClass.retrofitManager.plantCreate(categoryId, "WALK_COUNTER", binding.PlainNameEdtDialog.text.toString(), days,
+                            walkStep, walkCountGoal, 0, 0, 0, 0, 0, object : RetrofitCallback {
+                                override fun onError(t: Throwable) {
+                                    Log.d(TAG, "onError : " + t.localizedMessage)
+                                }
 
-                        ApplicationClass.db.execSQL(
-                            ContractDB.insertCalendarTB(
-                                binding.PlainNameEdtDialog.text.toString(),
-                                "-",
-                                "체크박스",
-                                startDay,
-                                startDay
-                            )
-                        )
+                                override fun onSuccess(message: String, data: String) {
+                                    Log.d(TAG, "onSuccess : message -> $message")
+                                    Log.d(TAG, "onSuccess : data -> $data")
+                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                }
 
-                        dialog.dismiss()
+                                override fun onFailure(errorMessage: String, errorCode: Int) {
+                                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                                }
+                            })
                     }
                 }
-                else {
-                    if (binding.CategoryBtnDialog.text.toString().trim().isEmpty()) {
-                        Toast.makeText(mContext, "화단을 선택해주세요", Toast.LENGTH_SHORT).show()
-                    }
-                    else if (binding.StartDayDialog.text.toString() == "-" || binding.EndDayDialog.text.toString() == "-") {
-                        Toast.makeText(mContext, "목표 기간을 입력해주세요", Toast.LENGTH_SHORT).show()
-                    }
+                else if (checkbox3.isChecked) {
+                    if (binding.GoalCountCounterBtnDialog.text.toString() == "-")
+                        toast()
                     else {
-                        if (checkbox2.isChecked) {
-                            if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
-                                toast()
-                            else
-                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"만보기", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
-                                        stepPedometer =  binding.GoalStepPedometerBtnDialog.text.toString(), countPedometer = binding.GoalCountPedometerBtnDialog.text.toString())
+                        val counterGoal = Integer.parseInt(binding.GoalCountCounterBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
-                        } else if (checkbox3.isChecked) {
-                            if (binding.GoalCountCounterBtnDialog.text.toString() == "-")
-                                toast()
-                            else
-                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"횟수", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
-                                        countCounter =  binding.GoalCountCounterBtnDialog.text.toString())
+                        ApplicationClass.retrofitManager.plantCreate(categoryId, "COUNTER", binding.PlainNameEdtDialog.text.toString(), days,
+                            0, 0, 0, counterGoal, 0, 0, 0, object : RetrofitCallback {
+                                override fun onError(t: Throwable) {
+                                    Log.d(TAG, "onError : " + t.localizedMessage)
+                                }
 
-                        } else if (checkbox4.isChecked) {
-                            if (binding.GoalTimerAccumulateBtnDialog.text.toString() == "-")
-                                toast()
-                            else
-                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"누적 타이머", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
-                                        timerAccumulate =  binding.GoalTimerAccumulateBtnDialog.text.toString())
+                                override fun onSuccess(message: String, data: String) {
+                                    Log.d(TAG, "onSuccess : message -> $message")
+                                    Log.d(TAG, "onSuccess : data -> $data")
+                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                }
 
-                        } else if (checkbox5.isChecked) {
-                            if (binding.GoalTimerRecursiveBtnDialog.text.toString() == "-" || binding.GoalCountTimerRecursiveBtnDialog.text.toString() == "-")
-                                toast()
-                            else
-                                storeFeature( binding.PlainNameEdtDialog.text.toString(),"반복 타이머", binding.StartDayDialog.text.toString(), binding.EndDayDialog.text.toString(),
-                                        timerRecursive = binding.GoalTimerRecursiveBtnDialog.text.toString(), countTimerRecursive = binding.GoalCountTimerRecursiveBtnDialog.text.toString())
-
-                        }
+                                override fun onFailure(errorMessage: String, errorCode: Int) {
+                                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                                }
+                            })
                     }
                 }
+                else if (checkbox4.isChecked) {
+                    if (binding.GoalTimerAccumulateBtnDialog.text.toString() == "-")
+                        toast()
+                    else {
+                        val timerTotalMin = Integer.parseInt(binding.GoalTimerAccumulateBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+
+                        ApplicationClass.retrofitManager.plantCreate(categoryId, "TIMER", binding.PlainNameEdtDialog.text.toString(), days,
+                            0, 0, 0, 0, 0, timerTotalMin, 0, object : RetrofitCallback {
+                                override fun onError(t: Throwable) {
+                                    Log.d(TAG, "onError : " + t.localizedMessage)
+                                }
+
+                                override fun onSuccess(message: String, data: String) {
+                                    Log.d(TAG, "onSuccess : message -> $message")
+                                    Log.d(TAG, "onSuccess : data -> $data")
+                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                }
+
+                                override fun onFailure(errorMessage: String, errorCode: Int) {
+                                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                    }
+                }
+                else if (checkbox5.isChecked) {
+                    if (binding.GoalTimerRecursiveBtnDialog.text.toString() == "-" || binding.GoalCountTimerRecursiveBtnDialog.text.toString() == "-")
+                        toast()
+                    else {
+                        val timerTotalMin = Integer.parseInt(binding.GoalTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val timerCurrentMin = Integer.parseInt(binding.GoalCountTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+
+                        ApplicationClass.retrofitManager.plantCreate(categoryId, "TIMER", binding.PlainNameEdtDialog.text.toString(), days,
+                            0, 0, 0, 0, 0, timerTotalMin, timerCurrentMin, object : RetrofitCallback {
+                                override fun onError(t: Throwable) {
+                                    Log.d(TAG, "onError : " + t.localizedMessage)
+                                }
+
+                                override fun onSuccess(message: String, data: String) {
+                                    Log.d(TAG, "onSuccess : message -> $message")
+                                    Log.d(TAG, "onSuccess : data -> $data")
+                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                }
+
+                                override fun onFailure(errorMessage: String, errorCode: Int) {
+                                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                                }
+                            })
+                    }
+                }
+
+                dialog.dismiss()
             }
         }
 
@@ -207,33 +271,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
     }
 
     private fun fiveFuction() {
-        // 1. 체크박스 알람
-        btnCheckboxAlarm.setOnClickListener { v->
-            v as Button
-            v.text=if(v.text.equals("ON")) "OFF" else "ON"
-        }
+        // 1. 체크박스
 
-        btnCheckboxAlarmTimer.setOnClickListener { v->
-            v as Button
-            if (btnCheckboxAlarm.text.equals("ON")) {
-                val timepicker_dialog=TimePickerDialog(mContext,android.R.style.Theme_Holo_Dialog_NoActionBar,{ timePicker, i, i2 ->
-                        if (i.toString().trim() == "0" && i2.toString().trim() == "0") {
-                            v.text="-"
-                        }
-                        else {
-                            if (i < 10) {
-                                v.text=if(i2 < 10) "0$i : 0$i2" else "0$i : $i2"
-                            }
-                            else {
-                                v.text=if(i2 < 10) "$i : 0$i2" else "$i : $i2"
-                            }
-                        }}, SimpleDateFormat("HH").format(currentTime).toInt(), SimpleDateFormat("mm").format(currentTime).toInt(),false)
-                timepicker_dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                timepicker_dialog.show()
-            }else{
-                Toast.makeText(mContext,"알람을 클릭하여 ON 모드로 바꿔주세요",Toast.LENGTH_SHORT).show()
-            }
-        }
 
 
         // 2. 만보기
@@ -323,13 +362,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         checkbox4.isChecked=false
         checkbox5.isChecked=false
 
-        tvCheckboxAlarm.visibility=View.GONE
-        btnCheckboxAlarm.visibility=View.GONE
-        tvCheckboxAlarmTimer.visibility=View.GONE
-        btnCheckboxAlarmTimer.visibility=View.GONE
-        tvCheckboxEndDay.visibility=View.GONE
-        btnCheckboxEndDay.visibility=View.GONE
-
         tvGoalTimerAccumulate.visibility=View.GONE
         btnGoalTimerAccumulate.visibility=View.GONE
 
@@ -349,14 +381,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         when (p0?.id) {
             checkbox1.id-> {
                 checkbox1.isChecked=true
-                tvCheckboxAlarm.visibility=View.VISIBLE
-                btnCheckboxAlarm.visibility=View.VISIBLE
-                tvCheckboxAlarmTimer.visibility=View.VISIBLE
-                btnCheckboxAlarmTimer.visibility=View.VISIBLE
-                tvPrecaution.text="오늘 하루의 계획을 입력해주세요"
-                tvPrecautionEx.text="화단에 저장되지 않고 홈 화면에 따로 모아 둡니다"
-                tvCheckboxEndDay.visibility=View.GONE
-                btnCheckboxEndDay.visibility=View.GONE
+                tvPrecaution.text="체크박스 계획을 입력해주세요"
+                tvPrecautionEx.text="예시) 정보처리기사 취득하기"
             }
             checkbox2.id->{
                 checkbox2.isChecked=true
@@ -366,8 +392,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 btnGoalCountParameter.visibility=View.VISIBLE
                 tvPrecaution.text="목표 걸음 수와 목표 달성 횟수를 입력해주세요"
                 tvPrecautionEx.text="예시) 한 달 내에 10,000걸음 10회 달성하기"
-                tvCheckboxEndDay.visibility=View.VISIBLE
-                btnCheckboxEndDay.visibility=View.VISIBLE
             }
             checkbox3.id->{
                 checkbox3.isChecked=true
@@ -375,8 +399,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 btnGoalCountCounter.visibility=View.VISIBLE
                 tvPrecaution.text="목표 달성 횟수를 입력해주세요"
                 tvPrecautionEx.text="예시) 금연을 위해 담배 50번 참기"
-                tvCheckboxEndDay.visibility=View.VISIBLE
-                btnCheckboxEndDay.visibility=View.VISIBLE
             }
             checkbox4.id->{
                 checkbox4.isChecked=true
@@ -384,8 +406,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 btnGoalTimerAccumulate.visibility=View.VISIBLE
                 tvPrecaution.text="목표 누적 시간을 입력해주세요"
                 tvPrecautionEx.text="예시) 한 달 내에 목표를 위해 총 120시간 수행하기"
-                tvCheckboxEndDay.visibility=View.VISIBLE
-                btnCheckboxEndDay.visibility=View.VISIBLE
             }
             checkbox5.id->{
                 checkbox5.isChecked=true
@@ -395,57 +415,55 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 btnGoalCountTimerRecursive.visibility=View.VISIBLE
                 tvPrecaution.text="반복해서 수행할 목표 시간을 입력해주세요"
                 tvPrecautionEx.text="예시) 한 달 내에 1시간 30회 목표 수행하기"
-                tvCheckboxEndDay.visibility=View.VISIBLE
-                btnCheckboxEndDay.visibility=View.VISIBLE
             }
         }
     }
 
-    private fun storeFeature(
-        name: String, type: String, startDate: String, endDate: String,            // 공통 값
-        stepPedometer: String = "", countPedometer: String = "",                   // 만보기
-        countCounter: String = "",                                                 // 횟수
-        timerAccumulate: String = "",                                              // 누적타이머
-        timerRecursive: String = "", countTimerRecursive: String = "") {           // 반복타이머
-
-            val editor = ApplicationClass.mSharedPreferences.edit()
-            val gson = GsonBuilder().create()
-            val data = PlantData(
-               name, type, startDate, endDate,
-               stepPedometer, countPedometer,
-               countCounter,
-               timerAccumulate,
-               timerRecursive, countTimerRecursive
-            )
-
-            val tempArray = ArrayList<PlantData>()
-            val groupListType: Type = object :
-                TypeToken<ArrayList<PlantData?>?>() {}.type // json 을 객체로 만들 때 타입을 추론하는 역할
-            val prev = ApplicationClass.mSharedPreferences.getString(
-                binding.CategoryBtnDialog.text.toString(),
-                "NONE"
-            ) // json list 가져오기
-
-            if (prev != "NONE") {
-                if (prev != "[]" || prev != "")
-                    tempArray.addAll(gson.fromJson(prev, groupListType))
-                tempArray.add(data)
-                val strList = gson.toJson(tempArray, groupListType)
-                editor.putString(
-                    binding.CategoryBtnDialog.text.toString(),
-                    strList
-                )
-            } else {
-                tempArray.add(data)
-                val strList = gson.toJson(tempArray, groupListType)
-                editor.putString(
-                    binding.CategoryBtnDialog.text.toString(),
-                    strList
-                )
-            }
-            editor.apply()
-            dialog.dismiss()
-    }
+//    private fun storeFeature(
+//        name: String, type: String, startDate: String, endDate: String,            // 공통 값
+//        stepPedometer: String = "", countPedometer: String = "",                   // 만보기
+//        countCounter: String = "",                                                 // 횟수
+//        timerAccumulate: String = "",                                              // 누적타이머
+//        timerRecursive: String = "", countTimerRecursive: String = "") {           // 반복타이머
+//
+//            val editor = ApplicationClass.mSharedPreferences.edit()
+//            val gson = GsonBuilder().create()
+//            val data = PlantData(
+//               name, type, startDate, endDate,
+//               stepPedometer, countPedometer,
+//               countCounter,
+//               timerAccumulate,
+//               timerRecursive, countTimerRecursive
+//            )
+//
+//            val tempArray = ArrayList<PlantData>()
+//            val groupListType: Type = object :
+//                TypeToken<ArrayList<PlantData?>?>() {}.type // json 을 객체로 만들 때 타입을 추론하는 역할
+//            val prev = ApplicationClass.mSharedPreferences.getString(
+//                binding.CategoryBtnDialog.text.toString(),
+//                "NONE"
+//            ) // json list 가져오기
+//
+//            if (prev != "NONE") {
+//                if (prev != "[]" || prev != "")
+//                    tempArray.addAll(gson.fromJson(prev, groupListType))
+//                tempArray.add(data)
+//                val strList = gson.toJson(tempArray, groupListType)
+//                editor.putString(
+//                    binding.CategoryBtnDialog.text.toString(),
+//                    strList
+//                )
+//            } else {
+//                tempArray.add(data)
+//                val strList = gson.toJson(tempArray, groupListType)
+//                editor.putString(
+//                    binding.CategoryBtnDialog.text.toString(),
+//                    strList
+//                )
+//            }
+//            editor.apply()
+//            dialog.dismiss()
+//    }
 
     private fun toast() {
         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()

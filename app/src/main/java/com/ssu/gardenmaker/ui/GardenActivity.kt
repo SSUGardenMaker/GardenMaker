@@ -148,7 +148,6 @@ class GardenActivity : AppCompatActivity() {
                 Log.d(TAG, "onFailure : errorCode -> $errorCode")
                 Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
             }
-
         })
     }
 
@@ -161,6 +160,7 @@ class GardenActivity : AppCompatActivity() {
         }
 
         binding.btnDeletePlant.setOnClickListener {
+            //ApplicationClass.retrofitManager.gardenDelete()
             Toast.makeText(this@GardenActivity, "식물이 삭제되었습니다", Toast.LENGTH_SHORT).show()
             deletePlant()
         }
@@ -172,14 +172,13 @@ class GardenActivity : AppCompatActivity() {
     }
 
     // 식물 삭제
-    @SuppressLint("NotifyDataSetChanged")
     private fun deletePlant() {
         plantLists.removeAt(currentPage)
         sliderItems.removeAt(currentPage)
         binding.vpImageSlider.adapter?.notifyDataSetChanged()
     }
 
-
+    // 식물 사진 set
     @SuppressLint("ResourceType")
     private fun setPage(isComplete : Boolean, plantKind : Int) {
         if (isComplete) {
@@ -223,12 +222,51 @@ class GardenActivity : AppCompatActivity() {
                 37 -> sliderItems.add(typedArray.getResourceId(37, -1))
             }
         }
-        else
+        else {
             sliderItems.add(typedArray.getResourceId(0, -1))
+        }
     }
 
+    // 식물 상세정보 set
     private fun setPlantData(position: Int) {
         when (plantLists[position].plantType) {
+            "CHECKBOX" -> {
+                binding.tvPlantNameValue.text = plantLists[position].name
+                binding.tvPlantTypeValue.text = "체크박스"
+                binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
+                binding.tvPlantStartDateValue.text = plantLists[position].startDate
+                binding.tvPlantEndDateValue.text = plantLists[position].endDate
+
+                binding.tvPlantName.visibility = VISIBLE
+                binding.tvPlantNameValue.visibility = VISIBLE
+                binding.tvPlantType.visibility = VISIBLE
+                binding.tvPlantTypeValue.visibility = VISIBLE
+                binding.tvPlantComplete.visibility = VISIBLE
+                binding.tvPlantCompleteValue.visibility = VISIBLE
+                binding.tvPlantStartDate.visibility = VISIBLE
+                binding.tvPlantStartDateValue.visibility = VISIBLE
+                binding.tvPlantEndDate.visibility = VISIBLE
+                binding.tvPlantEndDateValue.visibility = VISIBLE
+
+                binding.tvPlantPedometerGoalStep.visibility = GONE
+                binding.tvPlantPedometerGoalStepValue.visibility = GONE
+                binding.tvPlantPedometerGoalCount.visibility = GONE
+                binding.tvPlantPedometerGoalCountValue.visibility = GONE
+
+                binding.tvPlantCounter.visibility = GONE
+                binding.tvPlantCounterValue.visibility = GONE
+
+                binding.tvPlantTimerAccumulate.visibility = GONE
+                binding.tvPlantTimerAccumulateValue.visibility = GONE
+
+                binding.tvPlantTimerRecursive.visibility = GONE
+                binding.tvPlantTimerRecursiveValue.visibility = GONE
+                binding.tvPlantTimerRecursiveCount.visibility = GONE
+                binding.tvPlantTimerRecursiveCountValue.visibility = GONE
+
+                binding.ivWatering.visibility = VISIBLE
+                binding.btnDeletePlant.visibility = VISIBLE
+            }
             "WALK_COUNTER" -> {
                 binding.tvPlantNameValue.text = plantLists[position].name
                 binding.tvPlantTypeValue.text = "만보기"
