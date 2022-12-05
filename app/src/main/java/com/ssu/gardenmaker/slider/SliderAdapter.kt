@@ -5,20 +5,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.ssu.gardenmaker.databinding.SliderItemBinding
 
-class SliderAdapter(context: Context, viewPager2: ViewPager2, sliderImage: ArrayList<Int>) :
+class SliderAdapter(context: Context, sliderImage: ArrayList<Int>) :
     RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
     private val mContext: Context
-    private val mViewPager2 : ViewPager2
     private val mSliderItems: ArrayList<Int>
 
     init {
         mContext = context
-        mViewPager2 = viewPager2
         mSliderItems = sliderImage
     }
 

@@ -119,7 +119,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 val format = SimpleDateFormat("yyyyMMdd")
                 val startDate = format.parse(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
                 val endDate = format.parse(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
-                val days : Int = ((endDate!!.time - startDate!!.time) / (1000 * 24 * 60 * 60)).toInt()
+                val days : Int = ((endDate!!.time - startDate!!.time) / (1000 * 24 * 60 * 60)).toInt() + 1
 
                 if (checkbox1.isChecked) {
                     ApplicationClass.retrofitManager.plantCreate(categoryId, "CHECKBOX", binding.PlainNameEdtDialog.text.toString(), days,

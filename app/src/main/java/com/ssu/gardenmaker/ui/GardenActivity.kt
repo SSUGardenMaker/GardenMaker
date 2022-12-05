@@ -16,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityGardenBinding
+import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
 import com.ssu.gardenmaker.slider.SliderAdapter
@@ -57,7 +58,7 @@ class GardenActivity : AppCompatActivity() {
         initItem()
         initButton()
 
-        binding.vpImageSlider.adapter = SliderAdapter(this, binding.vpImageSlider, sliderItems)
+        binding.vpImageSlider.adapter = SliderAdapter(this, sliderItems)
         binding.dotsIndicator.attachTo(binding.vpImageSlider)
 
         // 양쪽 페이지 미리보기 상태
@@ -111,35 +112,7 @@ class GardenActivity : AppCompatActivity() {
                 }
                 else {
                     Toast.makeText(this@GardenActivity, "화단에 꽃이 비어 있어요", Toast.LENGTH_SHORT).show()
-                    binding.tvPlantName.visibility = GONE
-                    binding.tvPlantNameValue.visibility = GONE
-                    binding.tvPlantType.visibility = GONE
-                    binding.tvPlantTypeValue.visibility = GONE
-                    binding.tvPlantComplete.visibility = GONE
-                    binding.tvPlantCompleteValue.visibility = GONE
-                    binding.tvPlantStartDate.visibility = GONE
-                    binding.tvPlantStartDateValue.visibility = GONE
-                    binding.tvPlantEndDate.visibility = GONE
-                    binding.tvPlantEndDateValue.visibility = GONE
-
-                    binding.tvPlantPedometerGoalStep.visibility = GONE
-                    binding.tvPlantPedometerGoalStepValue.visibility = GONE
-                    binding.tvPlantPedometerGoalCount.visibility = GONE
-                    binding.tvPlantPedometerGoalCountValue.visibility = GONE
-
-                    binding.tvPlantCounter.visibility = GONE
-                    binding.tvPlantCounterValue.visibility = GONE
-
-                    binding.tvPlantTimerAccumulate.visibility = GONE
-                    binding.tvPlantTimerAccumulateValue.visibility = GONE
-
-                    binding.tvPlantTimerRecursive.visibility = GONE
-                    binding.tvPlantTimerRecursiveValue.visibility = GONE
-                    binding.tvPlantTimerRecursiveCount.visibility = GONE
-                    binding.tvPlantTimerRecursiveCountValue.visibility = GONE
-
-                    binding.ivWatering.visibility = View.INVISIBLE
-                    binding.btnDeletePlant.visibility = View.INVISIBLE
+                    setEmpty()
                 }
             }
 
@@ -160,8 +133,6 @@ class GardenActivity : AppCompatActivity() {
         }
 
         binding.btnDeletePlant.setOnClickListener {
-            //ApplicationClass.retrofitManager.gardenDelete()
-            Toast.makeText(this@GardenActivity, "식물이 삭제되었습니다", Toast.LENGTH_SHORT).show()
             deletePlant()
         }
     }
@@ -172,10 +143,32 @@ class GardenActivity : AppCompatActivity() {
     }
 
     // 식물 삭제
+    @SuppressLint("NotifyDataSetChanged")
     private fun deletePlant() {
-        plantLists.removeAt(currentPage)
-        sliderItems.removeAt(currentPage)
-        binding.vpImageSlider.adapter?.notifyDataSetChanged()
+        ApplicationClass.retrofitManager.plantDelete(plantLists[currentPage].id, object : RetrofitCallback {
+            override fun onError(t: Throwable) {
+                Log.d(TAG, "onError : " + t.localizedMessage)
+            }
+
+            override fun onSuccess(message: String, data: String) {
+                Log.d(TAG, "onSuccess : message -> $message")
+                Log.d(TAG, "onSuccess : data -> $data")
+                Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
+
+                plantLists.removeAt(currentPage)
+                sliderItems.removeAt(currentPage)
+                binding.vpImageSlider.adapter?.notifyDataSetChanged()
+
+                if (plantLists.isEmpty())
+                    setEmpty()
+            }
+
+            override fun onFailure(errorMessage: String, errorCode: Int) {
+                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     // 식물 사진 set
@@ -229,198 +222,233 @@ class GardenActivity : AppCompatActivity() {
 
     // 식물 상세정보 set
     private fun setPlantData(position: Int) {
-        when (plantLists[position].plantType) {
-            "CHECKBOX" -> {
-                binding.tvPlantNameValue.text = plantLists[position].name
-                binding.tvPlantTypeValue.text = "체크박스"
-                binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                binding.tvPlantEndDateValue.text = plantLists[position].endDate
+        if (plantLists.isNotEmpty()) {
+            when (plantLists[position].plantType) {
+                "CHECKBOX" -> {
+                    binding.tvPlantNameValue.text = plantLists[position].name
+                    binding.tvPlantTypeValue.text = "체크박스"
+                    binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
+                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
+                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
 
-                binding.tvPlantName.visibility = VISIBLE
-                binding.tvPlantNameValue.visibility = VISIBLE
-                binding.tvPlantType.visibility = VISIBLE
-                binding.tvPlantTypeValue.visibility = VISIBLE
-                binding.tvPlantComplete.visibility = VISIBLE
-                binding.tvPlantCompleteValue.visibility = VISIBLE
-                binding.tvPlantStartDate.visibility = VISIBLE
-                binding.tvPlantStartDateValue.visibility = VISIBLE
-                binding.tvPlantEndDate.visibility = VISIBLE
-                binding.tvPlantEndDateValue.visibility = VISIBLE
+                    binding.tvPlantName.visibility = VISIBLE
+                    binding.tvPlantNameValue.visibility = VISIBLE
+                    binding.tvPlantType.visibility = VISIBLE
+                    binding.tvPlantTypeValue.visibility = VISIBLE
+                    binding.tvPlantComplete.visibility = VISIBLE
+                    binding.tvPlantCompleteValue.visibility = VISIBLE
+                    binding.tvPlantStartDate.visibility = VISIBLE
+                    binding.tvPlantStartDateValue.visibility = VISIBLE
+                    binding.tvPlantEndDate.visibility = VISIBLE
+                    binding.tvPlantEndDateValue.visibility = VISIBLE
 
-                binding.tvPlantPedometerGoalStep.visibility = GONE
-                binding.tvPlantPedometerGoalStepValue.visibility = GONE
-                binding.tvPlantPedometerGoalCount.visibility = GONE
-                binding.tvPlantPedometerGoalCountValue.visibility = GONE
+                    binding.tvPlantPedometerGoalStep.visibility = GONE
+                    binding.tvPlantPedometerGoalStepValue.visibility = GONE
+                    binding.tvPlantPedometerGoalCount.visibility = GONE
+                    binding.tvPlantPedometerGoalCountValue.visibility = GONE
 
-                binding.tvPlantCounter.visibility = GONE
-                binding.tvPlantCounterValue.visibility = GONE
+                    binding.tvPlantCounter.visibility = GONE
+                    binding.tvPlantCounterValue.visibility = GONE
 
-                binding.tvPlantTimerAccumulate.visibility = GONE
-                binding.tvPlantTimerAccumulateValue.visibility = GONE
+                    binding.tvPlantTimerAccumulate.visibility = GONE
+                    binding.tvPlantTimerAccumulateValue.visibility = GONE
 
-                binding.tvPlantTimerRecursive.visibility = GONE
-                binding.tvPlantTimerRecursiveValue.visibility = GONE
-                binding.tvPlantTimerRecursiveCount.visibility = GONE
-                binding.tvPlantTimerRecursiveCountValue.visibility = GONE
+                    binding.tvPlantTimerRecursive.visibility = GONE
+                    binding.tvPlantTimerRecursiveValue.visibility = GONE
+                    binding.tvPlantTimerRecursiveCount.visibility = GONE
+                    binding.tvPlantTimerRecursiveCountValue.visibility = GONE
 
-                binding.ivWatering.visibility = VISIBLE
-                binding.btnDeletePlant.visibility = VISIBLE
-            }
-            "WALK_COUNTER" -> {
-                binding.tvPlantNameValue.text = plantLists[position].name
-                binding.tvPlantTypeValue.text = "만보기"
-                binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                binding.tvPlantEndDateValue.text = plantLists[position].endDate
-                binding.tvPlantPedometerGoalStepValue.text = plantLists[position].walkStep.toString()
-                binding.tvPlantPedometerGoalCountValue.text = plantLists[position].walkCountGoal.toString()
+                    binding.ivWatering.visibility = VISIBLE
+                    binding.btnDeletePlant.visibility = VISIBLE
+                }
+                "WALK_COUNTER" -> {
+                    binding.tvPlantNameValue.text = plantLists[position].name
+                    binding.tvPlantTypeValue.text = "만보기"
+                    binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
+                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
+                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantPedometerGoalStepValue.text = plantLists[position].walkStep.toString()
+                    binding.tvPlantPedometerGoalCountValue.text = plantLists[position].walkCountGoal.toString()
 
-                binding.tvPlantName.visibility = VISIBLE
-                binding.tvPlantNameValue.visibility = VISIBLE
-                binding.tvPlantType.visibility = VISIBLE
-                binding.tvPlantTypeValue.visibility = VISIBLE
-                binding.tvPlantComplete.visibility = VISIBLE
-                binding.tvPlantCompleteValue.visibility = VISIBLE
-                binding.tvPlantStartDate.visibility = VISIBLE
-                binding.tvPlantStartDateValue.visibility = VISIBLE
-                binding.tvPlantEndDate.visibility = VISIBLE
-                binding.tvPlantEndDateValue.visibility = VISIBLE
+                    binding.tvPlantName.visibility = VISIBLE
+                    binding.tvPlantNameValue.visibility = VISIBLE
+                    binding.tvPlantType.visibility = VISIBLE
+                    binding.tvPlantTypeValue.visibility = VISIBLE
+                    binding.tvPlantComplete.visibility = VISIBLE
+                    binding.tvPlantCompleteValue.visibility = VISIBLE
+                    binding.tvPlantStartDate.visibility = VISIBLE
+                    binding.tvPlantStartDateValue.visibility = VISIBLE
+                    binding.tvPlantEndDate.visibility = VISIBLE
+                    binding.tvPlantEndDateValue.visibility = VISIBLE
 
-                binding.tvPlantPedometerGoalStep.visibility = VISIBLE
-                binding.tvPlantPedometerGoalStepValue.visibility = VISIBLE
-                binding.tvPlantPedometerGoalCount.visibility = VISIBLE
-                binding.tvPlantPedometerGoalCountValue.visibility = VISIBLE
+                    binding.tvPlantPedometerGoalStep.visibility = VISIBLE
+                    binding.tvPlantPedometerGoalStepValue.visibility = VISIBLE
+                    binding.tvPlantPedometerGoalCount.visibility = VISIBLE
+                    binding.tvPlantPedometerGoalCountValue.visibility = VISIBLE
 
-                binding.tvPlantCounter.visibility = GONE
-                binding.tvPlantCounterValue.visibility = GONE
+                    binding.tvPlantCounter.visibility = GONE
+                    binding.tvPlantCounterValue.visibility = GONE
 
-                binding.tvPlantTimerAccumulate.visibility = GONE
-                binding.tvPlantTimerAccumulateValue.visibility = GONE
+                    binding.tvPlantTimerAccumulate.visibility = GONE
+                    binding.tvPlantTimerAccumulateValue.visibility = GONE
 
-                binding.tvPlantTimerRecursive.visibility = GONE
-                binding.tvPlantTimerRecursiveValue.visibility = GONE
-                binding.tvPlantTimerRecursiveCount.visibility = GONE
-                binding.tvPlantTimerRecursiveCountValue.visibility = GONE
+                    binding.tvPlantTimerRecursive.visibility = GONE
+                    binding.tvPlantTimerRecursiveValue.visibility = GONE
+                    binding.tvPlantTimerRecursiveCount.visibility = GONE
+                    binding.tvPlantTimerRecursiveCountValue.visibility = GONE
 
-                binding.ivWatering.visibility = VISIBLE
-                binding.btnDeletePlant.visibility = VISIBLE
-            }
-            "COUNTER" -> {
-                binding.tvPlantNameValue.text = plantLists[position].name
-                binding.tvPlantTypeValue.text = "횟수"
-                binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                binding.tvPlantEndDateValue.text = plantLists[position].endDate
-                binding.tvPlantCounterValue.text = plantLists[position].counterGoal.toString()
+                    binding.ivWatering.visibility = VISIBLE
+                    binding.btnDeletePlant.visibility = VISIBLE
+                }
+                "COUNTER" -> {
+                    binding.tvPlantNameValue.text = plantLists[position].name
+                    binding.tvPlantTypeValue.text = "횟수"
+                    binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
+                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
+                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantCounterValue.text = plantLists[position].counterGoal.toString()
 
-                binding.tvPlantName.visibility = VISIBLE
-                binding.tvPlantNameValue.visibility = VISIBLE
-                binding.tvPlantType.visibility = VISIBLE
-                binding.tvPlantTypeValue.visibility = VISIBLE
-                binding.tvPlantComplete.visibility = VISIBLE
-                binding.tvPlantCompleteValue.visibility = VISIBLE
-                binding.tvPlantStartDate.visibility = VISIBLE
-                binding.tvPlantStartDateValue.visibility = VISIBLE
-                binding.tvPlantEndDate.visibility = VISIBLE
-                binding.tvPlantEndDateValue.visibility = VISIBLE
+                    binding.tvPlantName.visibility = VISIBLE
+                    binding.tvPlantNameValue.visibility = VISIBLE
+                    binding.tvPlantType.visibility = VISIBLE
+                    binding.tvPlantTypeValue.visibility = VISIBLE
+                    binding.tvPlantComplete.visibility = VISIBLE
+                    binding.tvPlantCompleteValue.visibility = VISIBLE
+                    binding.tvPlantStartDate.visibility = VISIBLE
+                    binding.tvPlantStartDateValue.visibility = VISIBLE
+                    binding.tvPlantEndDate.visibility = VISIBLE
+                    binding.tvPlantEndDateValue.visibility = VISIBLE
 
-                binding.tvPlantPedometerGoalStep.visibility = GONE
-                binding.tvPlantPedometerGoalStepValue.visibility = GONE
-                binding.tvPlantPedometerGoalCount.visibility = GONE
-                binding.tvPlantPedometerGoalCountValue.visibility = GONE
+                    binding.tvPlantPedometerGoalStep.visibility = GONE
+                    binding.tvPlantPedometerGoalStepValue.visibility = GONE
+                    binding.tvPlantPedometerGoalCount.visibility = GONE
+                    binding.tvPlantPedometerGoalCountValue.visibility = GONE
 
-                binding.tvPlantCounter.visibility = VISIBLE
-                binding.tvPlantCounterValue.visibility = VISIBLE
+                    binding.tvPlantCounter.visibility = VISIBLE
+                    binding.tvPlantCounterValue.visibility = VISIBLE
 
-                binding.tvPlantTimerAccumulate.visibility = GONE
-                binding.tvPlantTimerAccumulateValue.visibility = GONE
+                    binding.tvPlantTimerAccumulate.visibility = GONE
+                    binding.tvPlantTimerAccumulateValue.visibility = GONE
 
-                binding.tvPlantTimerRecursive.visibility = GONE
-                binding.tvPlantTimerRecursiveValue.visibility = GONE
-                binding.tvPlantTimerRecursiveCount.visibility = GONE
-                binding.tvPlantTimerRecursiveCountValue.visibility = GONE
+                    binding.tvPlantTimerRecursive.visibility = GONE
+                    binding.tvPlantTimerRecursiveValue.visibility = GONE
+                    binding.tvPlantTimerRecursiveCount.visibility = GONE
+                    binding.tvPlantTimerRecursiveCountValue.visibility = GONE
 
-                binding.ivWatering.visibility = VISIBLE
-                binding.btnDeletePlant.visibility = VISIBLE
-            }
-            "TIMER" -> {
-                binding.tvPlantNameValue.text = plantLists[position].name
-                binding.tvPlantTypeValue.text = "누적 타이머"
-                binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                binding.tvPlantEndDateValue.text = plantLists[position].endDate
-                binding.tvPlantTimerAccumulateValue.text = plantLists[position].timerTotalMin.toString()
+                    binding.ivWatering.visibility = VISIBLE
+                    binding.btnDeletePlant.visibility = VISIBLE
+                }
+                "TIMER" -> {
+                    binding.tvPlantNameValue.text = plantLists[position].name
+                    binding.tvPlantTypeValue.text = "누적 타이머"
+                    binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
+                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
+                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantTimerAccumulateValue.text = plantLists[position].timerTotalMin.toString()
 
-                binding.tvPlantName.visibility = VISIBLE
-                binding.tvPlantNameValue.visibility = VISIBLE
-                binding.tvPlantType.visibility = VISIBLE
-                binding.tvPlantTypeValue.visibility = VISIBLE
-                binding.tvPlantComplete.visibility = VISIBLE
-                binding.tvPlantCompleteValue.visibility = VISIBLE
-                binding.tvPlantStartDate.visibility = VISIBLE
-                binding.tvPlantStartDateValue.visibility = VISIBLE
-                binding.tvPlantEndDate.visibility = VISIBLE
-                binding.tvPlantEndDateValue.visibility = VISIBLE
+                    binding.tvPlantName.visibility = VISIBLE
+                    binding.tvPlantNameValue.visibility = VISIBLE
+                    binding.tvPlantType.visibility = VISIBLE
+                    binding.tvPlantTypeValue.visibility = VISIBLE
+                    binding.tvPlantComplete.visibility = VISIBLE
+                    binding.tvPlantCompleteValue.visibility = VISIBLE
+                    binding.tvPlantStartDate.visibility = VISIBLE
+                    binding.tvPlantStartDateValue.visibility = VISIBLE
+                    binding.tvPlantEndDate.visibility = VISIBLE
+                    binding.tvPlantEndDateValue.visibility = VISIBLE
 
-                binding.tvPlantPedometerGoalStep.visibility = GONE
-                binding.tvPlantPedometerGoalStepValue.visibility = GONE
-                binding.tvPlantPedometerGoalCount.visibility = GONE
-                binding.tvPlantPedometerGoalCountValue.visibility = GONE
+                    binding.tvPlantPedometerGoalStep.visibility = GONE
+                    binding.tvPlantPedometerGoalStepValue.visibility = GONE
+                    binding.tvPlantPedometerGoalCount.visibility = GONE
+                    binding.tvPlantPedometerGoalCountValue.visibility = GONE
 
-                binding.tvPlantCounter.visibility = GONE
-                binding.tvPlantCounterValue.visibility = GONE
+                    binding.tvPlantCounter.visibility = GONE
+                    binding.tvPlantCounterValue.visibility = GONE
 
-                binding.tvPlantTimerAccumulate.visibility = VISIBLE
-                binding.tvPlantTimerAccumulateValue.visibility = VISIBLE
+                    binding.tvPlantTimerAccumulate.visibility = VISIBLE
+                    binding.tvPlantTimerAccumulateValue.visibility = VISIBLE
 
-                binding.tvPlantTimerRecursive.visibility = GONE
-                binding.tvPlantTimerRecursiveValue.visibility = GONE
-                binding.tvPlantTimerRecursiveCount.visibility = GONE
-                binding.tvPlantTimerRecursiveCountValue.visibility = GONE
+                    binding.tvPlantTimerRecursive.visibility = GONE
+                    binding.tvPlantTimerRecursiveValue.visibility = GONE
+                    binding.tvPlantTimerRecursiveCount.visibility = GONE
+                    binding.tvPlantTimerRecursiveCountValue.visibility = GONE
 
-                binding.ivWatering.visibility = VISIBLE
-                binding.btnDeletePlant.visibility = VISIBLE
-            }
-            "RECURSIVE_TIMER" -> {
-                binding.tvPlantNameValue.text = plantLists[position].name
-                binding.tvPlantTypeValue.text = "반복 타이머"
-                binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                binding.tvPlantEndDateValue.text = plantLists[position].endDate
-                binding.tvPlantTimerRecursiveValue.text = plantLists[position].timerTotalMin.toString()
-                binding.tvPlantTimerRecursiveCountValue.text = plantLists[position].timerCurrentMin.toString()
+                    binding.ivWatering.visibility = VISIBLE
+                    binding.btnDeletePlant.visibility = VISIBLE
+                }
+                "RECURSIVE_TIMER" -> {
+                    binding.tvPlantNameValue.text = plantLists[position].name
+                    binding.tvPlantTypeValue.text = "반복 타이머"
+                    binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
+                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
+                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantTimerRecursiveValue.text = plantLists[position].timerTotalMin.toString()
+                    binding.tvPlantTimerRecursiveCountValue.text = plantLists[position].timerCurrentMin.toString()
 
-                binding.tvPlantName.visibility = VISIBLE
-                binding.tvPlantNameValue.visibility = VISIBLE
-                binding.tvPlantType.visibility = VISIBLE
-                binding.tvPlantTypeValue.visibility = VISIBLE
-                binding.tvPlantComplete.visibility = VISIBLE
-                binding.tvPlantCompleteValue.visibility = VISIBLE
-                binding.tvPlantStartDate.visibility = VISIBLE
-                binding.tvPlantStartDateValue.visibility = VISIBLE
-                binding.tvPlantEndDate.visibility = VISIBLE
-                binding.tvPlantEndDateValue.visibility = VISIBLE
+                    binding.tvPlantName.visibility = VISIBLE
+                    binding.tvPlantNameValue.visibility = VISIBLE
+                    binding.tvPlantType.visibility = VISIBLE
+                    binding.tvPlantTypeValue.visibility = VISIBLE
+                    binding.tvPlantComplete.visibility = VISIBLE
+                    binding.tvPlantCompleteValue.visibility = VISIBLE
+                    binding.tvPlantStartDate.visibility = VISIBLE
+                    binding.tvPlantStartDateValue.visibility = VISIBLE
+                    binding.tvPlantEndDate.visibility = VISIBLE
+                    binding.tvPlantEndDateValue.visibility = VISIBLE
 
-                binding.tvPlantPedometerGoalStep.visibility = GONE
-                binding.tvPlantPedometerGoalStepValue.visibility = GONE
-                binding.tvPlantPedometerGoalCount.visibility = GONE
-                binding.tvPlantPedometerGoalCountValue.visibility = GONE
+                    binding.tvPlantPedometerGoalStep.visibility = GONE
+                    binding.tvPlantPedometerGoalStepValue.visibility = GONE
+                    binding.tvPlantPedometerGoalCount.visibility = GONE
+                    binding.tvPlantPedometerGoalCountValue.visibility = GONE
 
-                binding.tvPlantCounter.visibility = GONE
-                binding.tvPlantCounterValue.visibility = GONE
+                    binding.tvPlantCounter.visibility = GONE
+                    binding.tvPlantCounterValue.visibility = GONE
 
-                binding.tvPlantTimerAccumulate.visibility = GONE
-                binding.tvPlantTimerAccumulateValue.visibility = GONE
+                    binding.tvPlantTimerAccumulate.visibility = GONE
+                    binding.tvPlantTimerAccumulateValue.visibility = GONE
 
-                binding.tvPlantTimerRecursive.visibility = VISIBLE
-                binding.tvPlantTimerRecursiveValue.visibility = VISIBLE
-                binding.tvPlantTimerRecursiveCount.visibility = VISIBLE
-                binding.tvPlantTimerRecursiveCountValue.visibility = VISIBLE
+                    binding.tvPlantTimerRecursive.visibility = VISIBLE
+                    binding.tvPlantTimerRecursiveValue.visibility = VISIBLE
+                    binding.tvPlantTimerRecursiveCount.visibility = VISIBLE
+                    binding.tvPlantTimerRecursiveCountValue.visibility = VISIBLE
 
-                binding.ivWatering.visibility = VISIBLE
-                binding.btnDeletePlant.visibility = VISIBLE
+                    binding.ivWatering.visibility = VISIBLE
+                    binding.btnDeletePlant.visibility = VISIBLE
+                }
             }
         }
+    }
+
+    // 식물 비어있을 때 식물 세부정보 설정
+    fun setEmpty() {
+        binding.tvPlantName.visibility = GONE
+        binding.tvPlantNameValue.visibility = GONE
+        binding.tvPlantType.visibility = GONE
+        binding.tvPlantTypeValue.visibility = GONE
+        binding.tvPlantComplete.visibility = GONE
+        binding.tvPlantCompleteValue.visibility = GONE
+        binding.tvPlantStartDate.visibility = GONE
+        binding.tvPlantStartDateValue.visibility = GONE
+        binding.tvPlantEndDate.visibility = GONE
+        binding.tvPlantEndDateValue.visibility = GONE
+
+        binding.tvPlantPedometerGoalStep.visibility = GONE
+        binding.tvPlantPedometerGoalStepValue.visibility = GONE
+        binding.tvPlantPedometerGoalCount.visibility = GONE
+        binding.tvPlantPedometerGoalCountValue.visibility = GONE
+
+        binding.tvPlantCounter.visibility = GONE
+        binding.tvPlantCounterValue.visibility = GONE
+
+        binding.tvPlantTimerAccumulate.visibility = GONE
+        binding.tvPlantTimerAccumulateValue.visibility = GONE
+
+        binding.tvPlantTimerRecursive.visibility = GONE
+        binding.tvPlantTimerRecursiveValue.visibility = GONE
+        binding.tvPlantTimerRecursiveCount.visibility = GONE
+        binding.tvPlantTimerRecursiveCountValue.visibility = GONE
+
+        binding.ivWatering.visibility = View.INVISIBLE
+        binding.btnDeletePlant.visibility = View.INVISIBLE
     }
 }
