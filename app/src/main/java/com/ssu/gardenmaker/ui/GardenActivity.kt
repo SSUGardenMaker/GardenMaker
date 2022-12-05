@@ -268,7 +268,7 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantStartDateValue.text = plantLists[position].startDate
                     binding.tvPlantEndDateValue.text = plantLists[position].endDate
                     binding.tvPlantPedometerGoalStepValue.text = plantLists[position].walkStep.toString()
-                    binding.tvPlantPedometerGoalCountValue.text = plantLists[position].walkCountGoal.toString()
+                    binding.tvPlantPedometerGoalCountValue.text = plantLists[position].counterGoal.toString()
 
                     binding.tvPlantName.visibility = VISIBLE
                     binding.tvPlantNameValue.visibility = VISIBLE
@@ -338,7 +338,7 @@ class GardenActivity : AppCompatActivity() {
                     binding.ivWatering.visibility = VISIBLE
                     binding.btnDeletePlant.visibility = VISIBLE
                 }
-                "TIMER" -> {
+                "ACCUMULATE_TIMER" -> {
                     binding.tvPlantNameValue.text = plantLists[position].name
                     binding.tvPlantTypeValue.text = "누적 타이머"
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
@@ -382,8 +382,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
                     binding.tvPlantStartDateValue.text = plantLists[position].startDate
                     binding.tvPlantEndDateValue.text = plantLists[position].endDate
-                    binding.tvPlantTimerRecursiveValue.text = plantLists[position].timerTotalMin.toString()
-                    binding.tvPlantTimerRecursiveCountValue.text = plantLists[position].timerCurrentMin.toString()
+                    binding.tvPlantTimerRecursiveValue.text = plantLists[position].timerRecurMin.toString()
+                    binding.tvPlantTimerRecursiveCountValue.text = plantLists[position].counterGoal.toString()
 
                     binding.tvPlantName.visibility = VISIBLE
                     binding.tvPlantNameValue.visibility = VISIBLE

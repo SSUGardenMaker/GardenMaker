@@ -11,15 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.DialogCreateplantBinding
-import com.ssu.gardenmaker.db.ContractDB
-import com.ssu.gardenmaker.db.ContractDB.Companion.COUNT_Checkbox_TB
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
-import java.lang.reflect.Type
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 
@@ -79,7 +74,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         dialog.show()
 
         valListener()
-        fiveFuction()
+        plantFuction()
     }
 
     private fun valListener() {
@@ -123,7 +118,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
 
                 if (checkbox1.isChecked) {
                     ApplicationClass.retrofitManager.plantCreate(categoryId, "CHECKBOX", binding.PlainNameEdtDialog.text.toString(), days,
-                        0, 0, 0, 0, 0, 0, 0, object : RetrofitCallback {
+                        0, 0, 0, 0, 0, 0, object : RetrofitCallback {
                             override fun onError(t: Throwable) {
                                 Log.d(TAG, "onError : " + t.localizedMessage)
                             }
@@ -143,13 +138,13 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 }
                 else if (checkbox2.isChecked) {
                     if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
-                        toast()
+                        Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
                         val walkStep = Integer.parseInt(binding.GoalStepPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
-                        val walkCountGoal = Integer.parseInt(binding.GoalCountPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val walkCounterGoal = Integer.parseInt(binding.GoalCountPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
                         ApplicationClass.retrofitManager.plantCreate(categoryId, "WALK_COUNTER", binding.PlainNameEdtDialog.text.toString(), days,
-                            walkStep, walkCountGoal, 0, 0, 0, 0, 0, object : RetrofitCallback {
+                            walkStep, walkCounterGoal, 0, 0, 0, 0, object : RetrofitCallback {
                                 override fun onError(t: Throwable) {
                                     Log.d(TAG, "onError : " + t.localizedMessage)
                                 }
@@ -170,12 +165,12 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 }
                 else if (checkbox3.isChecked) {
                     if (binding.GoalCountCounterBtnDialog.text.toString() == "-")
-                        toast()
+                        Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
-                        val counterGoal = Integer.parseInt(binding.GoalCountCounterBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val countCounterGoal = Integer.parseInt(binding.GoalCountCounterBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
                         ApplicationClass.retrofitManager.plantCreate(categoryId, "COUNTER", binding.PlainNameEdtDialog.text.toString(), days,
-                            0, 0, 0, counterGoal, 0, 0, 0, object : RetrofitCallback {
+                            0, countCounterGoal, 0, 0, 0, 0, object : RetrofitCallback {
                                 override fun onError(t: Throwable) {
                                     Log.d(TAG, "onError : " + t.localizedMessage)
                                 }
@@ -196,12 +191,12 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 }
                 else if (checkbox4.isChecked) {
                     if (binding.GoalTimerAccumulateBtnDialog.text.toString() == "-")
-                        toast()
+                        Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
                         val timerTotalMin = Integer.parseInt(binding.GoalTimerAccumulateBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
-                        ApplicationClass.retrofitManager.plantCreate(categoryId, "TIMER", binding.PlainNameEdtDialog.text.toString(), days,
-                            0, 0, 0, 0, 0, timerTotalMin, 0, object : RetrofitCallback {
+                        ApplicationClass.retrofitManager.plantCreate(categoryId, "ACCUMULATE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
+                            0, 0, timerTotalMin, 0, 0, 0, object : RetrofitCallback {
                                 override fun onError(t: Throwable) {
                                     Log.d(TAG, "onError : " + t.localizedMessage)
                                 }
@@ -222,13 +217,13 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 }
                 else if (checkbox5.isChecked) {
                     if (binding.GoalTimerRecursiveBtnDialog.text.toString() == "-" || binding.GoalCountTimerRecursiveBtnDialog.text.toString() == "-")
-                        toast()
+                        Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
-                        val timerTotalMin = Integer.parseInt(binding.GoalTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
-                        val timerCurrentMin = Integer.parseInt(binding.GoalCountTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val timerRecurMin = Integer.parseInt(binding.GoalTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val timerCounterGoal = Integer.parseInt(binding.GoalCountTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
-                        ApplicationClass.retrofitManager.plantCreate(categoryId, "TIMER", binding.PlainNameEdtDialog.text.toString(), days,
-                            0, 0, 0, 0, 0, timerTotalMin, timerCurrentMin, object : RetrofitCallback {
+                        ApplicationClass.retrofitManager.plantCreate(categoryId, "RECURSIVE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
+                            0, timerCounterGoal, 0, timerRecurMin, 0, 0, object : RetrofitCallback {
                                 override fun onError(t: Throwable) {
                                     Log.d(TAG, "onError : " + t.localizedMessage)
                                 }
@@ -270,12 +265,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         }
     }
 
-    private fun fiveFuction() {
-        // 1. 체크박스
-
-
-
-        // 2. 만보기
+    private fun plantFuction() {
+        // 만보기
         btnGoalParameter.setOnClickListener { v->
             v as Button
             val dialog_goalparameter=Dialog(mContext)
@@ -309,10 +300,10 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         }
         btnGoalCountParameter.setOnClickListener(listener_count)
 
-        // 3. 횟수
+        // 횟수
         btnGoalCountCounter.setOnClickListener(listener_count)
 
-        // 4. 누적 타이머
+        // 누적 타이머
         btnGoalTimerAccumulate.setOnClickListener { v->
             v as Button
             val dialog_accumulatetime=Dialog(mContext)
@@ -335,7 +326,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             dialog_accumulatetime.show()
         }
 
-        // 5. 반복 타이머
+        // 반복 타이머
         // 예외: 반복 시간을 spinner가 아닌, text로 입력하고 바로 확인을 누르면 적용이 되지 않는다.
         btnGoalTimerRecursive.setOnClickListener { v->
             v as Button
@@ -464,8 +455,4 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
 //            editor.apply()
 //            dialog.dismiss()
 //    }
-
-    private fun toast() {
-        Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
-    }
 }
