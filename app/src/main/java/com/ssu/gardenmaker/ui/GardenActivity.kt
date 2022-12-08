@@ -1,7 +1,6 @@
 package com.ssu.gardenmaker.ui
 
 import android.annotation.SuppressLint
-import android.content.res.TypedArray
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,14 +24,13 @@ import kotlin.math.abs
 class GardenActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityGardenBinding
-    private lateinit var typedArray: TypedArray
     private val TAG = "GardenActivity"
 
     private lateinit var gardenName: String
     private var gardenID: Int = -1
 
     private var currentPage: Int = 0
-    private val sliderItems: ArrayList<Int> = ArrayList()
+    private val sliderItems: MutableList<Int> = mutableListOf()
     private val plantLists: MutableList<PlantDataContent> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,8 +47,6 @@ class GardenActivity : AppCompatActivity() {
 
         binding.tvGardenName.text = gardenName
 
-        typedArray = resources.obtainTypedArray(R.array.img_flowers)
-
         initSlider()
     }
 
@@ -58,7 +54,7 @@ class GardenActivity : AppCompatActivity() {
         initItem()
         initButton()
 
-        binding.vpImageSlider.adapter = SliderAdapter(this, sliderItems)
+        binding.vpImageSlider.adapter = SliderAdapter(this@GardenActivity, sliderItems)
         binding.dotsIndicator.attachTo(binding.vpImageSlider)
 
         // 양쪽 페이지 미리보기 상태
@@ -84,7 +80,6 @@ class GardenActivity : AppCompatActivity() {
         // Paging 할 때마다 호출
         binding.vpImageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
                 currentPage = position
                 setPlantData(currentPage)
             }
@@ -176,47 +171,47 @@ class GardenActivity : AppCompatActivity() {
     private fun setPage(isComplete : Boolean, plantKind : Int) {
         if (isComplete) {
             when (plantKind) {
-                1 -> sliderItems.add(typedArray.getResourceId(1, -1))
-                2 -> sliderItems.add(typedArray.getResourceId(2, -1))
-                3 -> sliderItems.add(typedArray.getResourceId(3, -1))
-                4 -> sliderItems.add(typedArray.getResourceId(4, -1))
-                5 -> sliderItems.add(typedArray.getResourceId(5, -1))
-                6 -> sliderItems.add(typedArray.getResourceId(6, -1))
-                7 -> sliderItems.add(typedArray.getResourceId(7, -1))
-                8 -> sliderItems.add(typedArray.getResourceId(8, -1))
-                9 -> sliderItems.add(typedArray.getResourceId(9, -1))
-                10 -> sliderItems.add(typedArray.getResourceId(10, -1))
-                11 -> sliderItems.add(typedArray.getResourceId(11, -1))
-                12 -> sliderItems.add(typedArray.getResourceId(12, -1))
-                13 -> sliderItems.add(typedArray.getResourceId(13, -1))
-                14 -> sliderItems.add(typedArray.getResourceId(14, -1))
-                15 -> sliderItems.add(typedArray.getResourceId(15, -1))
-                16 -> sliderItems.add(typedArray.getResourceId(16, -1))
-                17 -> sliderItems.add(typedArray.getResourceId(17, -1))
-                18 -> sliderItems.add(typedArray.getResourceId(18, -1))
-                19 -> sliderItems.add(typedArray.getResourceId(19, -1))
-                20 -> sliderItems.add(typedArray.getResourceId(20, -1))
-                21 -> sliderItems.add(typedArray.getResourceId(21, -1))
-                22 -> sliderItems.add(typedArray.getResourceId(22, -1))
-                23 -> sliderItems.add(typedArray.getResourceId(23, -1))
-                24 -> sliderItems.add(typedArray.getResourceId(24, -1))
-                25 -> sliderItems.add(typedArray.getResourceId(25, -1))
-                26 -> sliderItems.add(typedArray.getResourceId(26, -1))
-                27 -> sliderItems.add(typedArray.getResourceId(27, -1))
-                28 -> sliderItems.add(typedArray.getResourceId(28, -1))
-                29 -> sliderItems.add(typedArray.getResourceId(29, -1))
-                30 -> sliderItems.add(typedArray.getResourceId(30, -1))
-                31 -> sliderItems.add(typedArray.getResourceId(31, -1))
-                32 -> sliderItems.add(typedArray.getResourceId(32, -1))
-                33 -> sliderItems.add(typedArray.getResourceId(33, -1))
-                34 -> sliderItems.add(typedArray.getResourceId(34, -1))
-                35 -> sliderItems.add(typedArray.getResourceId(35, -1))
-                36 -> sliderItems.add(typedArray.getResourceId(36, -1))
-                37 -> sliderItems.add(typedArray.getResourceId(37, -1))
+                1 -> sliderItems.add(R.drawable.plant1)
+                2 -> sliderItems.add(R.drawable.plant2)
+                3 -> sliderItems.add(R.drawable.plant3)
+                4 -> sliderItems.add(R.drawable.plant4)
+                5 -> sliderItems.add(R.drawable.plant5)
+                6 -> sliderItems.add(R.drawable.plant6)
+                7 -> sliderItems.add(R.drawable.plant7)
+                8 -> sliderItems.add(R.drawable.plant8)
+                9 -> sliderItems.add(R.drawable.plant9)
+                10 -> sliderItems.add(R.drawable.plant10)
+                11 -> sliderItems.add(R.drawable.plant11)
+                12 -> sliderItems.add(R.drawable.plant12)
+                13 -> sliderItems.add(R.drawable.plant13)
+                14 -> sliderItems.add(R.drawable.plant14)
+                15 -> sliderItems.add(R.drawable.plant15)
+                16 -> sliderItems.add(R.drawable.plant16)
+                17 -> sliderItems.add(R.drawable.plant17)
+                18 -> sliderItems.add(R.drawable.plant18)
+                19 -> sliderItems.add(R.drawable.plant19)
+                20 -> sliderItems.add(R.drawable.plant20)
+                21 -> sliderItems.add(R.drawable.plant21)
+                22 -> sliderItems.add(R.drawable.plant22)
+                23 -> sliderItems.add(R.drawable.plant23)
+                24 -> sliderItems.add(R.drawable.plant24)
+                25 -> sliderItems.add(R.drawable.plant25)
+                26 -> sliderItems.add(R.drawable.plant26)
+                27 -> sliderItems.add(R.drawable.plant27)
+                28 -> sliderItems.add(R.drawable.plant28)
+                29 -> sliderItems.add(R.drawable.plant29)
+                30 -> sliderItems.add(R.drawable.plant30)
+                31 -> sliderItems.add(R.drawable.plant31)
+                32 -> sliderItems.add(R.drawable.plant32)
+                33 -> sliderItems.add(R.drawable.plant33)
+                34 -> sliderItems.add(R.drawable.plant34)
+                35 -> sliderItems.add(R.drawable.plant35)
+                36 -> sliderItems.add(R.drawable.plant36)
+                37 -> sliderItems.add(R.drawable.plant37)
             }
         }
         else {
-            sliderItems.add(typedArray.getResourceId(0, -1))
+            sliderItems.add(R.drawable.pot)
         }
     }
 

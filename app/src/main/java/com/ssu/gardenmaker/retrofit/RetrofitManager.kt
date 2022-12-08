@@ -16,8 +16,8 @@ import com.ssu.gardenmaker.retrofit.password.ErrorFindPassword
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantCreate
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantEdit
+import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCheck
 import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
-import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCreateEditDelete
 import com.ssu.gardenmaker.retrofit.signup.ErrorSignup
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
@@ -282,10 +282,10 @@ class RetrofitManager {
 
     // 전체 식물 보기
     fun plantAllCheck(callback: RetrofitPlantCallback) {
-        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantAllCheckRequest()
+        val call: Call<ResponsePlantCheck> = ApplicationClass.retrofitAPI.plantAllCheckRequest()
 
-        call.enqueue(object : Callback<ResponsePlant> {
-            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
+        call.enqueue(object : Callback<ResponsePlantCheck> {
+            override fun onResponse(call: Call<ResponsePlantCheck>, response: Response<ResponsePlantCheck>) {
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d("RetrofitManager_plantAllCheck", "onResponse : 성공, message : " + body!!.message)
@@ -298,7 +298,7 @@ class RetrofitManager {
                 }
             }
 
-            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
+            override fun onFailure(call: Call<ResponsePlantCheck>, t: Throwable) {
                 Log.e("RetrofitManager_plantAllCheck", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
@@ -307,10 +307,10 @@ class RetrofitManager {
 
     // 화단별 식물 보기
     fun plantGardenCheck(gardenId : Int, callback: RetrofitPlantCallback) {
-        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantGardenCheckRequest(gardenId)
+        val call: Call<ResponsePlantCheck> = ApplicationClass.retrofitAPI.plantGardenCheckRequest(gardenId)
 
-        call.enqueue(object : Callback<ResponsePlant> {
-            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
+        call.enqueue(object : Callback<ResponsePlantCheck> {
+            override fun onResponse(call: Call<ResponsePlantCheck>, response: Response<ResponsePlantCheck>) {
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d("RetrofitManager_plantGardenCheck", "onResponse : 성공, message : " + body!!.message)
@@ -323,7 +323,7 @@ class RetrofitManager {
                 }
             }
 
-            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
+            override fun onFailure(call: Call<ResponsePlantCheck>, t: Throwable) {
                 Log.e("RetrofitManager_plantGardenCheck", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
@@ -335,10 +335,10 @@ class RetrofitManager {
                     walkStep : Int, counterGoal : Int, timerTotalMin : Int, timerRecurMin : Int, counter : Int, timerCurrentMin : Int, callback : RetrofitCallback) {
 
         val requestPlantCreate = RequestPlantCreate("", "", gardenId, plantType, name, requiredDays, walkStep, counterGoal, timerTotalMin, timerRecurMin, counter, timerCurrentMin)
-        val call: Call<ResponsePlantCreateEditDelete> = ApplicationClass.retrofitAPI.plantCreateRequest(requestPlantCreate)
+        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantCreateRequest(requestPlantCreate)
 
-        call.enqueue(object : Callback<ResponsePlantCreateEditDelete> {
-            override fun onResponse(call: Call<ResponsePlantCreateEditDelete>, response: Response<ResponsePlantCreateEditDelete>) {
+        call.enqueue(object : Callback<ResponsePlant> {
+            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d("RetrofitManager_plantCreate", "onResponse : 성공, message : " + body!!.message)
@@ -351,7 +351,7 @@ class RetrofitManager {
                 }
             }
 
-            override fun onFailure(call: Call<ResponsePlantCreateEditDelete>, t: Throwable) {
+            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
                 Log.e("RetrofitManager_plantCreate", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
@@ -361,10 +361,10 @@ class RetrofitManager {
     // 식물 수정
     fun plantEdit(plantId: Int, gardenId: Int, name: String, callback: RetrofitCallback) {
         val requestPlantEdit = RequestPlantEdit("", "", gardenId, name)
-        val call: Call<ResponsePlantCreateEditDelete> = ApplicationClass.retrofitAPI.plantEditRequest(plantId, requestPlantEdit)
+        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantEditRequest(plantId, requestPlantEdit)
 
-        call.enqueue(object : Callback<ResponsePlantCreateEditDelete> {
-            override fun onResponse(call: Call<ResponsePlantCreateEditDelete>, response: Response<ResponsePlantCreateEditDelete>) {
+        call.enqueue(object : Callback<ResponsePlant> {
+            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d("RetrofitManager_plantEdit", "onResponse : 성공, message : " + body!!.message)
@@ -377,7 +377,7 @@ class RetrofitManager {
                 }
             }
 
-            override fun onFailure(call: Call<ResponsePlantCreateEditDelete>, t: Throwable) {
+            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
                 Log.e("RetrofitManager_plantEdit", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
@@ -386,10 +386,10 @@ class RetrofitManager {
 
     // 식물 삭제
     fun plantDelete(plantId: Int, callback: RetrofitCallback) {
-        val call: Call<ResponsePlantCreateEditDelete> = ApplicationClass.retrofitAPI.plantDeleteRequest(plantId)
+        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantDeleteRequest(plantId)
 
-        call.enqueue(object : Callback<ResponsePlantCreateEditDelete> {
-            override fun onResponse(call: Call<ResponsePlantCreateEditDelete>, response: Response<ResponsePlantCreateEditDelete>) {
+        call.enqueue(object : Callback<ResponsePlant> {
+            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
                 if (response.isSuccessful) {
                     val body = response.body()
                     Log.d("RetrofitManager_plantDelete", "onResponse : 성공, message : " + body!!.message)
@@ -402,7 +402,7 @@ class RetrofitManager {
                 }
             }
 
-            override fun onFailure(call: Call<ResponsePlantCreateEditDelete>, t: Throwable) {
+            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
                 Log.e("RetrofitManager_plantDelete", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }

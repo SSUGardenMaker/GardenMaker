@@ -372,7 +372,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         when (p0?.id) {
             checkbox1.id-> {
                 checkbox1.isChecked=true
-                tvPrecaution.text="체크박스 계획을 입력해주세요"
+                tvPrecaution.text="체크박스를 이용한 계획을 입력해주세요"
                 tvPrecautionEx.text="예시) 정보처리기사 취득하기"
             }
             checkbox2.id->{

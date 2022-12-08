@@ -8,8 +8,8 @@ import com.ssu.gardenmaker.retrofit.login.ResponseLogin
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantCreate
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantEdit
+import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCheck
 import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
-import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCreateEditDelete
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
 import retrofit2.Call
@@ -64,25 +64,30 @@ interface RetrofitAPI {
     // 전체 식물 보기
     @Headers("Content-Type: application/json")
     @GET("/plant")
-    fun plantAllCheckRequest(): Call<ResponsePlant>
+    fun plantAllCheckRequest(): Call<ResponsePlantCheck>
 
     // 화단별 식물 보기
     @Headers("Content-Type: application/json")
     @GET("/plant/{gardenId}")
-    fun plantGardenCheckRequest(@Path("gardenId") gardenId: Int): Call<ResponsePlant>
+    fun plantGardenCheckRequest(@Path("gardenId") gardenId: Int): Call<ResponsePlantCheck>
 
     // 식물 생성
     @Headers("Content-Type: application/json")
     @POST("/plant")
-    fun plantCreateRequest(@Body body: RequestPlantCreate): Call<ResponsePlantCreateEditDelete>
+    fun plantCreateRequest(@Body body: RequestPlantCreate): Call<ResponsePlant>
 
     // 식물 수정
     @Headers("Content-Type: application/json")
     @PUT("/plant/{plantId}")
-    fun plantEditRequest(@Path("plantId") plantId: Int, @Body body: RequestPlantEdit): Call<ResponsePlantCreateEditDelete>
+    fun plantEditRequest(@Path("plantId") plantId: Int, @Body body: RequestPlantEdit): Call<ResponsePlant>
 
     // 식물 삭제
     @Headers("Content-Type: application/json")
     @DELETE("/plant/{plantId}")
-    fun plantDeleteRequest(@Path("plantId") plantId: Int): Call<ResponsePlantCreateEditDelete>
+    fun plantDeleteRequest(@Path("plantId") plantId: Int): Call<ResponsePlant>
+
+    // 식물 물주기
+    @Headers("Content-Type: application/json")
+    @POST("/plant/{plantId}/water")
+    fun plantWateringRequest(@Path("plantId") plantId: Int): Call<ResponsePlant>
 }
