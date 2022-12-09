@@ -81,8 +81,20 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         // 시작 날짜, 종료 날짜 리스너(DatePicker Spinner모드)
         val listener_day = View.OnClickListener { v->
             v as Button
-            val datePickerDialog = DatePickerDialog(mContext, android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 -> //i는 년도, i2는 (월-1), i3은 일을 표기한다.
-                    v.text="" + i + "년 "+ (i2 + 1) + "월 " + i3 + "일"
+            //i는 년도, i2는 (월-1), i3은 일을 표기한다.
+            val datePickerDialog = DatePickerDialog(mContext, android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
+                    if (i2 + 1 < 10) {
+                        if (i3 < 10)
+                            v.text="" + i + "년 0"+ (i2 + 1) + "월 0" + i3 + "일"
+                        else
+                            v.text="" + i + "년 0"+ (i2 + 1) + "월 " + i3 + "일"
+                    }
+                    else {
+                        if (i3 < 10)
+                            v.text="" + i + "년 "+ (i2 + 1) + "월 0" + i3 + "일"
+                        else
+                            v.text="" + i + "년 "+ (i2 + 1) + "월 " + i3 + "일"
+                    }
                 }, SimpleDateFormat("yyyy").format(currentTime).toInt(),
                 SimpleDateFormat("MM").format(currentTime).toInt(), SimpleDateFormat("dd").format(currentTime).toInt())
             datePickerDialog.datePicker.calendarViewShown=false

@@ -75,8 +75,6 @@ class GardenActivity : AppCompatActivity() {
         }
         binding.vpImageSlider.setPageTransformer(compositePageTransformer)
 
-        binding.vpImageSlider.setPageTransformer { page, position ->  }
-
         // Paging 할 때마다 호출
         binding.vpImageSlider.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -103,6 +101,7 @@ class GardenActivity : AppCompatActivity() {
                     for (i in plantLists.indices) {
                         setPage(plantLists[i].isComplete, plantLists[i].plantKind)
                     }
+                    binding.vpImageSlider.adapter!!.notifyDataSetChanged()
                     setPlantData(0)
                 }
                 else {
