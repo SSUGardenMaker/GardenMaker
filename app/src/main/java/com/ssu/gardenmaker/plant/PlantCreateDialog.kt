@@ -139,6 +139,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                 Log.d(TAG, "onSuccess : message -> $message")
                                 Log.d(TAG, "onSuccess : data -> $data")
                                 Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
                             }
 
                             override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -165,6 +166,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                     Log.d(TAG, "onSuccess : message -> $message")
                                     Log.d(TAG, "onSuccess : data -> $data")
                                     Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                    dialog.dismiss()
                                 }
 
                                 override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -191,6 +193,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                     Log.d(TAG, "onSuccess : message -> $message")
                                     Log.d(TAG, "onSuccess : data -> $data")
                                     Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                    dialog.dismiss()
                                 }
 
                                 override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -205,57 +208,70 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                     if (binding.GoalTimerAccumulateBtnDialog.text.toString() == "-")
                         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
-                        val timerTotalMin = Integer.parseInt(binding.GoalTimerAccumulateBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val timeSplit = binding.GoalTimerAccumulateBtnDialog.text.toString().split(" ")
 
-                        ApplicationClass.retrofitManager.plantCreate(categoryId, "ACCUMULATE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
-                            0, 0, timerTotalMin, 0, 0, 0, object : RetrofitCallback {
-                                override fun onError(t: Throwable) {
-                                    Log.d(TAG, "onError : " + t.localizedMessage)
-                                }
+                        if (Integer.parseInt(timeSplit[0]) < 24 && Integer.parseInt(timeSplit[2]) < 60) {
+                            val timerTotalMin = Integer.parseInt(timeSplit[0]) * 60 + Integer.parseInt(timeSplit[2])
 
-                                override fun onSuccess(message: String, data: String) {
-                                    Log.d(TAG, "onSuccess : message -> $message")
-                                    Log.d(TAG, "onSuccess : data -> $data")
-                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
-                                }
+                            ApplicationClass.retrofitManager.plantCreate(categoryId, "ACCUMULATE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
+                                0, 0, timerTotalMin, 0, 0, 0, object : RetrofitCallback {
+                                    override fun onError(t: Throwable) {
+                                        Log.d(TAG, "onError : " + t.localizedMessage)
+                                    }
 
-                                override fun onFailure(errorMessage: String, errorCode: Int) {
-                                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
-                                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
-                                }
-                            })
+                                    override fun onSuccess(message: String, data: String) {
+                                        Log.d(TAG, "onSuccess : message -> $message")
+                                        Log.d(TAG, "onSuccess : data -> $data")
+                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                        dialog.dismiss()
+                                    }
+
+                                    override fun onFailure(errorMessage: String, errorCode: Int) {
+                                        Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                        Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                        Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                        }
+                        else {
+                            Toast.makeText(mContext, "시간 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
                 else if (checkbox5.isChecked) {
                     if (binding.GoalTimerRecursiveBtnDialog.text.toString() == "-" || binding.GoalCountTimerRecursiveBtnDialog.text.toString() == "-")
                         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
-                        val timerRecurMin = Integer.parseInt(binding.GoalTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
-                        val timerCounterGoal = Integer.parseInt(binding.GoalCountTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                        val timeSplit = binding.GoalTimerRecursiveBtnDialog.text.toString().split(" ")
+                        if (Integer.parseInt(timeSplit[0]) < 24 && Integer.parseInt(timeSplit[2]) < 60) {
+                            val timerRecurMin = Integer.parseInt(timeSplit[0]) * 60 + Integer.parseInt(timeSplit[2])
+                            val timerCounterGoal = Integer.parseInt(binding.GoalCountTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
-                        ApplicationClass.retrofitManager.plantCreate(categoryId, "RECURSIVE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
-                            0, timerCounterGoal, 0, timerRecurMin, 0, 0, object : RetrofitCallback {
-                                override fun onError(t: Throwable) {
-                                    Log.d(TAG, "onError : " + t.localizedMessage)
-                                }
+                            ApplicationClass.retrofitManager.plantCreate(categoryId, "RECURSIVE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
+                                0, timerCounterGoal, 0, timerRecurMin, 0, 0, object : RetrofitCallback {
+                                    override fun onError(t: Throwable) {
+                                        Log.d(TAG, "onError : " + t.localizedMessage)
+                                    }
 
-                                override fun onSuccess(message: String, data: String) {
-                                    Log.d(TAG, "onSuccess : message -> $message")
-                                    Log.d(TAG, "onSuccess : data -> $data")
-                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
-                                }
+                                    override fun onSuccess(message: String, data: String) {
+                                        Log.d(TAG, "onSuccess : message -> $message")
+                                        Log.d(TAG, "onSuccess : data -> $data")
+                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+                                        dialog.dismiss()
+                                    }
 
-                                override fun onFailure(errorMessage: String, errorCode: Int) {
-                                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
-                                    Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
-                                }
-                            })
+                                    override fun onFailure(errorMessage: String, errorCode: Int) {
+                                        Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                                        Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                                        Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show()
+                                    }
+                                })
+                        }
+                        else {
+                            Toast.makeText(mContext, "시간 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-
-                dialog.dismiss()
             }
         }
 
@@ -328,9 +344,9 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 if ((et1_str.trim().isEmpty() && et2_str.trim().isEmpty()) || (et1_str.trim() == "0" && et2_str.trim() == "0"))
                     v.text="-"
                 else if (et1_str.trim().isEmpty() && et2_str.trim() != "0")
-                    v.text="$et2_str 분"
+                    v.text="0 시간 $et2_str 분"
                 else if (et2_str.trim().isEmpty() && et1_str.trim() != "0")
-                    v.text="$et1_str 시간"
+                    v.text="$et1_str 시간 0 분"
                 else
                     v.text= "$et1_str 시간 $et2_str 분"
                 dialog_accumulatetime.dismiss()
@@ -346,9 +362,9 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 if ((i.toString().trim().isEmpty() && i2.toString().trim().isEmpty()) || (i.toString().trim() == "0" && i2.toString().trim() == "0"))
                     v.text="-"
                 else if (i.toString().trim().isEmpty() && i2.toString().trim() != "0")
-                    v.text="$i2 분"
+                    v.text="0 시간 $i2 분"
                 else if (i2.toString().trim().isEmpty() && i.toString().trim() != "0")
-                    v.text="$i 시간"
+                    v.text="$i 시간 0 분"
                 else
                     v.text= "$i 시간 $i2 분"
                 }, 0, 30,true)

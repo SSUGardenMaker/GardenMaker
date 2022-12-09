@@ -410,5 +410,27 @@ class RetrofitManager {
     }
 
     // 식물 물주기
+    fun plantWatering(plantId: Int, callback: RetrofitCallback) {
+        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantWateringRequest(plantId)
 
+        call.enqueue(object : Callback<ResponsePlant> {
+            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    Log.d("RetrofitManager_plantWatering", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_plantWatering", "onResponse : status code is " + response.code())
+                    callback.onSuccess(body.message, body.data.toString())
+                }
+                else {
+                    Log.d("RetrofitManager_plantWatering", "onResponse : 실패, error code : " + response.code())
+                    callback.onFailure("", response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
+                Log.e("RetrofitManager_plantWatering", "onFailure : " + t.localizedMessage)
+                callback.onError(t)
+            }
+        })
+    }
 }
