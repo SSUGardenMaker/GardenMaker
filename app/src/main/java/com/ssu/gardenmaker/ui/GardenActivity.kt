@@ -101,7 +101,7 @@ class GardenActivity : AppCompatActivity() {
                     for (i in plantLists.indices) {
                         setPage(plantLists[i].isComplete, plantLists[i].plantKind)
                     }
-                    binding.vpImageSlider.adapter!!.notifyDataSetChanged()
+                    binding.vpImageSlider.adapter?.notifyDataSetChanged()
                     setPlantData(0)
                 }
                 else {
@@ -137,7 +137,6 @@ class GardenActivity : AppCompatActivity() {
     }
 
     // 식물 삭제
-    @SuppressLint("NotifyDataSetChanged")
     private fun deletePlant() {
         ApplicationClass.retrofitManager.plantDelete(plantLists[currentPage].id, object : RetrofitCallback {
             override fun onError(t: Throwable) {

@@ -23,7 +23,6 @@ import com.ssu.gardenmaker.calendar.CalendarDialog
 import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
-import com.ssu.gardenmaker.checkbox.CheckboxDialog
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.plant.PlantCreateDialog
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
@@ -110,11 +109,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // 버튼 기능 구현
     @RequiresApi(VERSION_CODES.P)
     private fun initButtonFunction() {
-        // 체크리스트 기능
-        binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_checklist).setOnClickListener {
-            CheckboxDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
-        }
-
         // 캘린더 기능
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar).setOnClickListener {
             CalendarDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
