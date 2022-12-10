@@ -86,8 +86,18 @@ interface RetrofitAPI {
     @DELETE("/plant/{plantId}")
     fun plantDeleteRequest(@Path("plantId") plantId: Int): Call<ResponsePlant>
 
-    // 식물 물주기
+    // 식물 물 주기 (만보기, 횟수, 반복 타이머)
     @Headers("Content-Type: application/json")
     @POST("/plant/{plantId}/water")
     fun plantWateringRequest(@Path("plantId") plantId: Int): Call<ResponsePlant>
+
+    // 식물 물 주기 (누적 타이머)
+    @Headers("Content-Type: application/json")
+    @POST("/plant/{plantId}/waterAcc")
+    fun plantWateringAccRequest(@Path("plantId") plantId: Int, @Query("min") min: Int): Call<ResponsePlant>
+
+    // 식물 완료
+    @Headers("Content-Type: application/json")
+    @POST("/plant/{plantId}/complete")
+    fun plantCompleteRequest(@Path("plantId") plantId: Int): Call<ResponsePlant>
 }

@@ -29,6 +29,7 @@ class GardenActivity : AppCompatActivity() {
     private lateinit var gardenName: String
     private var gardenID: Int = -1
 
+    private var currentMin: Int = 1
     private var currentPage: Int = 0
     private val sliderItems: MutableList<Int> = mutableListOf()
     private val plantLists: MutableList<PlantDataContent> = mutableListOf()
@@ -132,26 +133,47 @@ class GardenActivity : AppCompatActivity() {
 
     // 식물 물주기
     private fun wateringPlant() {
-        ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object : RetrofitCallback {
-            override fun onError(t: Throwable) {
-                Log.d(TAG, "onError : " + t.localizedMessage)
-            }
+        if (plantLists[currentPage].plantType == "ACCUMULATE_TIMER") {
+            ApplicationClass.retrofitManager.plantWateringAcc(plantLists[currentPage].id, currentMin, object : RetrofitCallback {
+                override fun onError(t: Throwable) {
+                    Log.d(TAG, "onError : " + t.localizedMessage)
+                }
 
-            override fun onSuccess(message: String, data: String) {
-                Log.d(TAG, "onSuccess : message -> $message")
-                Log.d(TAG, "onSuccess : data -> $data")
-                Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
+                override fun onSuccess(message: String, data: String) {
+                    Log.d(TAG, "onSuccess : message -> $message")
+                    Log.d(TAG, "onSuccess : data -> $data")
+                    Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
-                binding.vpImageSlider.adapter?.notifyDataSetChanged()
-            }
+                }
 
-            override fun onFailure(errorMessage: String, errorCode: Int) {
-                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                Log.d(TAG, "onFailure : errorCode -> $errorCode")
-                Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
-            }
+                override fun onFailure(errorMessage: String, errorCode: Int) {
+                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                    Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
 
-        })
+            })
+        }
+        else {
+            ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object : RetrofitCallback {
+                override fun onError(t: Throwable) {
+                    Log.d(TAG, "onError : " + t.localizedMessage)
+                }
+
+                override fun onSuccess(message: String, data: String) {
+                    Log.d(TAG, "onSuccess : message -> $message")
+                    Log.d(TAG, "onSuccess : data -> $data")
+                    Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
+
+                }
+
+                override fun onFailure(errorMessage: String, errorCode: Int) {
+                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                    Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     // 식물 삭제
