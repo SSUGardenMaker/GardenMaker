@@ -144,6 +144,8 @@ class GardenActivity : AppCompatActivity() {
                     Log.d(TAG, "onSuccess : data -> $data")
                     Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
+                    plantLists[currentPage].timerCurrentMin += currentMin
+                    setPlantData(currentPage)
                 }
 
                 override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -165,6 +167,8 @@ class GardenActivity : AppCompatActivity() {
                     Log.d(TAG, "onSuccess : data -> $data")
                     Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
+                    plantLists[currentPage].counter += 1
+                    setPlantData(currentPage)
                 }
 
                 override fun onFailure(errorMessage: String, errorCode: Int) {

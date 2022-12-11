@@ -8,7 +8,7 @@ data class ResponsePlantCheck(
 )
 
 data class PlantDataContent(
-    @SerializedName("context1") var context1 : String,
+    @SerializedName("context1") val context1 : String,
     @SerializedName("context2") val context2 : String,
     @SerializedName("id") val id : Int, // 식물 ID
     @SerializedName("gardenId") val gardenId : Int, // 화단 ID
@@ -24,5 +24,5 @@ data class PlantDataContent(
     @SerializedName("timerTotalMin") val timerTotalMin : Int,   // 목표 누적 시간 (누적 타이머)
     @SerializedName("timerRecurMin") val timerRecurMin : Int,    // 목표 반복 시간 (반복 타이머)
     @SerializedName("counter") var counter : Int,   // 현재까지 달성한 횟수 (만보기, 횟수, 반복 타이머)
-    @SerializedName("timerCurrentMin") val timerCurrentMin : Int    // 현재까지 달성한 시간 (누적 타이머)
+    @SerializedName("timerCurrentMin") var timerCurrentMin : Int    // 현재까지 달성한 시간 (누적 타이머)
 )
