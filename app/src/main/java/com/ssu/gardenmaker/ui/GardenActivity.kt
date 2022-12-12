@@ -1,6 +1,7 @@
 package com.ssu.gardenmaker.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -15,6 +16,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.ActivityGardenBinding
+import com.ssu.gardenmaker.features.accumulateTimer.accumulateTimerService
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
@@ -134,27 +136,13 @@ class GardenActivity : AppCompatActivity() {
     // 식물 물주기
     private fun wateringPlant() {
         if (plantLists[currentPage].plantType == "ACCUMULATE_TIMER") {
-            ApplicationClass.retrofitManager.plantWateringAcc(plantLists[currentPage].id, currentMin, object : RetrofitCallback {
-                override fun onError(t: Throwable) {
-                    Log.d(TAG, "onError : " + t.localizedMessage)
-                }
-
-                override fun onSuccess(message: String, data: String) {
-                    Log.d(TAG, "onSuccess : message -> $message")
-                    Log.d(TAG, "onSuccess : data -> $data")
-                    Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
-
-                    plantLists[currentPage].timerCurrentMin += currentMin
-                    setPlantData(currentPage)
-                }
-
-                override fun onFailure(errorMessage: String, errorCode: Int) {
-                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
-                    Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
-                }
-
-            })
+            val intent= Intent(applicationContext,accumulateTimerService::class.java)
+            intent.putExtra("plantId",plantLists[currentPage].id)
+            intent.putExtra("timerTotalMin",plantLists[currentPage].timerTotalMin)
+            intent.putExtra("timerCurMin",plantLists[currentPage].timerCurrentMin)
+            intent.putExtra("plantName",plantLists[currentPage].name)
+            Log.d(TAG,"누적타이머 완료여부:${plantLists[currentPage].isComplete}")
+            startForegroundService(intent)
         }
         else {
             ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object : RetrofitCallback {
