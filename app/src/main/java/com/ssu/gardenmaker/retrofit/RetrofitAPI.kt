@@ -95,9 +95,4 @@ interface RetrofitAPI {
     @Headers("Content-Type: application/json")
     @POST("/plant/{plantId}/waterAcc")
     fun plantWateringAccRequest(@Path("plantId") plantId: Int, @Query("min") min: Int): Call<ResponsePlant>
-
-    // 식물 완료
-    @Headers("Content-Type: application/json")
-    @POST("/plant/{plantId}/complete")
-    fun plantCompleteRequest(@Path("plantId") plantId: Int): Call<ResponsePlant>
 }
