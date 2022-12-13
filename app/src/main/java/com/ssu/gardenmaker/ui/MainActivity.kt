@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // 꽃피운 식물들
         binding.categoryDoneNext.setOnClickListener {
-
+            startActivity(Intent(this@MainActivity, PlantDoneActivity::class.java))
         }
 
         // 식물 도감
@@ -130,26 +130,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this@MainActivity, PlantBookActivity::class.java))
         }
 
-        // 환경설정
-        binding.navigationSettingNext.setOnClickListener {
-
+        // 비밀번호 변경
+        binding.navigationChangePasswordNext.setOnClickListener {
+            startActivity(Intent(this@MainActivity, ChangePasswordActivity::class.java))
         }
 
         // 로그아웃
         binding.navigationLogoutNext.setOnClickListener {
-//            ApplicationClass.retrofitManager.deleteToken(object : RetrofitCallback {
-//                override fun onError(t: Throwable) {
-//                }
-//
-//                override fun onSuccess(message: String, data: String) {
-//                    Log.d(TAG, message + data)
-//                }
-//
-//                override fun onFailure(errorMessage: String, errorCode: Int) {
-//                }
-//
-//            })
-
             SharedPreferenceManager().deleteData("email")
             SharedPreferenceManager().deleteData("password")
             SharedPreferenceManager().deleteData("accessToken")

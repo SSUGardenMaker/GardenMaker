@@ -5,11 +5,13 @@ import com.ssu.gardenmaker.retrofit.garden.ResponseGarden
 import com.ssu.gardenmaker.retrofit.garden.ResponseGardenCreateEditDelete
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
+import com.ssu.gardenmaker.retrofit.password.RequestChangePassword
+import com.ssu.gardenmaker.retrofit.password.ResponseChangePassword
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantCreate
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantEdit
-import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCheck
 import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
+import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCheck
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
 import retrofit2.Call
@@ -31,15 +33,10 @@ interface RetrofitAPI {
     @GET("/users/password")
     fun findPasswordRequest(@Query("email") email: String): Call<ResponseFindPassword>
 
-    // 토큰 등록
+    // 비밀번호 수정
     @Headers("Content-Type: application/json")
-    @POST("/users/token")
-    fun tokenPostRequest(@Query("token") token: String): Call<Any>
-
-    // 토큰 삭제
-    @Headers("Content-Type: application/json")
-    @DELETE("/users/token")
-    fun tokenDeleteRequest(): Call<Any>
+    @POST("/users/password")
+    fun changePasswordRequest(@Body body: RequestChangePassword): Call<ResponseChangePassword>
 
     // 화단 보기
     @Headers("Content-Type: application/json")

@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/category_done"
-                    app:layout_constraintBottom_toTopOf="@+id/navigation_setting"
+                    app:layout_constraintBottom_toTopOf="@+id/navigation_change_password"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.05"
@@ -100,7 +100,7 @@
                     android:background="@drawable/ic_next" />
 
                 <TextView
-                    android:id="@+id/navigation_setting"
+                    android:id="@+id/navigation_change_password"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/plant_book"
@@ -108,18 +108,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.05"
-                    android:text="환경설정"
+                    android:text="비밀번호 변경"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="@color/menu_text_color"
                     android:fontFamily="@font/gmarket_sans_regular"/>
 
                 <ImageView
-                    android:id="@+id/navigation_setting_next"
+                    android:id="@+id/navigation_change_password_next"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    app:layout_constraintTop_toTopOf="@+id/navigation_setting"
-                    app:layout_constraintBottom_toBottomOf="@+id/navigation_setting"
+                    app:layout_constraintTop_toTopOf="@+id/navigation_change_password"
+                    app:layout_constraintBottom_toBottomOf="@+id/navigation_change_password"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.95"
@@ -129,7 +129,7 @@
                     android:id="@+id/navigation_logout"
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/navigation_setting"
+                    app:layout_constraintTop_toBottomOf="@+id/navigation_change_password"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
