@@ -20,7 +20,7 @@ import com.ssu.gardenmaker.features.accumulateTimer.accumulateTimerService
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
-import com.ssu.gardenmaker.slider.SliderAdapter
+import com.ssu.gardenmaker.adapter.SliderAdapter
 import kotlin.math.abs
 
 class GardenActivity : AppCompatActivity() {

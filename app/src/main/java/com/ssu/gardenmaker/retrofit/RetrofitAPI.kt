@@ -68,6 +68,11 @@ interface RetrofitAPI {
     @GET("/plant/{gardenId}")
     fun plantGardenCheckRequest(@Path("gardenId") gardenId: Int): Call<ResponsePlantCheck>
 
+    // 환료한 날짜 순으로 완료된 식물 보기
+    @Headers("Content-Type: application/json")
+    @GET("/plant/completed")
+    fun plantDoneCheckRequest(): Call<ResponsePlantCheck>
+
     // 식물 생성
     @Headers("Content-Type: application/json")
     @POST("/plant")

@@ -4,7 +4,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".ui.PlantDoneActivity">
 
+    <TextView
+        android:id="@+id/tv_plant_done_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:gravity="center"
+        android:text="꽃피운 식물들"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:fontFamily="@font/gmarket_sans_regular"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"/>
+
+    <ImageButton
+        android:id="@+id/ib_plant_done_back"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:background="@drawable/ic_previous_white"
+        app:layout_constraintTop_toTopOf="@+id/tv_plant_done_name"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_plant_done_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintHorizontal_bias="0.05"/>
+
+    <GridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_plant_done_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_margin="10dp"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp"
+        android:numColumns="auto_fit"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

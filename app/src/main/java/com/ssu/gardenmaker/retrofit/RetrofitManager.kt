@@ -309,6 +309,31 @@ class RetrofitManager {
         })
     }
 
+    // // 환료한 날짜 순으로 완료된 식물 보기
+    fun plantDoneCheck(callback: RetrofitPlantCallback) {
+        val call: Call<ResponsePlantCheck> = ApplicationClass.retrofitAPI.plantDoneCheckRequest()
+
+        call.enqueue(object : Callback<ResponsePlantCheck> {
+            override fun onResponse(call: Call<ResponsePlantCheck>, response: Response<ResponsePlantCheck>) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    Log.d("RetrofitManager_plantDoneCheck", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_plantDoneCheck", "onResponse : status code is " + response.code())
+                    callback.onSuccess(body.message, body.data)
+                }
+                else {
+                    Log.d("RetrofitManager_plantDoneCheck", "onResponse : 실패, error code : " + response.code())
+                    callback.onFailure("", response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlantCheck>, t: Throwable) {
+                Log.e("RetrofitManager_plantDoneCheck", "onFailure : " + t.localizedMessage)
+                callback.onError(t)
+            }
+        })
+    }
+
     // 식물 생성
     fun plantCreate(gardenId : Int, plantType : String, name : String, requiredDays : Int,
                     walkStep : Int, counterGoal : Int, timerTotalMin : Int, timerRecurMin : Int, counter : Int, timerCurrentMin : Int, callback : RetrofitCallback) {
