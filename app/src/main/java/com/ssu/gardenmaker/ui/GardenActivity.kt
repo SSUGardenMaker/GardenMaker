@@ -198,6 +198,8 @@ class GardenActivity : AppCompatActivity() {
                         }
                     })
                     Log.d(TAG, "카운터 값 증가:${ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)}")
+                    count_featureTimer=Timer()
+                    count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
                 }
             }
             else {
