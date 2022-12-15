@@ -98,7 +98,10 @@ class GardenActivity : AppCompatActivity() {
                 Log.d(TAG, "onSuccess : data -> $data")
                 Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
-                plantLists.addAll(data)
+                for (i in data.indices) {
+                    if (!data[i].isComplete)
+                        plantLists.add(data[i])
+                }
 
                 if (plantLists.size != 0) {
                     for (i in plantLists.indices) {
@@ -157,6 +160,17 @@ class GardenActivity : AppCompatActivity() {
 
                     plantLists[currentPage].counter += 1
                     setPlantData(currentPage)
+
+                    if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
+                        Toast.makeText(this@GardenActivity, "식물이 완성되었습니다", Toast.LENGTH_SHORT).show()
+
+                        plantLists.removeAt(currentPage)
+                        sliderItems.removeAt(currentPage)
+                        binding.vpImageSlider.adapter?.notifyDataSetChanged()
+
+                        if (plantLists.isEmpty())
+                            setEmpty()
+                    }
                 }
 
                 override fun onFailure(errorMessage: String, errorCode: Int) {
