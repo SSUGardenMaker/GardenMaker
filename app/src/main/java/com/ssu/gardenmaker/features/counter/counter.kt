@@ -1,19 +1,40 @@
 package com.ssu.gardenmaker.features.counter
 
+import android.opengl.Visibility
 import android.os.Handler
 import android.os.Message
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.TextView
+import com.ssu.gardenmaker.ApplicationClass
+import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 
 import java.util.*
-
-class counter(var btn: Button,timer: Timer) {
+/*버그: 메인 스레드에서 파생된 스레드라 액티비티 나가면 시간을 재주는 스레드도 같이 종료. 즉, 가든->메인화면->시간재주지 않음*/
+class counter(plantId:Int,remaining_time:Long,var tv: TextView,timer: Timer) {
     var TAG="counter"
-    var Goal_minutes=1
-    var cur_millisecond:Long=Goal_minutes*60* 1000L
+    var cur_millisecond:Long=remaining_time
     var timer=timer
     init{
-        Log.d(TAG,"1:"+cur_millisecond)
+        ApplicationClass.retrofitManager.plantWatering(plantId,object :
+            RetrofitCallback {
+            override fun onError(t: Throwable) {
+                Log.d(TAG, "onError : " + t.localizedMessage)
+            }
+
+            override fun onSuccess(message: String, data: String) {
+                Log.d(TAG, "onSuccess : message -> $message")
+                Log.d(TAG, "onSuccess : data -> $data")
+
+            }
+
+            override fun onFailure(errorMessage: String, errorCode: Int) {
+                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                Log.d(TAG, "onFailure : errorCode -> $errorCode")
+            }
+        })
+       tv.visibility=View.VISIBLE
     }
    var mhandler=TimerHandler()
 
@@ -37,11 +58,9 @@ class counter(var btn: Button,timer: Timer) {
         override fun handleMessage(msg: Message) {
             if(cur_millisecond<=0){     Log.d(TAG,"3:"+cur_millisecond)
                 timer.cancel()
-                btn.isEnabled=true
-                btn.text="횟수(5분간격)"
-                cur_millisecond=MinToMillisecond(Goal_minutes) //재시작을 위해 목표시간 다시 부여
+                tv.visibility= View.GONE
             }else{
-                btn.text="${"%02d".format(cur_millisecond/1000/60)}:${"%02d".format(cur_millisecond/1000%60)}"
+                tv.text="${"%02d".format(cur_millisecond/1000/60)}:${"%02d".format(cur_millisecond/1000%60)}"
             }
         }
     }

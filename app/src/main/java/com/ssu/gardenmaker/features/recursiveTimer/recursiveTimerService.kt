@@ -10,16 +10,22 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
+import com.ssu.gardenmaker.ui.GardenActivity
 import java.util.*
-
+//버그 1. 5번 클릭해야 그제야 실행되는 경우 발생. 1~4번은 바로 ondestroy()함수가 호출됨
 class recursiveTimerService :Service() {
     val TAG="recursiveTimerService"
+    init {
+       ApplicationClass.mSharedPreferences.edit().putBoolean("startTimer_FLAG",false).commit()
+    }
+    //Plant API관련
+    var INIT_ACTIVITY_INTENT_FLAG:Boolean=false
+    var plant_name:String=""; var plant_id:Int=0                            //plant관련 정보
+    var recursive_second:Int=0; var cur_accumulate_millisecond:Long=0      //타이머를 통해 저장할 시간
 
-    //시간 및 식물 정보 변수
-    var cur_millisecond:Long=1800*1000L
-    var plant_name:String="가제:개나리"
-    var cur_second:Int=0
 
     //noti 변수
     lateinit var builder: NotificationCompat.Builder
@@ -53,10 +59,19 @@ class recursiveTimerService :Service() {
         startForeground(1,builder.build())
         timerTask=createTimerTask()
         timer= Timer()
-        timer.schedule(timerTask,0,1000)
+        timer.schedule(timerTask,0,100)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if(!INIT_ACTIVITY_INTENT_FLAG){
+            plant_name=intent?.getStringExtra("plantName")!!
+            plant_id=intent?.getIntExtra("plantId",-1)!!
+            recursive_second=intent?.getIntExtra("timerRecurMin",-1)!!*60
+            cur_accumulate_millisecond=recursive_second.toLong()*1000
+            Log.d(TAG,"${recursive_second}  ${cur_accumulate_millisecond}")
+            INIT_ACTIVITY_INTENT_FLAG=true
+        }
+
         when(intent?.getIntExtra("timer_Notisignal",0)){
             0 -> { Log.d(TAG,"Intent값 없음")
             }
@@ -73,7 +88,7 @@ class recursiveTimerService :Service() {
                 init_noti(action1,action2)
                 timerTask=createTimerTask()
                 timer= Timer()
-                timer.schedule(timerTask,0,1000)
+                timer.schedule(timerTask,0,100)
             }
         }
         return super.onStartCommand(intent, flags, startId)
@@ -81,6 +96,7 @@ class recursiveTimerService :Service() {
 
     override fun onDestroy() { Log.d(TAG,"onDestroy")
         timer.cancel()
+        ApplicationClass.mSharedPreferences.edit().putBoolean("startTimer_FLAG",true).commit()
         super.onDestroy()
     }
 
@@ -90,10 +106,15 @@ class recursiveTimerService :Service() {
     fun createTimerTask(): TimerTask {
         return object : TimerTask() {
             override fun run() {
-                cur_millisecond-=1000
-                cur_second= (cur_millisecond/1000).toInt()
-                builder.setContentText("${"%02d".format(cur_second/3600)}:${"%02d".format(cur_second/60-cur_second/3600*60)}:${"%02d".format(cur_second%60)}(${plant_name})")
-                manager.notify(1,builder.build())
+                cur_accumulate_millisecond-=1000
+                recursive_second= (cur_accumulate_millisecond/1000).toInt()
+                if(recursive_second>0){
+                    builder.setContentText("${"%02d".format(recursive_second/3600)}:${"%02d".format(recursive_second/60-recursive_second/3600*60)}:${"%02d".format(recursive_second%60)}(${plant_name})")
+                    manager.notify(1,builder.build())
+                }else{
+                    add_Count()
+                    stopSelf()
+                }
             }
         }
     }
@@ -121,9 +142,29 @@ class recursiveTimerService :Service() {
         builder.setSmallIcon(R.drawable.ic_launcher_foreground) //없으면 에러 발생
         builder.setContentTitle("반복 타이머")
         builder.setAutoCancel(true)
-        builder.setContentText("${"%02d".format(cur_second/3600)}:${"%02d".format(cur_second/60-cur_second/3600*60)}:${"%02d".format(cur_second%60)}(${plant_name})")
+        builder.setContentText("${"%02d".format(recursive_second/3600)}:${"%02d".format(recursive_second/60-recursive_second/3600*60)}:${"%02d".format(recursive_second%60)}(${plant_name})")
         builder.setAutoCancel(true)
         builder.addAction(P_action1)
         builder.addAction(P_action2)
+    }
+    fun add_Count(){
+        Log.d(TAG,"add_count호출")
+        ApplicationClass.retrofitManager.plantWatering(plant_id,object :
+            RetrofitCallback {
+            override fun onError(t: Throwable) {
+                Log.d(TAG, "onError : " + t.localizedMessage)
+            }
+
+            override fun onSuccess(message: String, data: String) {
+                Log.d(TAG, "onSuccess : message -> $message")
+                Log.d(TAG, "onSuccess : data -> $data")
+
+            }
+
+            override fun onFailure(errorMessage: String, errorCode: Int) {
+                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                Log.d(TAG, "onFailure : errorCode -> $errorCode")
+            }
+        })
     }
 }

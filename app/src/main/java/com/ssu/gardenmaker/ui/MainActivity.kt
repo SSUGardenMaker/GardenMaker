@@ -270,4 +270,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })
     }
+    //만보기 실행시키기. 만보기 있는지 체크하는 API가 만들면 그때 추가하기.
+    private fun startPedometer(){
+
+    }
 }

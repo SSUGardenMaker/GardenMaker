@@ -15,10 +15,14 @@ import androidx.core.app.NotificationCompat
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
+import com.ssu.gardenmaker.ui.GardenActivity
 import java.util.*
 //plant/{plantId}/waterAcc API는 인자로 넣어준 시간을 그대롤 저장하는 것이 아니라, 기존에 저장되어 있는 timerCurrentMin과 합쳐준다. 그러니까 더해줄 값을 인자로 주기.
 //버그 1. 5번 클릭해야 그제야 실행되는 경우 발생. 1~4번은 바로 ondestroy()함수가 호출됨
 class accumulateTimerService: Service() {
+    init {
+        ApplicationClass.mSharedPreferences.edit().putBoolean("startTimer_FLAG",false).commit()
+    }
     val TAG="accumulateTimerService"
 
     //Plant API관련
@@ -91,6 +95,7 @@ class accumulateTimerService: Service() {
 
     override fun onDestroy() { Log.d(TAG,"onDestroy")
         timer.cancel()
+        ApplicationClass.mSharedPreferences.edit().putBoolean("startTimer_FLAG",true).commit()
         super.onDestroy()
     }
 

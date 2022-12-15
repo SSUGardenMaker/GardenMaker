@@ -26,7 +26,6 @@ class ExFeatureActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btn22).setOnClickListener {
             btn1.isEnabled=false
             var timer= Timer()
-            timer.schedule(counter(btn1,timer).createTimerTask(), 0, 100)
         }
         findViewById<Button>(R.id.btn33).setOnClickListener {
             startForegroundService(Intent(applicationContext, recursiveTimerService::class.java))
