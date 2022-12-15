@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -46,11 +47,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initPlantPlacing()
         initButtonFunction()
         initNavigationMenu()
 
         // 만보기 권한요청
-        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED) {
             var permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
             requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
         }
@@ -104,6 +106,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // 드로어 내 아이템 클릭 이벤트 처리하는 함수
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return false
+    }
+
+    // 식물 배치 기능 구현
+    private fun initPlantPlacing() {
+        // 식물 배치 공간에 애니메이션 설정
+        val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.rotate)
+        binding.mainLayout.plantPlacing1.startAnimation(animation)
+        binding.mainLayout.plantPlacing2.startAnimation(animation)
+        binding.mainLayout.plantPlacing3.startAnimation(animation)
+        binding.mainLayout.plantPlacing4.startAnimation(animation)
+        binding.mainLayout.plantPlacing5.startAnimation(animation)
+        binding.mainLayout.plantPlacing6.startAnimation(animation)
+        binding.mainLayout.plantPlacing7.startAnimation(animation)
+        binding.mainLayout.plantPlacing8.startAnimation(animation)
     }
 
     // 버튼 기능 구현
