@@ -43,7 +43,7 @@ class PlantDoneActivity : AppCompatActivity() {
 
                 plantDoneLists.addAll(data)
 
-                binding.gridView.adapter = GridAdapter(this@PlantDoneActivity, plantDoneLists)
+                binding.gvPlantDone.adapter = GridAdapter(this@PlantDoneActivity, plantDoneLists)
             }
 
             override fun onFailure(errorMessage: String, errorCode: Int) {
