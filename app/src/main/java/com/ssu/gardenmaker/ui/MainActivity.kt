@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import android.graphics.Rect
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -27,7 +29,10 @@ import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.plant.PlantCreateDialog
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitGardenCallback
+import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
+import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
+import com.ssu.gardenmaker.runnable.CalendarRunnable
 import com.ssu.gardenmaker.util.SharedPreferenceManager
 import kotlin.system.exitProcess
 
@@ -111,7 +116,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initButtonFunction() {
         // 캘린더 기능
         binding.mainLayout.mainLayoutToolbar.findViewById<ImageButton>(R.id.ib_toolbar_calendar).setOnClickListener {
-            CalendarDialog(this@MainActivity, applicationContext, layoutInflater).showDialog()
+            var gardenitemList=ArrayList<CalendarDialog.Garden_item>()
+
+            var handlerCount=0
+            var handler:Handler=object : Handler(){
+                override fun handleMessage(msg: Message) {
+                   if(msg.arg1==100)
+                       handlerCount++
+
+                    if(handlerCount>=ApplicationClass.categoryLists.size)
+                        CalendarDialog(this@MainActivity, applicationContext, layoutInflater,gardenitemList).showDialog()
+
+                }
+            }
+            for(i in 0..ApplicationClass.categoryLists.size-1){
+                var gardenData=ApplicationClass.categoryLists.get(i)
+                gardenitemList.add(CalendarDialog.Garden_item(gardenData.id,gardenData.name,ArrayList<PlantDataContent>()))
+
+                var Runnable=CalendarRunnable(gardenData.id,gardenitemList.get(i).plants,handler)
+                var thread=Thread(Runnable)
+                thread.start()
+            }
         }
 
         // 식물 추가 다이얼로그

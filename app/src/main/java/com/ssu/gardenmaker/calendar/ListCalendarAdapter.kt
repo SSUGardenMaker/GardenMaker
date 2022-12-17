@@ -8,9 +8,9 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.ssu.gardenmaker.R
 
-class ListCalendarAdapter(context: Context, itemList: ArrayList<ListCalendarDB>) : BaseAdapter() {
+class ListCalendarAdapter(context: Context, itemList: ArrayList<calendarAdapterList>) : BaseAdapter() {
 
-    class ListCalendarDB(var name: String, var category: String, var function: String, var start_day: Int, var end_day: Int)
+    class calendarAdapterList(var name: String, var category: String, var function: String, var start_day: Int, var end_day: Int)
 
     private var mContext = context
     private var mItemlist = itemList
@@ -41,5 +41,9 @@ class ListCalendarAdapter(context: Context, itemList: ArrayList<ListCalendarDB>)
         view?.findViewById<TextView>(R.id.list_cal_endday)?.text=StringBuffer( mItemlist[p0].end_day.toString()).insert(4,".").insert(7,".").toString()
 
         return view
+    }
+    fun notifyChanged(itemList: ArrayList<calendarAdapterList>){
+        mItemlist=itemList
+        notifyDataSetChanged()
     }
 }
