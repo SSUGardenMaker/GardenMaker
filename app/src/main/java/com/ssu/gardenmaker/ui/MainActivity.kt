@@ -10,6 +10,8 @@ import android.os.Message
 import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.View
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -43,6 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var binding: ActivityMainBinding
     private lateinit var drawerLayout : DrawerLayout
     private lateinit var navigationView: NavigationView
+    private lateinit var animation : Animation
     private val TAG = "MainActivity"
     private var backKeyPressedTime: Long = 0
 
@@ -53,12 +56,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.rotate)
+
         initPlantPlacing()
         initButtonFunction()
         initNavigationMenu()
 
         // 만보기 권한요청
-        if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
             var permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
             requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
         }
@@ -139,6 +144,83 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 var Runnable=CalendarRunnable(gardenData.id,gardenitemList.get(i).plants,handler)
                 var thread=Thread(Runnable)
                 thread.start()
+            }
+        }
+
+        // 식물 배치 ON/OFF
+        binding.mainLayout.btnActivatePlacing.setOnClickListener {
+            if (SharedPreferenceManager().getString("plantPlacing").equals("OFF")) {
+                SharedPreferenceManager().setString("plantPlacing", "ON")
+                val userEmail = SharedPreferenceManager().getString("email")
+                if (SharedPreferenceManager().getInt(userEmail+"Place1") == -1) {
+                    binding.mainLayout.plantPlacing1.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing1.startAnimation(animation)
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place2") == -1) {
+                    binding.mainLayout.plantPlacing2.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing2.startAnimation(animation)
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place3") == -1) {
+                    binding.mainLayout.plantPlacing3.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing3.startAnimation(animation)
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place4") == -1) {
+                    binding.mainLayout.plantPlacing4.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing4.startAnimation(animation)
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place5") == -1) {
+                    binding.mainLayout.plantPlacing5.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing5.startAnimation(animation)
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place6") == -1) {
+                    binding.mainLayout.plantPlacing6.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing6.startAnimation(animation)
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place7") == -1) {
+                    binding.mainLayout.plantPlacing7.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing7.startAnimation(animation)
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place8") == -1) {
+                    binding.mainLayout.plantPlacing8.visibility = View.VISIBLE
+                    binding.mainLayout.plantPlacing8.startAnimation(animation)
+
+                }
+            }
+            else {
+                SharedPreferenceManager().setString("plantPlacing", "OFF")
+                val userEmail = SharedPreferenceManager().getString("email")
+                if (SharedPreferenceManager().getInt(userEmail+"Place1") == -1) {
+                    binding.mainLayout.plantPlacing1.clearAnimation()
+                    binding.mainLayout.plantPlacing1.visibility = View.INVISIBLE
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place2") == -1) {
+                    binding.mainLayout.plantPlacing2.clearAnimation()
+                    binding.mainLayout.plantPlacing2.visibility = View.INVISIBLE
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place3") == -1) {
+                    binding.mainLayout.plantPlacing3.clearAnimation()
+                    binding.mainLayout.plantPlacing3.visibility = View.INVISIBLE
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place4") == -1) {
+                    binding.mainLayout.plantPlacing4.clearAnimation()
+                    binding.mainLayout.plantPlacing4.visibility = View.INVISIBLE
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place5") == -1) {
+                    binding.mainLayout.plantPlacing5.clearAnimation()
+                    binding.mainLayout.plantPlacing5.visibility = View.INVISIBLE
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place6") == -1) {
+                    binding.mainLayout.plantPlacing6.clearAnimation()
+                    binding.mainLayout.plantPlacing6.visibility = View.INVISIBLE
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place7") == -1) {
+                    binding.mainLayout.plantPlacing7.clearAnimation()
+                    binding.mainLayout.plantPlacing7.visibility = View.INVISIBLE
+                }
+                if (SharedPreferenceManager().getInt(userEmail+"Place8") == -1) {
+                    binding.mainLayout.plantPlacing8.clearAnimation()
+                    binding.mainLayout.plantPlacing8.visibility = View.INVISIBLE
+                }
             }
         }
 
@@ -273,7 +355,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onSuccess(message: String, data: List<GardenDataContent>) {
                 Log.d(TAG, "onSuccess : message -> $message")
                 Log.d(TAG, "onSuccess : data -> $data")
-                Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
 
                 ApplicationClass.categoryLists.addAll(data)
             }
@@ -285,55 +366,80 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         })
     }
+
     //만보기 실행시키기. 만보기 있는지 체크하는 API가 만들면 그때 추가하기.
     private fun startPedometer(){
 
     }
+
     // 식물 배치 기능 구현
     private fun initPlantPlacing() {
         // 기존에 식물 배치한 대로 초기 설정 + 없다면 식물 배치 공간에 애니메이션 설정
-        val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.rotate)
-
+        SharedPreferenceManager().setString("plantPlacing", "OFF")
         val userEmail = SharedPreferenceManager().getString("email")
-        if (SharedPreferenceManager().getInt(userEmail+"Place1") != -1)
-            binding.mainLayout.plantPlacing1.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place1"))
-        else
-            binding.mainLayout.plantPlacing1.startAnimation(animation)
+        if (SharedPreferenceManager().getInt(userEmail+"Place1") != -1) {
+            binding.mainLayout.plantPlacing1.visibility = View.VISIBLE
+            binding.mainLayout.plantPlacing1.setImageResource(SharedPreferenceManager().getInt(userEmail + "Place1"))
+        }
+        else {
+            binding.mainLayout.plantPlacing1.visibility = View.INVISIBLE
+        }
 
-        if (SharedPreferenceManager().getInt(userEmail+"Place2") != -1)
-            binding.mainLayout.plantPlacing2.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place2"))
-        else
-            binding.mainLayout.plantPlacing2.startAnimation(animation)
+        if (SharedPreferenceManager().getInt(userEmail+"Place2") != -1) {
+            binding.mainLayout.plantPlacing2.visibility = View.VISIBLE
+            binding.mainLayout.plantPlacing2.setImageResource(SharedPreferenceManager().getInt(userEmail + "Place2"))
+        }
+        else {
+            binding.mainLayout.plantPlacing2.visibility = View.INVISIBLE
+        }
 
-        if (SharedPreferenceManager().getInt(userEmail+"Place3") != -1)
+        if (SharedPreferenceManager().getInt(userEmail+"Place3") != -1) {
+            binding.mainLayout.plantPlacing3.visibility = View.VISIBLE
             binding.mainLayout.plantPlacing3.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place3"))
-        else
-            binding.mainLayout.plantPlacing3.startAnimation(animation)
+        }
+        else {
+            binding.mainLayout.plantPlacing3.visibility = View.INVISIBLE
+        }
 
-        if (SharedPreferenceManager().getInt(userEmail+"Place4") != -1)
+        if (SharedPreferenceManager().getInt(userEmail+"Place4") != -1) {
+            binding.mainLayout.plantPlacing4.visibility = View.VISIBLE
             binding.mainLayout.plantPlacing4.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place4"))
-        else
-            binding.mainLayout.plantPlacing4.startAnimation(animation)
+        }
+        else {
+            binding.mainLayout.plantPlacing4.visibility = View.INVISIBLE
+        }
 
-        if (SharedPreferenceManager().getInt(userEmail+"Place5") != -1)
+        if (SharedPreferenceManager().getInt(userEmail+"Place5") != -1) {
+            binding.mainLayout.plantPlacing5.visibility = View.VISIBLE
             binding.mainLayout.plantPlacing5.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place5"))
-        else
-            binding.mainLayout.plantPlacing5.startAnimation(animation)
+        }
+        else {
+            binding.mainLayout.plantPlacing5.visibility = View.INVISIBLE
+        }
 
-        if (SharedPreferenceManager().getInt(userEmail+"Place6") != -1)
+        if (SharedPreferenceManager().getInt(userEmail+"Place6") != -1) {
+            binding.mainLayout.plantPlacing6.visibility = View.VISIBLE
             binding.mainLayout.plantPlacing6.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place6"))
-        else
-            binding.mainLayout.plantPlacing6.startAnimation(animation)
+        }
+        else {
+            binding.mainLayout.plantPlacing6.visibility = View.INVISIBLE
+        }
 
-        if (SharedPreferenceManager().getInt(userEmail+"Place7") != -1)
+        if (SharedPreferenceManager().getInt(userEmail+"Place7") != -1) {
+            binding.mainLayout.plantPlacing7.visibility = View.VISIBLE
             binding.mainLayout.plantPlacing7.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place7"))
-        else
-            binding.mainLayout.plantPlacing7.startAnimation(animation)
+        }
+        else {
+            binding.mainLayout.plantPlacing7.visibility = View.INVISIBLE
+        }
 
-        if (SharedPreferenceManager().getInt(userEmail+"Place8") != -1)
+        if (SharedPreferenceManager().getInt(userEmail+"Place8") != -1) {
+            binding.mainLayout.plantPlacing8.visibility = View.VISIBLE
             binding.mainLayout.plantPlacing8.setImageResource(SharedPreferenceManager().getInt(userEmail+"Place8"))
-        else
-            binding.mainLayout.plantPlacing8.startAnimation(animation)
+        }
+        else {
+            binding.mainLayout.plantPlacing8.visibility = View.INVISIBLE
+        }
 
         getPlantDoneList()
 
@@ -434,6 +540,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
         }
     }
+
     // 꽃피운 식물들 리스트 가져오기
     private fun getPlantDoneList() {
         ApplicationClass.retrofitManager.plantDoneCheck(object : RetrofitPlantCallback {

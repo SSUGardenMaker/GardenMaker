@@ -23,7 +23,6 @@ import com.ssu.gardenmaker.features.recursiveTimer.recursiveTimerService
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
-
 import java.util.*
 import kotlin.math.abs
 
@@ -34,7 +33,6 @@ class GardenActivity : AppCompatActivity() {
     private lateinit var gardenName: String
     private var gardenID: Int = -1
 
-    private var currentMin: Int = 1
     private var currentPage: Int = 0
     private val sliderItems: MutableList<Int> = mutableListOf()
     private val plantLists: MutableList<PlantDataContent> = mutableListOf()
@@ -91,11 +89,11 @@ class GardenActivity : AppCompatActivity() {
                     //count_featureTimer가 counter기능을 쓰지 않으면 null이고, 맨처음 가든 액티비티 들어올떄도 null이다.
                 }
 
-                binding.tvCounterLimitText.visibility=View.GONE
+                binding.tvCounterLimitText.visibility= GONE
                 currentPage = position
                 setPlantData(currentPage)
 
-                if(plantLists[currentPage].plantType=="COUNTER"){
+                if (plantLists.size != 0 && plantLists[currentPage].plantType=="COUNTER") {
                     var last_click_time:Long=ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)
                     if(last_click_time+300000>System.currentTimeMillis()) {
                        count_featureTimer=Timer()
@@ -115,7 +113,6 @@ class GardenActivity : AppCompatActivity() {
             override fun onSuccess(message: String, data: List<PlantDataContent>) {
                 Log.d(TAG, "onSuccess : message -> $message")
                 Log.d(TAG, "onSuccess : data -> $data")
-                Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
                 for (i in data.indices) {
                     if (!data[i].isComplete)
@@ -184,8 +181,7 @@ class GardenActivity : AppCompatActivity() {
                     Toast.makeText(applicationContext,"기다려야할 시간이 남았습니다.",Toast.LENGTH_SHORT).show()
                 }else{
                     ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()).commit()
-                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id,object :
-                        RetrofitCallback {
+                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id,object : RetrofitCallback {
                         override fun onError(t: Throwable) {
                             Log.d(TAG, "onError : " + t.localizedMessage)
                         }
@@ -193,12 +189,14 @@ class GardenActivity : AppCompatActivity() {
                         override fun onSuccess(message: String, data: String) {
                             Log.d(TAG, "onSuccess : message -> $message")
                             Log.d(TAG, "onSuccess : data -> $data")
-
                         }
 
                         override fun onFailure(errorMessage: String, errorCode: Int) {
                             Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
                             Log.d(TAG, "onFailure : errorCode -> $errorCode")
+
+                            plantLists[currentPage].counter += 1
+                            setPlantData(currentPage)
                         }
                     })
                     Log.d(TAG, "카운터 값 증가:${ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)}")
@@ -215,7 +213,6 @@ class GardenActivity : AppCompatActivity() {
                     override fun onSuccess(message: String, data: String) {
                         Log.d(TAG, "onSuccess : message -> $message")
                         Log.d(TAG, "onSuccess : data -> $data")
-                        Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
                         plantLists[currentPage].counter += 1
                         setPlantData(currentPage)
@@ -315,8 +312,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantNameValue.text = plantLists[position].name
                     binding.tvPlantTypeValue.text = "체크박스"
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantStartDateValue.text = plantLists[position].context1
+                    binding.tvPlantEndDateValue.text = plantLists[position].context2
 
                     binding.tvPlantName.visibility = VISIBLE
                     binding.tvPlantNameValue.visibility = VISIBLE
@@ -352,8 +349,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantNameValue.text = plantLists[position].name
                     binding.tvPlantTypeValue.text = "만보기"
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantStartDateValue.text = plantLists[position].context1
+                    binding.tvPlantEndDateValue.text = plantLists[position].context2
                     binding.tvPlantPedometerGoalStepValue.text = plantLists[position].walkStep.toString() + " 걸음"
                     binding.tvPlantPedometerGoalCountValue.text =  plantLists[position].counter.toString() + " / " + plantLists[position].counterGoal.toString() + " 회"
 
@@ -391,8 +388,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantNameValue.text = plantLists[position].name
                     binding.tvPlantTypeValue.text = "횟수"
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantStartDateValue.text = plantLists[position].context1
+                    binding.tvPlantEndDateValue.text = plantLists[position].context2
                     binding.tvPlantCounterValue.text = plantLists[position].counter.toString() + " / " + plantLists[position].counterGoal.toString() + " 회"
 
                     binding.tvPlantName.visibility = VISIBLE
@@ -429,8 +426,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantNameValue.text = plantLists[position].name
                     binding.tvPlantTypeValue.text = "누적 타이머"
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantStartDateValue.text = plantLists[position].context1
+                    binding.tvPlantEndDateValue.text = plantLists[position].context2
                     binding.tvPlantTimerAccumulateValue.text = plantLists[position].timerCurrentMin.toString() + " / " + plantLists[position].timerTotalMin.toString() + " 분"
 
                     binding.tvPlantName.visibility = VISIBLE
@@ -467,8 +464,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantNameValue.text = plantLists[position].name
                     binding.tvPlantTypeValue.text = "반복 타이머"
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
-                    binding.tvPlantStartDateValue.text = plantLists[position].startDate
-                    binding.tvPlantEndDateValue.text = plantLists[position].endDate
+                    binding.tvPlantStartDateValue.text = plantLists[position].context1
+                    binding.tvPlantEndDateValue.text = plantLists[position].context2
                     binding.tvPlantTimerRecursiveValue.text = plantLists[position].timerRecurMin.toString() + " 분"
                     binding.tvPlantTimerRecursiveCountValue.text = plantLists[position].counter.toString() + " / " + plantLists[position].counterGoal.toString() + " 회"
 

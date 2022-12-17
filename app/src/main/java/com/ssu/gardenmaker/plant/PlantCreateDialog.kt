@@ -15,6 +15,7 @@ import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 import com.ssu.gardenmaker.databinding.DialogCreateplantBinding
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
+import com.ssu.gardenmaker.util.SharedPreferenceManager
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -156,7 +157,30 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                         })
                 }
                 else if (checkbox2.isChecked) {
-                    // 여기에 전체 화단 식물 중 만보기 식물이 존재하는지 확인하는 코드 추가하기
+                    // 만보기 식물이 존재하는지 확인
+                    ApplicationClass.retrofitManager.pedometerCheck(object : RetrofitCallback {
+                        override fun onError(t: Throwable) {
+                            Log.d(TAG, "onError : " + t.localizedMessage)
+                            SharedPreferenceManager().setString("pedometerHave", "YES")
+                        }
+
+                        override fun onSuccess(message: String, data: String) {
+                            Log.d(TAG, "onSuccess : message -> $message")
+                            Log.d(TAG, "onSuccess : data -> $data")
+                        }
+
+                        override fun onFailure(errorMessage: String, errorCode: Int) {
+                            Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                            Log.d(TAG, "onFailure : errorCode -> $errorCode")
+
+                            if (errorMessage == "존재하는 만보계 식물이 없습니다.")
+                                SharedPreferenceManager().setString("pedometerHave", "NO")
+                        }
+                    })
+
+                    if (SharedPreferenceManager().getString("pedometerHave").equals("YES")) {
+                        //Toast.makeText(mContext, "이미 만보기 식물이 존재합니다", Toast.LENGTH_SHORT).show()
+                    }
                     if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
                         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
@@ -308,7 +332,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             dialog_goalparameter.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
             dialog_goalparameter.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog_goalparameter.findViewById<Button>(R.id.ok_btn_dialog_parameter).setOnClickListener {
-                if (v.text.toString().trim().isNotEmpty() && v.text.toString().trim() != "0")
+                if (v.text.toString().trim().isNotEmpty() && v.text.toString().trim() != "0" && v.text.toString().trim() != "")
                     v.text = DecimalFormat("###,###").format(dialog_goalparameter.findViewById<EditText>(R.id.et_pedometer_dialog).text.toString().trim().toInt())+" 걸음"
                 else
                     v.text="-"
@@ -324,7 +348,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
             dialog_goalcount.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog_goalcount.findViewById<Button>(R.id.ok_btn_dialog_parameter).setOnClickListener {
                 val et=dialog_goalcount.findViewById<EditText>(R.id.et_goalcount_dialog)
-                if (et.text.toString().trim().isNotEmpty() && et.text.toString().trim() != "0")
+                if (et.text.toString().trim().isNotEmpty() && et.text.toString().trim() != "0" && et.text.toString().trim() != "")
                     v.text = et.text.toString().trim() + " 회"
                 else
                     v.text="-"
