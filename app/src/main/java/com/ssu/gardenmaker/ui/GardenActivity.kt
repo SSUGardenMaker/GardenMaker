@@ -15,6 +15,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
+import com.ssu.gardenmaker.adapter.SliderAdapter
 import com.ssu.gardenmaker.databinding.ActivityGardenBinding
 import com.ssu.gardenmaker.features.accumulateTimer.accumulateTimerService
 import com.ssu.gardenmaker.features.counter.counter
@@ -22,7 +23,7 @@ import com.ssu.gardenmaker.features.recursiveTimer.recursiveTimerService
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
-import com.ssu.gardenmaker.slider.SliderAdapter
+
 import java.util.*
 import kotlin.math.abs
 
@@ -116,7 +117,10 @@ class GardenActivity : AppCompatActivity() {
                 Log.d(TAG, "onSuccess : data -> $data")
                 Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
-                plantLists.addAll(data)
+                for (i in data.indices) {
+                    if (!data[i].isComplete)
+                        plantLists.add(data[i])
+                }
 
                 if (plantLists.size != 0) {
                     for (i in plantLists.indices) {
