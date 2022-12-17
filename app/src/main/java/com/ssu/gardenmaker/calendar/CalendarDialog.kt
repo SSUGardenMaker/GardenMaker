@@ -95,7 +95,7 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 arraylist.clear()
                 for(i in gardenitemList.get(p2).plants){
-                    arraylist.add(ListCalendarAdapter.calendarAdapterList(i.name,gardenitemList.get(p2).garden_name,i.plantType,i.startDate.replace("-","").toInt(),i.endDate.replace("-","").toInt()))
+                    arraylist.add(ListCalendarAdapter.calendarAdapterList(i.name,gardenitemList.get(p2).garden_name,categorySwitch(i.plantType),i.startDate.replace("-","").toInt(),i.endDate.replace("-","").toInt()))
                 }
                 if(caldayClick!=null){
                     var copyArraylist=ArrayList<ListCalendarAdapter.calendarAdapterList>()
@@ -136,7 +136,16 @@ class CalendarDialog(context: Context, aContext: Context, layoutInflater: Layout
         }
     }
 
-
+    fun categorySwitch(str:String):String{
+        when(str){
+            "ACCUMULATE_TIMER"-> return "누적 타이머"
+            "CHECKBOX"-> return "체크박스"
+            "COUNTER"-> return "횟수"
+            "RECURSIVE_TIMER" -> return "반복 타이머"
+            "WALK_COUNTER" -> return "만보계"
+        }
+        return ""
+    }
 
     class Garden_item(var garden_id:Int,var garden_name:String, var plants:ArrayList<PlantDataContent>)
 }
