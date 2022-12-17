@@ -41,9 +41,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
     private val checkbox4: CheckBox by lazy { binding.CheckboxTimerAccumulate }
     private val checkbox5: CheckBox by lazy { binding.CheckboxTimerCount }
 
-    // 체크박스 기능 뷰
-
-
     // 만보기 기능 뷰
     private val tvGoalStepParameter: TextView by lazy { binding.GoalStepPedometerTvDialog }
     private val btnGoalParameter: Button by lazy { binding.GoalStepPedometerBtnDialog }
