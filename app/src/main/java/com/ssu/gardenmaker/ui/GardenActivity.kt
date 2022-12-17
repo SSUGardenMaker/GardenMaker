@@ -1,6 +1,7 @@
 package com.ssu.gardenmaker.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -40,9 +41,10 @@ class GardenActivity : AppCompatActivity() {
     private val plantLists: MutableList<PlantDataContent> = mutableListOf()
 
     private lateinit var count_featureTimer:Timer
+    lateinit var serverConext:Context
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        serverConext=this
         binding = ActivityGardenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -128,6 +130,10 @@ class GardenActivity : AppCompatActivity() {
                     }
                     binding.vpImageSlider.adapter?.notifyDataSetChanged()
                     setPlantData(0)
+
+                    if(intent.hasExtra("CURRENT_PAGE")){
+                        binding.vpImageSlider.setCurrentItem(intent.getIntExtra("CURRENT_PAGE", 0),false)
+                    }
                 }
                 else {
                     Toast.makeText(this@GardenActivity, "화단에 꽃이 비어 있어요", Toast.LENGTH_SHORT).show()
@@ -194,6 +200,14 @@ class GardenActivity : AppCompatActivity() {
                         override fun onSuccess(message: String, data: String) {
                             Log.d(TAG, "onSuccess : message -> $message")
                             Log.d(TAG, "onSuccess : data -> $data")
+
+                            var intent=Intent(serverConext,GardenActivity::class.java)
+                            intent.putExtra("NAME",gardenName)
+                            intent.putExtra("ID",gardenID)
+                            intent.putExtra("CURRENT_PAGE",binding.vpImageSlider.currentItem)
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                            startActivity(intent)
+                            finish()
                         }
 
                         override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -204,7 +218,6 @@ class GardenActivity : AppCompatActivity() {
 
                     count_featureTimer=Timer()
                     count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
-
                 }
             }
             else {
