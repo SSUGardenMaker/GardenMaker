@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GardenMaker</string>
+    <string name="dialog_non_time">-</string>
 </resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginLeft="15dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ImageView
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:id="@+id/list_cal_imageview"
+        android:layout_marginRight="8sp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginTop="8sp"
+        android:background="@drawable/watering_pot"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="식물 이름 "
+        android:id="@+id/list_cal_name"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="10sp"
+        app:layout_constraintTop_toTopOf="@id/list_cal_imageview"
+        app:layout_constraintLeft_toRightOf="@id/list_cal_imageview"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_cal_category"
+        android:text="(카테고리 )"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/list_cal_name"
+        app:layout_constraintTop_toTopOf="@id/list_cal_name"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=", 기능"
+        android:id="@+id/list_cal_function"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@id/list_cal_category"
+        app:layout_constraintTop_toTopOf="@id/list_cal_name"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2022.11.10"
+        android:id="@+id/list_cal_startday"
+        android:textSize="12.5sp"
+        android:layout_marginTop="1.5sp"
+        app:layout_constraintLeft_toLeftOf="@id/list_cal_name"
+        app:layout_constraintTop_toBottomOf="@id/list_cal_name"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_cal_wavve"
+        android:text=" ~ "
+        android:textSize="12.5sp"
+        app:layout_constraintTop_toTopOf="@id/list_cal_startday"
+        app:layout_constraintLeft_toRightOf="@id/list_cal_startday"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2022.11.10"
+        android:id="@+id/list_cal_endday"
+        android:textSize="12.5sp"
+        app:layout_constraintLeft_toRightOf="@id/list_cal_wavve"
+        app:layout_constraintBottom_toBottomOf="@id/list_cal_startday"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

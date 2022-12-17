@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <CheckBox
+        android:layout_width="25sp"
+        android:layout_height="25sp"
+        android:id="@+id/dialog_checkbox_list_checkbox"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_checkbox_list_title_text"
+        android:text="아침 식사하기"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/gmarket_sans_regular"
+        android:layout_marginStart="20dp"
+        app:layout_constraintLeft_toRightOf="@id/dialog_checkbox_list_checkbox"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dialog_checkbox_list_sub_text"
+        android:text="09월 14일"
+        android:textSize="14sp"
+        android:fontFamily="@font/gmarket_sans_regular"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/dialog_checkbox_list_title_text"
+        app:layout_constraintLeft_toLeftOf="@id/dialog_checkbox_list_title_text"/>
+
+    <ImageButton
+        android:id="@+id/btn_checkbox_delete"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="10dp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/ic_delete"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
