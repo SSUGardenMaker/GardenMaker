@@ -164,6 +164,7 @@ class GardenActivity : AppCompatActivity() {
                     if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
                         Toast.makeText(this@GardenActivity, "식물이 완성되었습니다", Toast.LENGTH_SHORT).show()
 
+                        ApplicationClass.plantDoneLists.add(plantLists[currentPage])
                         plantLists.removeAt(currentPage)
                         sliderItems.removeAt(currentPage)
                         binding.vpImageSlider.adapter?.notifyDataSetChanged()

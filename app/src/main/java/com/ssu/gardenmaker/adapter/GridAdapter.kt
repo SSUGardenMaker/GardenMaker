@@ -7,11 +7,10 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.R
 
-import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
-
-class GridAdapter(var context: Context, var itemList: MutableList<PlantDataContent>) : BaseAdapter() {
+class GridAdapter(var context: Context) : BaseAdapter() {
 
     private class PlantDoneHolder {
         var plantImage : ImageView? = null
@@ -22,11 +21,11 @@ class GridAdapter(var context: Context, var itemList: MutableList<PlantDataConte
     }
 
     override fun getCount(): Int {
-        return itemList.size
+        return ApplicationClass.plantDoneLists.size
     }
 
     override fun getItem(position: Int): Any {
-        return itemList[position]
+        return ApplicationClass.plantDoneLists[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -52,7 +51,7 @@ class GridAdapter(var context: Context, var itemList: MutableList<PlantDataConte
             view = convertView
         }
 
-        when (itemList[position].plantKind) {
+        when (ApplicationClass.plantDoneLists[position].plantKind) {
             1 -> viewHolder.plantImage?.setImageResource(R.drawable.plant1)
             2 -> viewHolder.plantImage?.setImageResource(R.drawable.plant2)
             3 -> viewHolder.plantImage?.setImageResource(R.drawable.plant3)
@@ -92,9 +91,9 @@ class GridAdapter(var context: Context, var itemList: MutableList<PlantDataConte
             37 -> viewHolder.plantImage?.setImageResource(R.drawable.plant37)
         }
 
-        viewHolder.plantName?.text = itemList[position].name
+        viewHolder.plantName?.text = ApplicationClass.plantDoneLists[position].name
 
-        when (itemList[position].plantType) {
+        when (ApplicationClass.plantDoneLists[position].plantType) {
             "CHECKBOX" -> viewHolder.plantType?.text = "체크박스"
             "WALK_COUNTER" -> viewHolder.plantType?.text = "만보기"
             "COUNTER" -> viewHolder.plantType?.text = "횟수"
@@ -102,8 +101,8 @@ class GridAdapter(var context: Context, var itemList: MutableList<PlantDataConte
             "RECURSIVE_TIMER" -> viewHolder.plantType?.text = "반복 타이머"
         }
 
-        viewHolder.plantStartDate?.text = itemList[position].startDate
-        viewHolder.plantEndDate?.text = itemList[position].endDate
+        viewHolder.plantStartDate?.text = ApplicationClass.plantDoneLists[position].startDate
+        viewHolder.plantEndDate?.text = ApplicationClass.plantDoneLists[position].endDate
 
         return view
     }

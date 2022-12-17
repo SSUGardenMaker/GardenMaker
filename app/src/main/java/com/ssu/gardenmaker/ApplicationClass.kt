@@ -10,6 +10,7 @@ import com.ssu.gardenmaker.retrofit.RetrofitAPI
 import com.ssu.gardenmaker.retrofit.RetrofitClient
 import com.ssu.gardenmaker.retrofit.RetrofitManager
 import com.ssu.gardenmaker.retrofit.garden.GardenDataContent
+import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
 
 class ApplicationClass : Application() {
 
@@ -22,6 +23,7 @@ class ApplicationClass : Application() {
         lateinit var retrofitManager: RetrofitManager
         lateinit var mSharedPreferences: SharedPreferences
         lateinit var categoryLists : MutableList<GardenDataContent>
+        lateinit var plantDoneLists : MutableList<PlantDataContent>
     }
 
     override fun onCreate() {
@@ -38,5 +40,6 @@ class ApplicationClass : Application() {
 
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
         categoryLists = mutableListOf()
+        plantDoneLists = mutableListOf()
     }
 }
