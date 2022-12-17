@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ssu.gardenmaker">
-
-    <!-- 인터넷 사용 권한 --> <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 만보계 센서 권한 --> <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <!-- ForegroundService 등록 --> <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- 인터넷 사용 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 만보계 센서 권한 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- ForegroundService 등록 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".ApplicationClass"
@@ -33,7 +33,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".ui.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.PlantBookActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.PlantDoneActivity"
             android:exported="false" />
         <activity
             android:name=".ui.GardenActivity"

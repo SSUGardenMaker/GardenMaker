@@ -10,6 +10,7 @@ import android.os.Message
 import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -51,11 +52,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        initPlantPlacing()
         initButtonFunction()
         initNavigationMenu()
 
         // 만보기 권한요청
-        if (ContextCompat.checkSelfPermission(this,android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION)== PackageManager.PERMISSION_DENIED) {
             var permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
             requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
         }
@@ -111,6 +113,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return false
     }
 
+    // 식물 배치 기능 구현
+    private fun initPlantPlacing() {
+        // 식물 배치 공간에 애니메이션 설정
+        val animation = AnimationUtils.loadAnimation(this@MainActivity, R.anim.rotate)
+        binding.mainLayout.plantPlacing1.startAnimation(animation)
+        binding.mainLayout.plantPlacing2.startAnimation(animation)
+        binding.mainLayout.plantPlacing3.startAnimation(animation)
+        binding.mainLayout.plantPlacing4.startAnimation(animation)
+        binding.mainLayout.plantPlacing5.startAnimation(animation)
+        binding.mainLayout.plantPlacing6.startAnimation(animation)
+        binding.mainLayout.plantPlacing7.startAnimation(animation)
+        binding.mainLayout.plantPlacing8.startAnimation(animation)
+    }
+
     // 버튼 기능 구현
     @RequiresApi(VERSION_CODES.P)
     private fun initButtonFunction() {
@@ -147,7 +163,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         // 꽃피운 식물들
         binding.categoryDoneNext.setOnClickListener {
-
+            startActivity(Intent(this@MainActivity, PlantDoneActivity::class.java))
         }
 
         // 식물 도감
@@ -155,26 +171,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             startActivity(Intent(this@MainActivity, PlantBookActivity::class.java))
         }
 
-        // 환경설정
-        binding.navigationSettingNext.setOnClickListener {
-
+        // 비밀번호 변경
+        binding.navigationChangePasswordNext.setOnClickListener {
+            startActivity(Intent(this@MainActivity, ChangePasswordActivity::class.java))
         }
 
         // 로그아웃
         binding.navigationLogoutNext.setOnClickListener {
-//            ApplicationClass.retrofitManager.deleteToken(object : RetrofitCallback {
-//                override fun onError(t: Throwable) {
-//                }
-//
-//                override fun onSuccess(message: String, data: String) {
-//                    Log.d(TAG, message + data)
-//                }
-//
-//                override fun onFailure(errorMessage: String, errorCode: Int) {
-//                }
-//
-//            })
-
             SharedPreferenceManager().deleteData("email")
             SharedPreferenceManager().deleteData("password")
             SharedPreferenceManager().deleteData("accessToken")

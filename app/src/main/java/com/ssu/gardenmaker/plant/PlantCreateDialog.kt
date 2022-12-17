@@ -17,6 +17,8 @@ import com.ssu.gardenmaker.databinding.DialogCreateplantBinding
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 // Container가 아닌 check박스에 이벤트 주기
 /*
@@ -74,13 +76,12 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         dialog.show()
 
         valListener()
-        plantFuction()
+        plantFunction()
     }
 
     private fun valListener() {
         // 시작 날짜, 종료 날짜 리스너(DatePicker Spinner모드)
-        val listener_day = View.OnClickListener { v->
-            v as Button
+        val listener_day = View.OnClickListener { v-> v as Button
             //i는 년도, i2는 (월-1), i3은 일을 표기한다.
             val datePickerDialog = DatePickerDialog(mContext, android.R.style.Theme_Holo_Light_Dialog_MinWidth, DatePickerDialog.OnDateSetListener { datePicker, i, i2, i3 ->
                     if (i2 + 1 < 10) {
@@ -123,12 +124,20 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                         categoryId = ApplicationClass.categoryLists[i].id
                 }
 
-                val format = SimpleDateFormat("yyyyMMdd")
-                val startDate = format.parse(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
-                val endDate = format.parse(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                val dateFormat = SimpleDateFormat("yyyyMMdd")
+                val todayDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+                val startDate = dateFormat.parse(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                val endDate = dateFormat.parse(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
                 val days : Int = ((endDate!!.time - startDate!!.time) / (1000 * 24 * 60 * 60)).toInt() + 1
 
-                if (checkbox1.isChecked) {
+                if (Integer.parseInt(todayDate) > Integer.parseInt(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))) {
+                    Toast.makeText(mContext, "시작 날짜는 오늘 날짜보다 빠를 수 없습니다", Toast.LENGTH_SHORT).show()
+                }
+                else if (Integer.parseInt(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
+                    > Integer.parseInt(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))) {
+                    Toast.makeText(mContext, "종료 날짜는 시작 날짜보다 빠를 수 없습니다", Toast.LENGTH_SHORT).show()
+                }
+                else if (checkbox1.isChecked) {
                     ApplicationClass.retrofitManager.plantCreate(categoryId, "CHECKBOX", binding.PlainNameEdtDialog.text.toString(), days,
                         0, 0, 0, 0, 0, 0, object : RetrofitCallback {
                             override fun onError(t: Throwable) {
@@ -150,6 +159,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                         })
                 }
                 else if (checkbox2.isChecked) {
+                    // 여기에 전체 화단 식물 중 만보기 식물이 존재하는지 확인하는 코드 추가하기
                     if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
                         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
@@ -293,10 +303,9 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         }
     }
 
-    private fun plantFuction() {
+    private fun plantFunction() {
         // 만보기
-        btnGoalParameter.setOnClickListener { v->
-            v as Button
+        btnGoalParameter.setOnClickListener { v-> v as Button
             val dialog_goalparameter=Dialog(mContext)
             dialog_goalparameter.setContentView(R.layout.dialog_pedometer)
             dialog_goalparameter.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
@@ -332,8 +341,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
         btnGoalCountCounter.setOnClickListener(listener_count)
 
         // 누적 타이머
-        btnGoalTimerAccumulate.setOnClickListener { v->
-            v as Button
+        btnGoalTimerAccumulate.setOnClickListener { v-> v as Button
             val dialog_accumulatetime=Dialog(mContext)
             dialog_accumulatetime.setContentView(R.layout.dialog_accumulatetime)
             dialog_accumulatetime.window!!.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
@@ -356,8 +364,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
 
         // 반복 타이머
         // 예외: 반복 시간을 spinner가 아닌, text로 입력하고 바로 확인을 누르면 적용이 되지 않는다.
-        btnGoalTimerRecursive.setOnClickListener { v->
-            v as Button
+        btnGoalTimerRecursive.setOnClickListener { v-> v as Button
             val timepicker_dialog=TimePickerDialog(mContext,android.R.style.Theme_Holo_Dialog_NoActionBar,TimePickerDialog.OnTimeSetListener { timePicker, i, i2 ->
                 if ((i.toString().trim().isEmpty() && i2.toString().trim().isEmpty()) || (i.toString().trim() == "0" && i2.toString().trim() == "0"))
                     v.text="-"

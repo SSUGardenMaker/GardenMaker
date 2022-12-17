@@ -1,4 +1,4 @@
-package com.ssu.gardenmaker.slider
+package com.ssu.gardenmaker.adapter
 
 import android.content.Context
 import android.util.Log
@@ -15,7 +15,7 @@ class SliderAdapter(private val context: Context, private val sliderItems: Mutab
             try {
                 Glide.with(context).load(item).into(binding.ivImageSlider)
             }
-            catch(e: Exception){
+            catch(e: Exception) {
                 Log.d("SliderAdapter", "ERROR: " + e.message);
             }
         }

@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.databinding.ActivityLoginBinding
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
-import com.ssu.gardenmaker.util.FcmTokenUtil
 import com.ssu.gardenmaker.util.SharedPreferenceManager
 import kotlin.system.exitProcess
 
@@ -99,20 +98,6 @@ class LoginActivity : AppCompatActivity() {
                         SharedPreferenceManager().setString("keepLogin", "ON")
                     else
                         SharedPreferenceManager().setString("keepLogin", "OFF")
-
-//                    ApplicationClass.retrofitManager.postToken(FcmTokenUtil().getFcmToken()!!, object : RetrofitCallback {
-//                        override fun onError(t: Throwable) {
-//                        }
-//
-//                        override fun onSuccess(message: String, data: String) {
-//                            Log.d(TAG, message + data)
-//                            Log.d(TAG, "FcmToken : " + FcmTokenUtil().getFcmToken()!!)
-//                        }
-//
-//                        override fun onFailure(errorMessage: String, errorCode: Int) {
-//                        }
-//
-//                    })
 
                     finish()
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))

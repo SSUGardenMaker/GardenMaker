@@ -13,11 +13,13 @@ import com.ssu.gardenmaker.retrofit.login.ErrorLogin
 import com.ssu.gardenmaker.retrofit.login.RequestLogin
 import com.ssu.gardenmaker.retrofit.login.ResponseLogin
 import com.ssu.gardenmaker.retrofit.password.ErrorFindPassword
+import com.ssu.gardenmaker.retrofit.password.RequestChangePassword
+import com.ssu.gardenmaker.retrofit.password.ResponseChangePassword
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantCreate
 import com.ssu.gardenmaker.retrofit.plant.RequestPlantEdit
-import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCheck
 import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
+import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCheck
 import com.ssu.gardenmaker.retrofit.signup.ErrorSignup
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
@@ -128,51 +130,28 @@ class RetrofitManager {
         })
     }
 
-    // 토큰 등록
-    fun postToken(token: String, callback: RetrofitCallback) {
-        val call: Call<Any> = ApplicationClass.retrofitAPI.tokenPostRequest(token)
+    // 비밀번호 수정
+    fun changePassword(currentPassword: String, newPassword: String, callback: RetrofitCallback) {
+        val requestChangePassword = RequestChangePassword(currentPassword, newPassword)
 
-        call.enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
+        val call: Call<ResponseChangePassword> = ApplicationClass.retrofitAPI.changePasswordRequest(requestChangePassword)
+
+        call.enqueue(object : Callback<ResponseChangePassword> {
+            override fun onResponse(call: Call<ResponseChangePassword>, response: Response<ResponseChangePassword>) {
                 if (response.isSuccessful) {
                     val body = response.body()
-                    Log.d("RetrofitManager_postToken", "onResponse : 성공, message : " + body.toString())
-                    Log.d("RetrofitManager_postToken", "onResponse : status code is " + response.code())
-                    callback.onSuccess("postToken() 호출 : ", body.toString())
+                    Log.d("RetrofitManager_changePassword", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_changePassword", "onResponse : status code is " + response.code())
+                    callback.onSuccess("changePassword 호출 : ", body.message)
                 }
                 else {
-                    Log.d("RetrofitManager_postToken", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    Log.d("RetrofitManager_changePassword", "onResponse : 실패, error code : " + response.code())
+                    callback.onFailure("changePassword 호출 : ", response.code())
                 }
             }
 
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.e("RetrofitManager_postToken", "onFailure : " + t.localizedMessage)
-                callback.onError(t)
-            }
-        })
-    }
-
-    // 토큰 삭제
-    fun deleteToken(callback: RetrofitCallback) {
-        val call: Call<Any> = ApplicationClass.retrofitAPI.tokenDeleteRequest()
-
-        call.enqueue(object : Callback<Any> {
-            override fun onResponse(call: Call<Any>, response: Response<Any>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    Log.d("RetrofitManager_deleteToken", "onResponse : 성공, message : " + body.toString())
-                    Log.d("RetrofitManager_deleteToken", "onResponse : status code is " + response.code())
-                    callback.onSuccess("deleteToken() 호출 : ", body.toString())
-                }
-                else {
-                    Log.d("RetrofitManager_deleteToken", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
-                }
-            }
-
-            override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.e("RetrofitManager_deleteToken", "onFailure : " + t.localizedMessage)
+            override fun onFailure(call: Call<ResponseChangePassword>, t: Throwable) {
+                Log.d("RetrofitManager_changePassword", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
         })
@@ -330,6 +309,31 @@ class RetrofitManager {
         })
     }
 
+    // // 환료한 날짜 순으로 완료된 식물 보기
+    fun plantDoneCheck(callback: RetrofitPlantCallback) {
+        val call: Call<ResponsePlantCheck> = ApplicationClass.retrofitAPI.plantDoneCheckRequest()
+
+        call.enqueue(object : Callback<ResponsePlantCheck> {
+            override fun onResponse(call: Call<ResponsePlantCheck>, response: Response<ResponsePlantCheck>) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    Log.d("RetrofitManager_plantDoneCheck", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_plantDoneCheck", "onResponse : status code is " + response.code())
+                    callback.onSuccess(body.message, body.data)
+                }
+                else {
+                    Log.d("RetrofitManager_plantDoneCheck", "onResponse : 실패, error code : " + response.code())
+                    callback.onFailure("", response.code())
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlantCheck>, t: Throwable) {
+                Log.e("RetrofitManager_plantDoneCheck", "onFailure : " + t.localizedMessage)
+                callback.onError(t)
+            }
+        })
+    }
+
     // 식물 생성
     fun plantCreate(gardenId : Int, plantType : String, name : String, requiredDays : Int,
                     walkStep : Int, counterGoal : Int, timerTotalMin : Int, timerRecurMin : Int, counter : Int, timerCurrentMin : Int, callback : RetrofitCallback) {
@@ -454,31 +458,6 @@ class RetrofitManager {
 
             override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
                 Log.e("RetrofitManager_plantWateringAcc", "onFailure : " + t.localizedMessage)
-                callback.onError(t)
-            }
-        })
-    }
-
-    // 식물 완료
-    fun plantComplete(plantId: Int, callback: RetrofitCallback) {
-        val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantCompleteRequest(plantId)
-
-        call.enqueue(object : Callback<ResponsePlant> {
-            override fun onResponse(call: Call<ResponsePlant>, response: Response<ResponsePlant>) {
-                if (response.isSuccessful) {
-                    val body = response.body()
-                    Log.d("RetrofitManager_plantComplete", "onResponse : 성공, message : " + body!!.message)
-                    Log.d("RetrofitManager_plantComplete", "onResponse : status code is " + response.code())
-                    callback.onSuccess(body.message, body.data.toString())
-                }
-                else {
-                    Log.d("RetrofitManager_plantComplete", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
-                }
-            }
-
-            override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
-                Log.e("RetrofitManager_plantComplete", "onFailure : " + t.localizedMessage)
                 callback.onError(t)
             }
         })

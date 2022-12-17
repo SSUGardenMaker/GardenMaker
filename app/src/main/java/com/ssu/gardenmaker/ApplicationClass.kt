@@ -38,7 +38,5 @@ class ApplicationClass : Application() {
 
         mSharedPreferences = applicationContext.getSharedPreferences(TAG, Context.MODE_PRIVATE)
         categoryLists = mutableListOf()
-
-        //FcmTokenUtil().loadFcmToken()
     }
 }

@@ -19,6 +19,7 @@ data class PlantDataContent(
     @SerializedName("endDate") val endDate : String,    // 종료 날짜
     @SerializedName("requiredDays") val requiredDays : Int, // endDate - startDate
     @SerializedName("isComplete") val isComplete : Boolean, // 달성 여부
+    @SerializedName("updatedAt") val updatedAt : String, // 달성 날짜
     @SerializedName("walkStep") val walkStep : Int, // 목표 걸음 수 (만보기)
     @SerializedName("counterGoal") val counterGoal : Int,   // 목표 달성 횟수 (만보기, 횟수, 반복 타이머)
     @SerializedName("timerTotalMin") val timerTotalMin : Int,   // 목표 누적 시간 (누적 타이머)
