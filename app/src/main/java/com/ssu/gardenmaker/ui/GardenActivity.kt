@@ -183,25 +183,7 @@ class GardenActivity : AppCompatActivity() {
                 if(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
                     Toast.makeText(applicationContext,"기다려야할 시간이 남았습니다.",Toast.LENGTH_SHORT).show()
                 }else{
-                    ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()).commit()
-                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id,object :
-                        RetrofitCallback {
-                        override fun onError(t: Throwable) {
-                            Log.d(TAG, "onError : " + t.localizedMessage)
-                        }
-
-                        override fun onSuccess(message: String, data: String) {
-                            Log.d(TAG, "onSuccess : message -> $message")
-                            Log.d(TAG, "onSuccess : data -> $data")
-
-                        }
-
-                        override fun onFailure(errorMessage: String, errorCode: Int) {
-                            Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                            Log.d(TAG, "onFailure : errorCode -> $errorCode")
-                        }
-                    })
-                    Log.d(TAG, "카운터 값 증가:${ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)}")
+                    ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
                     count_featureTimer=Timer()
                     count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
                 }

@@ -336,9 +336,9 @@ class RetrofitManager {
 
     // 식물 생성
     fun plantCreate(gardenId : Int, plantType : String, name : String, requiredDays : Int,
-                    walkStep : Int, counterGoal : Int, timerTotalMin : Int, timerRecurMin : Int, counter : Int, timerCurrentMin : Int, callback : RetrofitCallback) {
+                    walkStep : Int, counterGoal : Int, timerTotalMin : Int, timerRecurMin : Int, counter : Int, timerCurrentMin : Int, context1:String,context2:String,callback : RetrofitCallback) {
 
-        val requestPlantCreate = RequestPlantCreate("", "", gardenId, plantType, name, requiredDays, walkStep, counterGoal, timerTotalMin, timerRecurMin, counter, timerCurrentMin)
+        val requestPlantCreate = RequestPlantCreate(context1, context2, gardenId, plantType, name, requiredDays, walkStep, counterGoal, timerTotalMin, timerRecurMin, counter, timerCurrentMin)
         val call: Call<ResponsePlant> = ApplicationClass.retrofitAPI.plantCreateRequest(requestPlantCreate)
 
         call.enqueue(object : Callback<ResponsePlant> {

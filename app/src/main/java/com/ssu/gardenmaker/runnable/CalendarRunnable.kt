@@ -24,6 +24,8 @@ class CalendarRunnable(garden_id:Int,plants:ArrayList<PlantDataContent>, handler
             override fun onSuccess(message: String, data: List<PlantDataContent>) {
                 for(i in 0..data.size-1){
                     if(data.get(i).isComplete==false){
+                        data.get(i).context1=data.get(i).context1.replace("-","")
+                        data.get(i).context2=data.get(i).context2.replace("-","")
                         plants.add(data.get(i))
                     }
                 }

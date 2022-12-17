@@ -8,8 +8,8 @@ data class ResponsePlantCheck(
 )
 
 data class PlantDataContent(
-    @SerializedName("context1") val context1 : String,
-    @SerializedName("context2") val context2 : String,
+    @SerializedName("context1") var context1 : String,
+    @SerializedName("context2") var context2 : String,
     @SerializedName("id") val id : Int, // 식물 ID
     @SerializedName("gardenId") val gardenId : Int, // 화단 ID
     @SerializedName("plantKind") val plantKind : Int,   // 식물 사진 종류
