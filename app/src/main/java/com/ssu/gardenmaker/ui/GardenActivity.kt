@@ -24,6 +24,7 @@ import com.ssu.gardenmaker.features.recursiveTimer.recursiveTimerService
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
+import com.ssu.gardenmaker.util.SharedPreferenceManager
 import java.util.*
 import kotlin.math.abs
 
@@ -96,7 +97,7 @@ class GardenActivity : AppCompatActivity() {
                 setPlantData(currentPage)
 
                 if (plantLists.size != 0 && plantLists[currentPage].plantType=="COUNTER") {
-                    var last_click_time:Long=ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)
+                    var last_click_time:Long=ApplicationClass.mSharedPreferences.getLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)
                     if(last_click_time+300000>System.currentTimeMillis()) {
                        count_featureTimer=Timer()
                        count_featureTimer.schedule(counter(plantLists[currentPage].id,(last_click_time+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
@@ -179,10 +180,10 @@ class GardenActivity : AppCompatActivity() {
                     Toast.makeText(this@GardenActivity,"현재 다른 식물이 타이머를 사용중입니다.",Toast.LENGTH_SHORT).show()
                 }
             }else if(plantLists[currentPage].plantType=="COUNTER"){
-                if(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
+                if(ApplicationClass.mSharedPreferences.getLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
                     Toast.makeText(applicationContext,"기다려야할 시간이 남았습니다.",Toast.LENGTH_SHORT).show()
                 }else{
-                    ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
+                    ApplicationClass.mSharedPreferences.edit().putLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
 
                     ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object :
                         RetrofitCallback {
