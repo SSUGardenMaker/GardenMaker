@@ -375,8 +375,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
                     binding.tvPlantStartDateValue.text = plantLists[position].context1
                     binding.tvPlantEndDateValue.text = plantLists[position].context2
-                    binding.tvPlantPedometerGoalStepValue.text = plantLists[position].walkStep.toString() + " 걸음"
-                    binding.tvPlantPedometerGoalCountValue.text =  plantLists[position].counter.toString() + " / " + plantLists[position].counterGoal.toString() + " 회"
+                    binding.tvPlantPedometerGoalStepValue.text = plantLists[position].counterGoal.toString() + " 걸음"
+                    binding.tvPlantPedometerGoalCountValue.text =  "1" + " / " + plantLists[position].walkStep.toString() + " 회"
 
                     binding.tvPlantName.visibility = VISIBLE
                     binding.tvPlantNameValue.visibility = VISIBLE
