@@ -101,8 +101,8 @@ class GridAdapter(var context: Context) : BaseAdapter() {
             "RECURSIVE_TIMER" -> viewHolder.plantType?.text = "반복 타이머"
         }
 
-        viewHolder.plantStartDate?.text = ApplicationClass.plantDoneLists[position].startDate
-        viewHolder.plantEndDate?.text = ApplicationClass.plantDoneLists[position].endDate
+        viewHolder.plantStartDate?.text = ApplicationClass.plantDoneLists[position].context1
+        viewHolder.plantEndDate?.text = ApplicationClass.plantDoneLists[position].context2
 
         return view
     }

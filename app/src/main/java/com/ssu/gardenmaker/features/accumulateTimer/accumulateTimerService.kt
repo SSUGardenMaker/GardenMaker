@@ -158,7 +158,6 @@ class accumulateTimerService: Service() {
             override fun onSuccess(message: String, data: String) {
                 Log.d(TAG, "onSuccess : message -> $message")
                 Log.d(TAG, "onSuccess : data -> $data")
-
             }
 
             override fun onFailure(errorMessage: String, errorCode: Int) {

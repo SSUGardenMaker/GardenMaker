@@ -97,4 +97,9 @@ interface RetrofitAPI {
     @Headers("Content-Type: application/json")
     @POST("/plant/{plantId}/waterAcc")
     fun plantWateringAccRequest(@Path("plantId") plantId: Int, @Query("min") min: Int): Call<ResponsePlant>
+
+    // 만보기 식물 있는지 확인
+    @Headers("Content-Type: application/json")
+    @GET("/plant/walk-counter")
+    fun pedometerCheckRequest(): Call<ResponsePlantCheck>
 }

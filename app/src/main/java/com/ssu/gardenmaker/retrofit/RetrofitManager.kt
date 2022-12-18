@@ -6,6 +6,7 @@ import com.ssu.gardenmaker.ApplicationClass
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitGardenCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
+import com.ssu.gardenmaker.retrofit.garden.ErrorGarden
 import com.ssu.gardenmaker.retrofit.garden.RequestGardenCreateEdit
 import com.ssu.gardenmaker.retrofit.garden.ResponseGarden
 import com.ssu.gardenmaker.retrofit.garden.ResponseGardenCreateEditDelete
@@ -16,10 +17,7 @@ import com.ssu.gardenmaker.retrofit.password.ErrorFindPassword
 import com.ssu.gardenmaker.retrofit.password.RequestChangePassword
 import com.ssu.gardenmaker.retrofit.password.ResponseChangePassword
 import com.ssu.gardenmaker.retrofit.password.ResponseFindPassword
-import com.ssu.gardenmaker.retrofit.plant.RequestPlantCreate
-import com.ssu.gardenmaker.retrofit.plant.RequestPlantEdit
-import com.ssu.gardenmaker.retrofit.plant.ResponsePlant
-import com.ssu.gardenmaker.retrofit.plant.ResponsePlantCheck
+import com.ssu.gardenmaker.retrofit.plant.*
 import com.ssu.gardenmaker.retrofit.signup.ErrorSignup
 import com.ssu.gardenmaker.retrofit.signup.RequestSignup
 import com.ssu.gardenmaker.retrofit.signup.ResponseSignup
@@ -170,8 +168,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data)
                 }
                 else {
-                    Log.d("RetrofitManager_gardenCheck", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorGarden = gson.fromJson(errorBody!!.string(), ErrorGarden::class.java)
+                        Log.d("RetrofitManager_gardenCheck", "onResponse : 실패, error message : " + errorGarden.errorMessage)
+                        Log.d("RetrofitManager_gardenCheck", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorGarden.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -196,8 +202,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_gardenCreate", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorGarden = gson.fromJson(errorBody!!.string(), ErrorGarden::class.java)
+                        Log.d("RetrofitManager_gardenCreate", "onResponse : 실패, error message : " + errorGarden.errorMessage)
+                        Log.d("RetrofitManager_gardenCreate", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorGarden.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -222,8 +236,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_gardenEdit", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorGarden = gson.fromJson(errorBody!!.string(), ErrorGarden::class.java)
+                        Log.d("RetrofitManager_gardenEdit", "onResponse : 실패, error message : " + errorGarden.errorMessage)
+                        Log.d("RetrofitManager_gardenEdit", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorGarden.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -247,8 +269,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_gardenDelete", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorGarden = gson.fromJson(errorBody!!.string(), ErrorGarden::class.java)
+                        Log.d("RetrofitManager_gardenDelete", "onResponse : 실패, error message : " + errorGarden.errorMessage)
+                        Log.d("RetrofitManager_gardenDelete", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorGarden.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -272,8 +302,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data)
                 }
                 else {
-                    Log.d("RetrofitManager_plantAllCheck", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantAllCheck", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantAllCheck", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -297,8 +335,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data)
                 }
                 else {
-                    Log.d("RetrofitManager_plantGardenCheck", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantGardenCheck", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantGardenCheck", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -322,8 +368,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data)
                 }
                 else {
-                    Log.d("RetrofitManager_plantDoneCheck", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantDoneCheck", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantDoneCheck", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -350,8 +404,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_plantCreate", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantCreate", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantCreate", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -376,8 +438,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_plantEdit", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantEdit", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantEdit", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -401,8 +471,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_plantDelete", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantDelete", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantDelete", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -426,8 +504,16 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_plantWatering", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantWatering", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantWatering", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
@@ -451,13 +537,54 @@ class RetrofitManager {
                     callback.onSuccess(body.message, body.data.toString())
                 }
                 else {
-                    Log.d("RetrofitManager_plantWateringAcc", "onResponse : 실패, error code : " + response.code())
-                    callback.onFailure("", response.code())
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_plantWateringAcc", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_plantWateringAcc", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
             }
 
             override fun onFailure(call: Call<ResponsePlant>, t: Throwable) {
                 Log.e("RetrofitManager_plantWateringAcc", "onFailure : " + t.localizedMessage)
+                callback.onError(t)
+            }
+        })
+    }
+
+    // 만보기 식물 있는지 확인
+    fun pedometerCheck(callback: RetrofitCallback) {
+        val call: Call<ResponsePlantCheck> = ApplicationClass.retrofitAPI.pedometerCheckRequest()
+
+        call.enqueue(object : Callback<ResponsePlantCheck> {
+            override fun onResponse(call: Call<ResponsePlantCheck>, response: Response<ResponsePlantCheck>) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    Log.d("RetrofitManager_pedometerCheck", "onResponse : 성공, message : " + body!!.message)
+                    Log.d("RetrofitManager_pedometerCheck", "onResponse : status code is " + response.code())
+                    callback.onSuccess(body.message, body.data.toString())
+                }
+                else {
+                    val errorBody = response.errorBody()
+                    val gson = Gson()
+                    try {
+                        val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
+                        Log.d("RetrofitManager_pedometerCheck", "onResponse : 실패, error message : " + errorPlant.errorMessage)
+                        Log.d("RetrofitManager_pedometerCheck", "onResponse : 실패, error code : " + response.code())
+                        callback.onFailure(errorPlant.errorMessage, response.code())
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponsePlantCheck>, t: Throwable) {
+                Log.e("RetrofitManager_pedometerCheck", "onFailure : " + t.message)
                 callback.onError(t)
             }
         })
