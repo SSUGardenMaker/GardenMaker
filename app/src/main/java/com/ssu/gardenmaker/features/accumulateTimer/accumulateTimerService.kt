@@ -55,7 +55,7 @@ class accumulateTimerService: Service() {
         startForeground(1,builder.build())
         timerTask=createTimerTask()
         timer= Timer()
-        timer.schedule(timerTask,0,500)
+        timer.schedule(timerTask,0,1000)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -87,7 +87,7 @@ class accumulateTimerService: Service() {
                 init_noti(action1,action2)
                 timerTask=createTimerTask()
                 timer= Timer()
-                timer.schedule(timerTask,0,500)
+                timer.schedule(timerTask,0,1000)
             }
         }
         return super.onStartCommand(intent, flags, startId)

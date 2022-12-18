@@ -72,7 +72,7 @@ class PedometerService :Service(),SensorEventListener{
             }
         }
         timer= Timer()
-        timer.schedule(timerTask,0,5000)
+        timer.schedule(timerTask,0,15000)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -87,7 +87,7 @@ class PedometerService :Service(),SensorEventListener{
         Log.d("만보기","id:${plant_id} 목표걸음:${walkStep}")
         Log.d("만보기","${intent?.getIntExtra("pedometer_Notisignal",0)}")
 
-        when(intent?.getIntExtra("timer_Notisignal",0)){
+        when(intent?.getIntExtra("pedometer_Notisignal",0)){
             101-> { Log.d(TAG,"취소")
                 stopSelf()
             }
