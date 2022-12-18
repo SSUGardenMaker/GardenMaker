@@ -65,7 +65,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initPlantPlacing()
         initButtonFunction()
         initNavigationMenu()
-
+        binding.mainLayout.scrollViewMain.post{
+            binding.mainLayout.scrollViewMain.scrollTo(400, 0)
+        }
        // startPedometer()
 
         // 만보기 권한요청
