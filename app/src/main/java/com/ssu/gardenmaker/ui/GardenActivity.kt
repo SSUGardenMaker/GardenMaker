@@ -232,6 +232,18 @@ class GardenActivity : AppCompatActivity() {
                         Toast.makeText(this@GardenActivity, message, Toast.LENGTH_SHORT).show()
 
                         plantLists[currentPage].counter += 1
+                        if (plantLists[currentPage].counter == plantLists[currentPage].counter) {
+                            plantLists.removeAt(currentPage)
+                            sliderItems.removeAt(currentPage)
+                            binding.vpImageSlider.adapter?.notifyDataSetChanged()
+
+                            if (plantLists.isEmpty())
+                                setEmpty()
+                        }
+                        else
+                            setPlantData(currentPage)
+
+                        plantLists[currentPage].counter += 1
                         setPlantData(currentPage)
                     }
 
