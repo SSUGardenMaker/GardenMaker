@@ -180,9 +180,9 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                     })
 
                     if (SharedPreferenceManager().getString("pedometerHave").equals("YES")) {
-                        //Toast.makeText(mContext, "이미 만보기 식물이 존재합니다", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "이미 만보기 식물이 존재합니다", Toast.LENGTH_SHORT).show()
                     }
-                    if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
+                    else if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
                         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
                         val walkStep = Integer.parseInt(binding.GoalStepPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))

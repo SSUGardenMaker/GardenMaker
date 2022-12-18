@@ -252,6 +252,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             SharedPreferenceManager().deleteData("email")
             SharedPreferenceManager().deleteData("password")
             SharedPreferenceManager().deleteData("accessToken")
+            ApplicationClass.categoryLists.clear()
 
             finish()
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
