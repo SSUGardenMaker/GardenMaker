@@ -17,23 +17,6 @@ class counter(plantId:Int,remaining_time:Long,var tv: TextView,timer: Timer) {
     var cur_millisecond:Long=remaining_time
     var timer=timer
     init{
-        ApplicationClass.retrofitManager.plantWatering(plantId,object :
-            RetrofitCallback {
-            override fun onError(t: Throwable) {
-                Log.d(TAG, "onError : " + t.localizedMessage)
-            }
-
-            override fun onSuccess(message: String, data: String) {
-                Log.d(TAG, "onSuccess : message -> $message")
-                Log.d(TAG, "onSuccess : data -> $data")
-
-            }
-
-            override fun onFailure(errorMessage: String, errorCode: Int) {
-                Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                Log.d(TAG, "onFailure : errorCode -> $errorCode")
-            }
-        })
        tv.visibility=View.VISIBLE
     }
    var mhandler=TimerHandler()

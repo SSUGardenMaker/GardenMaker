@@ -128,6 +128,8 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 val endDate = dateFormat.parse(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
                 val days : Int = ((endDate!!.time - startDate!!.time) / (1000 * 24 * 60 * 60)).toInt() + 1
 
+                var context1=binding.StartDayDialog.text.toString().replace(" ","").replace("년","-").replace("월","-").replace("일","")
+                var context2=binding.EndDayDialog.text.toString().replace(" ","").replace("년","-").replace("월","-").replace("일","")
                 if (Integer.parseInt(todayDate) > Integer.parseInt(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))) {
                     Toast.makeText(mContext, "시작 날짜는 오늘 날짜보다 빠를 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
@@ -137,7 +139,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                 }
                 else if (checkbox1.isChecked) {
                     ApplicationClass.retrofitManager.plantCreate(categoryId, "CHECKBOX", binding.PlainNameEdtDialog.text.toString(), days,
-                        0, 0, 0, 0, 0, 0, object : RetrofitCallback {
+                        0, 0, 0, 0, 0, 0,context1,context2 ,object : RetrofitCallback {
                             override fun onError(t: Throwable) {
                                 Log.d(TAG, "onError : " + t.localizedMessage)
                             }
@@ -145,7 +147,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                             override fun onSuccess(message: String, data: String) {
                                 Log.d(TAG, "onSuccess : message -> $message")
                                 Log.d(TAG, "onSuccess : data -> $data")
-                                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
                             }
 
@@ -179,16 +180,16 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                     })
 
                     if (SharedPreferenceManager().getString("pedometerHave").equals("YES")) {
-                        //Toast.makeText(mContext, "이미 만보기 식물이 존재합니다", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(mContext, "이미 만보기 식물이 존재합니다", Toast.LENGTH_SHORT).show()
                     }
-                    if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
+                    else if (binding.GoalStepPedometerBtnDialog.text.toString() == "-" || binding.GoalCountPedometerBtnDialog.text.toString() == "-")
                         Toast.makeText(mContext, "세부 계획을 입력해주세요", Toast.LENGTH_SHORT).show()
                     else {
                         val walkStep = Integer.parseInt(binding.GoalStepPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
                         val walkCounterGoal = Integer.parseInt(binding.GoalCountPedometerBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
                         ApplicationClass.retrofitManager.plantCreate(categoryId, "WALK_COUNTER", binding.PlainNameEdtDialog.text.toString(), days,
-                            walkStep, walkCounterGoal, 0, 0, 0, 0, object : RetrofitCallback {
+                            walkStep, walkCounterGoal, 0, 0, 0, 0, context1,context2 ,object : RetrofitCallback {
                                 override fun onError(t: Throwable) {
                                     Log.d(TAG, "onError : " + t.localizedMessage)
                                 }
@@ -196,7 +197,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                 override fun onSuccess(message: String, data: String) {
                                     Log.d(TAG, "onSuccess : message -> $message")
                                     Log.d(TAG, "onSuccess : data -> $data")
-                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
 
@@ -215,7 +215,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                         val countCounterGoal = Integer.parseInt(binding.GoalCountCounterBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
                         ApplicationClass.retrofitManager.plantCreate(categoryId, "COUNTER", binding.PlainNameEdtDialog.text.toString(), days,
-                            0, countCounterGoal, 0, 0, 0, 0, object : RetrofitCallback {
+                            0, countCounterGoal, 0, 0, 0, 0, context1,context2 ,object : RetrofitCallback {
                                 override fun onError(t: Throwable) {
                                     Log.d(TAG, "onError : " + t.localizedMessage)
                                 }
@@ -223,7 +223,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                 override fun onSuccess(message: String, data: String) {
                                     Log.d(TAG, "onSuccess : message -> $message")
                                     Log.d(TAG, "onSuccess : data -> $data")
-                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
 
@@ -245,7 +244,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                             val timerTotalMin = Integer.parseInt(timeSplit[0]) * 60 + Integer.parseInt(timeSplit[2])
 
                             ApplicationClass.retrofitManager.plantCreate(categoryId, "ACCUMULATE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
-                                0, 0, timerTotalMin, 0, 0, 0, object : RetrofitCallback {
+                                0, 0, timerTotalMin, 0, 0, 0, context1,context2 ,object : RetrofitCallback {
                                     override fun onError(t: Throwable) {
                                         Log.d(TAG, "onError : " + t.localizedMessage)
                                     }
@@ -253,7 +252,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                     override fun onSuccess(message: String, data: String) {
                                         Log.d(TAG, "onSuccess : message -> $message")
                                         Log.d(TAG, "onSuccess : data -> $data")
-                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
                                     }
 
@@ -279,7 +277,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                             val timerCounterGoal = Integer.parseInt(binding.GoalCountTimerRecursiveBtnDialog.text.toString().replace("[^0-9]".toRegex(), ""))
 
                             ApplicationClass.retrofitManager.plantCreate(categoryId, "RECURSIVE_TIMER", binding.PlainNameEdtDialog.text.toString(), days,
-                                0, timerCounterGoal, 0, timerRecurMin, 0, 0, object : RetrofitCallback {
+                                0, timerCounterGoal, 0, timerRecurMin, 0, 0, context1,context2 ,object : RetrofitCallback {
                                     override fun onError(t: Throwable) {
                                         Log.d(TAG, "onError : " + t.localizedMessage)
                                     }
@@ -287,7 +285,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                     override fun onSuccess(message: String, data: String) {
                                         Log.d(TAG, "onSuccess : message -> $message")
                                         Log.d(TAG, "onSuccess : data -> $data")
-                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
                                     }
 

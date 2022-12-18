@@ -10,10 +10,11 @@
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:id="@+id/list_cal_imageview"
-        android:layout_marginRight="8sp"
-        android:layout_marginLeft="8sp"
-        android:layout_marginTop="8sp"
-        android:background="@drawable/watering_pot"
+        android:layout_marginRight="3sp"
+        android:layout_marginLeft="3sp"
+        android:layout_marginTop="3sp"
+        android:scaleType="fitXY"
+        android:src="@drawable/plant20"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView

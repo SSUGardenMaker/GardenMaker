@@ -1,6 +1,7 @@
 package com.ssu.gardenmaker.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -38,9 +39,10 @@ class GardenActivity : AppCompatActivity() {
     private val plantLists: MutableList<PlantDataContent> = mutableListOf()
 
     private lateinit var count_featureTimer:Timer
+    lateinit var serverConext:Context
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        serverConext=this
         binding = ActivityGardenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -180,8 +182,10 @@ class GardenActivity : AppCompatActivity() {
                 if(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
                     Toast.makeText(applicationContext,"기다려야할 시간이 남았습니다.",Toast.LENGTH_SHORT).show()
                 }else{
-                    ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()).commit()
-                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id,object : RetrofitCallback {
+                    ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
+
+                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object :
+                        RetrofitCallback {
                         override fun onError(t: Throwable) {
                             Log.d(TAG, "onError : " + t.localizedMessage)
                         }
@@ -189,17 +193,26 @@ class GardenActivity : AppCompatActivity() {
                         override fun onSuccess(message: String, data: String) {
                             Log.d(TAG, "onSuccess : message -> $message")
                             Log.d(TAG, "onSuccess : data -> $data")
+
+                            plantLists[currentPage].counter += 1
+                            if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
+                                plantLists.removeAt(currentPage)
+                                sliderItems.removeAt(currentPage)
+                                binding.vpImageSlider.adapter?.notifyDataSetChanged()
+
+                                if (plantLists.isEmpty())
+                                    setEmpty()
+                            }
+                            else
+                                setPlantData(currentPage)
                         }
 
                         override fun onFailure(errorMessage: String, errorCode: Int) {
                             Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
                             Log.d(TAG, "onFailure : errorCode -> $errorCode")
-
-                            plantLists[currentPage].counter += 1
-                            setPlantData(currentPage)
                         }
                     })
-                    Log.d(TAG, "카운터 값 증가:${ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)}")
+
                     count_featureTimer=Timer()
                     count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
                 }
@@ -215,7 +228,16 @@ class GardenActivity : AppCompatActivity() {
                         Log.d(TAG, "onSuccess : data -> $data")
 
                         plantLists[currentPage].counter += 1
-                        setPlantData(currentPage)
+                        if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
+                            plantLists.removeAt(currentPage)
+                            sliderItems.removeAt(currentPage)
+                            binding.vpImageSlider.adapter?.notifyDataSetChanged()
+
+                            if (plantLists.isEmpty())
+                                setEmpty()
+                        }
+                        else
+                            setPlantData(currentPage)
                     }
 
                     override fun onFailure(errorMessage: String, errorCode: Int) {
