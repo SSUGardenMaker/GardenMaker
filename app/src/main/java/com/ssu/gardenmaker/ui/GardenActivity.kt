@@ -20,6 +20,7 @@ import com.ssu.gardenmaker.adapter.SliderAdapter
 import com.ssu.gardenmaker.databinding.ActivityGardenBinding
 import com.ssu.gardenmaker.features.accumulateTimer.accumulateTimerService
 import com.ssu.gardenmaker.features.counter.counter
+import com.ssu.gardenmaker.features.pedometer.PedometerService
 import com.ssu.gardenmaker.features.recursiveTimer.recursiveTimerService
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
@@ -217,6 +218,11 @@ class GardenActivity : AppCompatActivity() {
                     count_featureTimer=Timer()
                     count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
                 }
+            }else if(plantLists[currentPage].plantType=="WALK_COUNTER"){
+                val intent= Intent(applicationContext, PedometerService::class.java)
+                intent.putExtra("plantId",plantLists[currentPage].id)
+                intent.putExtra("walkStep", plantLists[currentPage].walkStep)
+                startForegroundService(intent)
             }
             else {
                 ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object : RetrofitCallback {

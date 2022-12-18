@@ -31,6 +31,8 @@ import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
+import com.ssu.gardenmaker.features.pedometer.PedometerService
+import com.ssu.gardenmaker.features.recursiveTimer.recursiveTimerService
 import com.ssu.gardenmaker.plant.PlantCreateDialog
 import com.ssu.gardenmaker.plant.PlantPlacingDialog
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
@@ -63,6 +65,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initPlantPlacing()
         initButtonFunction()
         initNavigationMenu()
+
+       // startPedometer()
 
         // 만보기 권한요청
         if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
@@ -372,7 +376,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     //만보기 실행시키기. 만보기 있는지 체크하는 API가 만들면 그때 추가하기.
     private fun startPedometer(){
-
+            if(SharedPreferenceManager().getString("pedometerHave")=="YES"){
+                val intent= Intent(applicationContext, PedometerService::class.java)
+                startForegroundService(intent)
+            }
     }
 
     // 식물 배치 기능 구현
