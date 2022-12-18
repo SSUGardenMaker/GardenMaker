@@ -98,8 +98,8 @@ class GardenActivity : AppCompatActivity() {
                 if (plantLists.size != 0 && plantLists[currentPage].plantType=="COUNTER") {
                     var last_click_time:Long=ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)
                     if(last_click_time+300000>System.currentTimeMillis()) {
-                        count_featureTimer=Timer()
-                        count_featureTimer.schedule(counter(plantLists[currentPage].id,(last_click_time+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
+                       count_featureTimer=Timer()
+                       count_featureTimer.schedule(counter(plantLists[currentPage].id,(last_click_time+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
                     }
                 }
             }
@@ -156,36 +156,69 @@ class GardenActivity : AppCompatActivity() {
 
     // 식물 물주기
     private fun wateringPlant() {
-        if (plantLists[currentPage].plantType == "ACCUMULATE_TIMER") {
-            if(ApplicationClass.mSharedPreferences.getBoolean("startTimer_FLAG",true)){
-                val intent= Intent(applicationContext,accumulateTimerService::class.java)
-                intent.putExtra("plantId",plantLists[currentPage].id)
-                intent.putExtra("plantName",plantLists[currentPage].name)
-                intent.putExtra("timerTotalMin",plantLists[currentPage].timerTotalMin)
-                intent.putExtra("timerCurMin",plantLists[currentPage].timerCurrentMin)
-                startForegroundService(intent)
-            }else{
-                Toast.makeText(this@GardenActivity,"현재 다른 식물이 타이머를 사용중입니다.",Toast.LENGTH_SHORT).show()
+            if (plantLists[currentPage].plantType == "ACCUMULATE_TIMER") {
+                if(ApplicationClass.mSharedPreferences.getBoolean("startTimer_FLAG",true)){
+                    val intent= Intent(applicationContext,accumulateTimerService::class.java)
+                    intent.putExtra("plantId",plantLists[currentPage].id)
+                    intent.putExtra("plantName",plantLists[currentPage].name)
+                    intent.putExtra("timerTotalMin",plantLists[currentPage].timerTotalMin)
+                    intent.putExtra("timerCurMin",plantLists[currentPage].timerCurrentMin)
+                    startForegroundService(intent)
+                }else{
+                    Toast.makeText(this@GardenActivity,"현재 다른 식물이 타이머를 사용중입니다.",Toast.LENGTH_SHORT).show()
+                }
             }
-        }
-        else if(plantLists[currentPage].plantType=="RECURSIVE_TIMER"){
-            if(ApplicationClass.mSharedPreferences.getBoolean("startTimer_FLAG",true)){
-                val intent= Intent(applicationContext,recursiveTimerService::class.java)
-                intent.putExtra("plantId",plantLists[currentPage].id)
-                intent.putExtra("plantName",plantLists[currentPage].name)
-                intent.putExtra("timerRecurMin",plantLists[currentPage].timerRecurMin)
-                startForegroundService(intent)
-            }else{
-                Toast.makeText(this@GardenActivity,"현재 다른 식물이 타이머를 사용중입니다.",Toast.LENGTH_SHORT).show()
-            }
-        }else if(plantLists[currentPage].plantType=="COUNTER"){
-            if(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
-                Toast.makeText(applicationContext,"기다려야할 시간이 남았습니다.",Toast.LENGTH_SHORT).show()
-            }else{
-                ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
+            else if(plantLists[currentPage].plantType=="RECURSIVE_TIMER"){
+                if(ApplicationClass.mSharedPreferences.getBoolean("startTimer_FLAG",true)){
+                    val intent= Intent(applicationContext,recursiveTimerService::class.java)
+                    intent.putExtra("plantId",plantLists[currentPage].id)
+                    intent.putExtra("plantName",plantLists[currentPage].name)
+                    intent.putExtra("timerRecurMin",plantLists[currentPage].timerRecurMin)
+                    startForegroundService(intent)
+                }else{
+                    Toast.makeText(this@GardenActivity,"현재 다른 식물이 타이머를 사용중입니다.",Toast.LENGTH_SHORT).show()
+                }
+            }else if(plantLists[currentPage].plantType=="COUNTER"){
+                if(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
+                    Toast.makeText(applicationContext,"기다려야할 시간이 남았습니다.",Toast.LENGTH_SHORT).show()
+                }else{
+                    ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
 
-                ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id,object :
-                    RetrofitCallback {
+                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object :
+                        RetrofitCallback {
+                        override fun onError(t: Throwable) {
+                            Log.d(TAG, "onError : " + t.localizedMessage)
+                        }
+
+                        override fun onSuccess(message: String, data: String) {
+                            Log.d(TAG, "onSuccess : message -> $message")
+                            Log.d(TAG, "onSuccess : data -> $data")
+
+                            plantLists[currentPage].counter += 1
+                            if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
+                                plantLists.removeAt(currentPage)
+                                sliderItems.removeAt(currentPage)
+                                binding.vpImageSlider.adapter?.notifyDataSetChanged()
+
+                                if (plantLists.isEmpty())
+                                    setEmpty()
+                            }
+                            else
+                                setPlantData(currentPage)
+                        }
+
+                        override fun onFailure(errorMessage: String, errorCode: Int) {
+                            Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
+                            Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                        }
+                    })
+
+                    count_featureTimer=Timer()
+                    count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
+                }
+            }
+            else {
+                ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object : RetrofitCallback {
                     override fun onError(t: Throwable) {
                         Log.d(TAG, "onError : " + t.localizedMessage)
                     }
@@ -195,7 +228,7 @@ class GardenActivity : AppCompatActivity() {
                         Log.d(TAG, "onSuccess : data -> $data")
 
                         plantLists[currentPage].counter += 1
-                        if (plantLists[currentPage].counterGoal == plantLists[currentPage].counter) {
+                        if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
                             plantLists.removeAt(currentPage)
                             sliderItems.removeAt(currentPage)
                             binding.vpImageSlider.adapter?.notifyDataSetChanged()
@@ -210,43 +243,10 @@ class GardenActivity : AppCompatActivity() {
                     override fun onFailure(errorMessage: String, errorCode: Int) {
                         Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
                         Log.d(TAG, "onFailure : errorCode -> $errorCode")
+                        Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 })
-
-                count_featureTimer=Timer()
-                count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
             }
-        }
-        else {
-            ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object : RetrofitCallback {
-                override fun onError(t: Throwable) {
-                    Log.d(TAG, "onError : " + t.localizedMessage)
-                }
-
-                override fun onSuccess(message: String, data: String) {
-                    Log.d(TAG, "onSuccess : message -> $message")
-                    Log.d(TAG, "onSuccess : data -> $data")
-
-                    plantLists[currentPage].counter += 1
-                    if (plantLists[currentPage].counterGoal == plantLists[currentPage].counter) {
-                        plantLists.removeAt(currentPage)
-                        sliderItems.removeAt(currentPage)
-                        binding.vpImageSlider.adapter?.notifyDataSetChanged()
-
-                        if (plantLists.isEmpty())
-                            setEmpty()
-                    }
-                    else
-                        setPlantData(currentPage)
-                }
-
-                override fun onFailure(errorMessage: String, errorCode: Int) {
-                    Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
-                    Log.d(TAG, "onFailure : errorCode -> $errorCode")
-                    Toast.makeText(this@GardenActivity, errorMessage, Toast.LENGTH_SHORT).show()
-                }
-            })
-        }
     }
 
     // 식물 삭제

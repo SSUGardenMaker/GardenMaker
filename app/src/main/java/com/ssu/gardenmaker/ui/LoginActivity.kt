@@ -88,7 +88,6 @@ class LoginActivity : AppCompatActivity() {
                 override fun onSuccess(message: String, data: String) {
                     Log.d(TAG, "onSuccess : message -> $message")
                     Log.d(TAG, "onSuccess : accessToken -> $data")
-                    Toast.makeText(this@LoginActivity, "로그인 완료", Toast.LENGTH_SHORT).show()
 
                     SharedPreferenceManager().setString("email", binding.etEmailLogin.text.toString())
                     SharedPreferenceManager().setString("password", binding.etPasswordLogin.text.toString())

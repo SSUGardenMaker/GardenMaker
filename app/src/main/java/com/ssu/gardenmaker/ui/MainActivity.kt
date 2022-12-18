@@ -1,5 +1,7 @@
 package com.ssu.gardenmaker.ui
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
@@ -446,9 +448,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // 식물 배치 공간에 클릭 이벤트 설정
         binding.mainLayout.plantPlacing1.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place1") != -1) {
-                binding.mainLayout.plantPlacing1.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing1.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place1")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing1.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing1.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place1")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing1, "1")
@@ -458,9 +469,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.mainLayout.plantPlacing2.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place2") != -1) {
-                binding.mainLayout.plantPlacing2.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing2.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place2")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    binding.mainLayout.plantPlacing2.setImageResource(R.drawable.plant_empty)
+                    binding.mainLayout.plantPlacing2.startAnimation(animation)
+                    SharedPreferenceManager().deleteData(userEmail + "Place2")
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing2, "2")

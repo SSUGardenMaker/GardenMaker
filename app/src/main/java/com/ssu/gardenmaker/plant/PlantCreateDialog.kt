@@ -147,7 +147,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                             override fun onSuccess(message: String, data: String) {
                                 Log.d(TAG, "onSuccess : message -> $message")
                                 Log.d(TAG, "onSuccess : data -> $data")
-                                Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                 dialog.dismiss()
                             }
 
@@ -198,7 +197,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                 override fun onSuccess(message: String, data: String) {
                                     Log.d(TAG, "onSuccess : message -> $message")
                                     Log.d(TAG, "onSuccess : data -> $data")
-                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
 
@@ -225,7 +223,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                 override fun onSuccess(message: String, data: String) {
                                     Log.d(TAG, "onSuccess : message -> $message")
                                     Log.d(TAG, "onSuccess : data -> $data")
-                                    Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                     dialog.dismiss()
                                 }
 
@@ -255,7 +252,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                     override fun onSuccess(message: String, data: String) {
                                         Log.d(TAG, "onSuccess : message -> $message")
                                         Log.d(TAG, "onSuccess : data -> $data")
-                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
                                     }
 
@@ -289,7 +285,6 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                                     override fun onSuccess(message: String, data: String) {
                                         Log.d(TAG, "onSuccess : message -> $message")
                                         Log.d(TAG, "onSuccess : data -> $data")
-                                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
                                         dialog.dismiss()
                                     }
 
