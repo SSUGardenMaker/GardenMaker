@@ -260,6 +260,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             SharedPreferenceManager().deleteData("password")
             SharedPreferenceManager().deleteData("accessToken")
             ApplicationClass.categoryLists.clear()
+            ApplicationClass.plantDoneLists.clear()
 
             finish()
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
