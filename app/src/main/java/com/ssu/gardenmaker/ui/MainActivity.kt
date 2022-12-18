@@ -470,9 +470,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding.mainLayout.plantPlacing2.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place2") != -1) {
                 if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
-                    binding.mainLayout.plantPlacing2.setImageResource(R.drawable.plant_empty)
-                    binding.mainLayout.plantPlacing2.startAnimation(animation)
-                    SharedPreferenceManager().deleteData(userEmail + "Place2")
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing2.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing2.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place2")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
                 }
             }
             else {
@@ -483,9 +490,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.mainLayout.plantPlacing3.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place3") != -1) {
-                binding.mainLayout.plantPlacing3.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing3.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place3")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing3.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing3.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place3")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing3, "3")
@@ -495,9 +511,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.mainLayout.plantPlacing4.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place4") != -1) {
-                binding.mainLayout.plantPlacing4.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing4.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place4")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing4.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing4.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place4")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing4, "4")
@@ -507,9 +532,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.mainLayout.plantPlacing5.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place5") != -1) {
-                binding.mainLayout.plantPlacing5.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing5.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place5")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing5.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing5.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place5")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing5, "5")
@@ -519,9 +553,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.mainLayout.plantPlacing6.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place6") != -1) {
-                binding.mainLayout.plantPlacing6.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing6.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place6")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing6.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing6.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place6")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing6, "6")
@@ -531,9 +574,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.mainLayout.plantPlacing7.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place7") != -1) {
-                binding.mainLayout.plantPlacing7.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing7.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place7")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing7.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing7.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place7")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing7, "7")
@@ -543,9 +595,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         binding.mainLayout.plantPlacing8.setOnClickListener {
             if (SharedPreferenceManager().getInt(userEmail+"Place8") != -1) {
-                binding.mainLayout.plantPlacing8.setImageResource(R.drawable.plant_empty)
-                binding.mainLayout.plantPlacing8.startAnimation(animation)
-                SharedPreferenceManager().deleteData(userEmail+"Place8")
+                if (SharedPreferenceManager().getString("plantPlacing").equals("ON")) {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("식물 배치 취소")
+                        .setMessage("식물을 화단에서 제외하겠습니까?")
+                        .setPositiveButton("확인") { dialog, id ->
+                            binding.mainLayout.plantPlacing8.setImageResource(R.drawable.plant_empty)
+                            binding.mainLayout.plantPlacing8.startAnimation(animation)
+                            SharedPreferenceManager().deleteData(userEmail+"Place8")
+                        }
+                        .setNegativeButton("취소") { dialog, id -> }
+                    builder.show()
+                }
             }
             else {
                 val plantPlacingDialog = PlantPlacingDialog(this@MainActivity, binding.mainLayout.plantPlacing8, "8")
