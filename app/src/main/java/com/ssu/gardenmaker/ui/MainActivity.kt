@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // 뷰 중앙으로 이동
         binding.mainLayout.scrollViewMain.post{
             val mid = binding.mainLayout.scrollViewMain.width / ((this.resources.displayMetrics.densityDpi.toFloat()) / DisplayMetrics.DENSITY_DEFAULT)
-            binding.mainLayout.scrollViewMain.smoothScrollTo(mid.toInt(), 0)
+            binding.mainLayout.scrollViewMain.scrollTo(mid.toInt(), 0)
         }
     }
 
