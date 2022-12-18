@@ -18,21 +18,30 @@ import androidx.core.app.ActivityCompat.requestPermissions
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.ssu.gardenmaker.R
+import java.util.*
 
 
 @RequiresApi(Build.VERSION_CODES.O)
 class PedometerService :Service(),SensorEventListener{
     val TAG="PedometerSevice"
+    var INIT_ACTIVITY_INTENT_FLAG:Boolean=false
+    var plant_id=0
+    var walkStep=0
+
     //Sensor
     val sensorManager by lazy { getSystemService(Context.SENSOR_SERVICE) as SensorManager}
     val stepCountSensor by lazy{sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER) }
+
+
     //Notification
     val mNotificationManager by lazy{getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager}
-    val channel by lazy{NotificationChannel("pedometer_channel", "만보기", NotificationManager.IMPORTANCE_DEFAULT)}
+    val channel by lazy{NotificationChannel("pedometer_channel", "만보기", NotificationManager.IMPORTANCE_LOW)}
     val notification by lazy { NotificationCompat.Builder(applicationContext,"pedometer_channel")
         .setSmallIcon(R.drawable.ic_launcher_foreground)
         .setContentTitle("0걸음")
         .setContentText("목표 걸음 수는 12,000입니다.") }
+
+
     //Thread
      val t1 by lazy { Thread{
          try{
@@ -62,13 +71,26 @@ class PedometerService :Service(),SensorEventListener{
         t1.start()
     }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if(!INIT_ACTIVITY_INTENT_FLAG){
+            walkStep=intent?.getIntExtra("walkStep",0)!!
+            plant_id=intent?.getIntExtra("plantId",-1)!!
+            INIT_ACTIVITY_INTENT_FLAG=true
+        }
+        Log.d("만보기","id:${plant_id} 목표걸음:${walkStep}")
 
+        return super.onStartCommand(intent, flags, startId)
+    }
 
     override fun onDestroy() {
        if(t1!=null &&t1.isAlive){
            t1.interrupt()
        }
     }
+
+
+
+
 
     override fun onSensorChanged(p0: SensorEvent?) {    //실행 메커니즘 노이해..
       Log.d(TAG,"실행3")
