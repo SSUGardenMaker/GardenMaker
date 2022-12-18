@@ -130,14 +130,14 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
 
                 var context1=binding.StartDayDialog.text.toString().replace(" ","").replace("년","-").replace("월","-").replace("일","")
                 var context2=binding.EndDayDialog.text.toString().replace(" ","").replace("년","-").replace("월","-").replace("일","")
-               /* if (Integer.parseInt(todayDate) > Integer.parseInt(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))) {
+                if (Integer.parseInt(todayDate) > Integer.parseInt(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))) {
                     Toast.makeText(mContext, "시작 날짜는 오늘 날짜보다 빠를 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
                 else if (Integer.parseInt(binding.StartDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))
                     > Integer.parseInt(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))) {
                     Toast.makeText(mContext, "종료 날짜는 시작 날짜보다 빠를 수 없습니다", Toast.LENGTH_SHORT).show()
-                }*/
-                 if (checkbox1.isChecked) {
+                }
+                if (checkbox1.isChecked) {
                     ApplicationClass.retrofitManager.plantCreate(categoryId, "CHECKBOX", binding.PlainNameEdtDialog.text.toString(), days,
                         0, 0, 0, 0, 0, 0,context1,context2 ,object : RetrofitCallback {
                             override fun onError(t: Throwable) {
