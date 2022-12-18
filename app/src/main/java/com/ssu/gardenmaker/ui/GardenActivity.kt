@@ -184,7 +184,7 @@ class GardenActivity : AppCompatActivity() {
                 }else{
                     ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
 
-                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id,object :
+                    ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object :
                         RetrofitCallback {
                         override fun onError(t: Throwable) {
                             Log.d(TAG, "onError : " + t.localizedMessage)
@@ -195,7 +195,7 @@ class GardenActivity : AppCompatActivity() {
                             Log.d(TAG, "onSuccess : data -> $data")
 
                             plantLists[currentPage].counter += 1
-                            if (plantLists[currentPage].counter == plantLists[currentPage].counter) {
+                            if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
                                 plantLists.removeAt(currentPage)
                                 sliderItems.removeAt(currentPage)
                                 binding.vpImageSlider.adapter?.notifyDataSetChanged()
@@ -228,7 +228,7 @@ class GardenActivity : AppCompatActivity() {
                         Log.d(TAG, "onSuccess : data -> $data")
 
                         plantLists[currentPage].counter += 1
-                        if (plantLists[currentPage].counter == plantLists[currentPage].counter) {
+                        if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
                             plantLists.removeAt(currentPage)
                             sliderItems.removeAt(currentPage)
                             binding.vpImageSlider.adapter?.notifyDataSetChanged()
