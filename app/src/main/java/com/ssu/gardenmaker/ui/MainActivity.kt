@@ -1,7 +1,7 @@
 package com.ssu.gardenmaker.ui
 
+import android.animation.ObjectAnimator
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Rect
@@ -9,6 +9,7 @@ import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
@@ -74,6 +75,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
             var permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
             requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
+        }
+
+        // 뷰 중앙으로 이동
+        binding.mainLayout.scrollViewMain.post{
+            val mid = binding.mainLayout.scrollViewMain.width / ((this.resources.displayMetrics.densityDpi.toFloat()) / DisplayMetrics.DENSITY_DEFAULT)
+            binding.mainLayout.scrollViewMain.smoothScrollTo(mid.toInt(), 0)
         }
     }
 
