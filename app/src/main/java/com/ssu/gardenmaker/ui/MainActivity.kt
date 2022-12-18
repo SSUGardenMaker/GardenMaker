@@ -461,7 +461,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.mainLayout.plantPlacing8.visibility = View.INVISIBLE
         }
 
-        getPlantDoneList()
+        if (ApplicationClass.categoryLists.size == 0)
+            getPlantDoneList()
 
         // 식물 배치 공간에 클릭 이벤트 설정
         binding.mainLayout.plantPlacing1.setOnClickListener {
