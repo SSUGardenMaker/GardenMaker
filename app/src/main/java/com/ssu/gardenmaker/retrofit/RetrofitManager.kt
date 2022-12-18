@@ -510,7 +510,7 @@ class RetrofitManager {
                         val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
                         Log.d("RetrofitManager_plantWatering", "onResponse : 실패, error message : " + errorPlant.errorMessage)
                         Log.d("RetrofitManager_plantWatering", "onResponse : 실패, error code : " + response.code())
-                        callback.onFailure(errorPlant.errorMessage, response.code())
+                     //   callback.onFailure(errorPlant.errorMessage, response.code())
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -543,7 +543,7 @@ class RetrofitManager {
                         val errorPlant = gson.fromJson(errorBody!!.string(), ErrorPlant::class.java)
                         Log.d("RetrofitManager_plantWateringAcc", "onResponse : 실패, error message : " + errorPlant.errorMessage)
                         Log.d("RetrofitManager_plantWateringAcc", "onResponse : 실패, error code : " + response.code())
-                        callback.onFailure(errorPlant.errorMessage, response.code())
+                       // callback.onFailure(errorPlant.errorMessage, response.code())
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
