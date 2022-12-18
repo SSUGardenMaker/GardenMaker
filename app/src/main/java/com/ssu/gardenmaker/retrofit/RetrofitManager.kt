@@ -275,7 +275,7 @@ class RetrofitManager {
                         val errorGarden = gson.fromJson(errorBody!!.string(), ErrorGarden::class.java)
                         Log.d("RetrofitManager_gardenDelete", "onResponse : 실패, error message : " + errorGarden.errorMessage)
                         Log.d("RetrofitManager_gardenDelete", "onResponse : 실패, error code : " + response.code())
-                        callback.onFailure(errorGarden.errorMessage, response.code())
+                        callback.onFailure("", response.code())
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }

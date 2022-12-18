@@ -111,7 +111,7 @@ class CategoryListAdapter(
                         override fun onFailure(errorMessage: String, errorCode: Int) {
                             Log.d(TAG, "onFailure : errorMessage -> $errorMessage")
                             Log.d(TAG, "onFailure : errorCode -> $errorCode")
-                            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "화단에 식물이 있어 삭제가 불가능합니다", Toast.LENGTH_SHORT).show()
                         }
                     })
                 }

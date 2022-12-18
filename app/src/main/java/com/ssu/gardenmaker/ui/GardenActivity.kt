@@ -227,17 +227,12 @@ class GardenActivity : AppCompatActivity() {
                         Log.d(TAG, "onSuccess : message -> $message")
                         Log.d(TAG, "onSuccess : data -> $data")
 
-                        plantLists[currentPage].counter += 1
-                        if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
-                            plantLists.removeAt(currentPage)
-                            sliderItems.removeAt(currentPage)
-                            binding.vpImageSlider.adapter?.notifyDataSetChanged()
+                        plantLists.removeAt(currentPage)
+                        sliderItems.removeAt(currentPage)
+                        binding.vpImageSlider.adapter?.notifyDataSetChanged()
 
-                            if (plantLists.isEmpty())
-                                setEmpty()
-                        }
-                        else
-                            setPlantData(currentPage)
+                        if (plantLists.isEmpty())
+                            setEmpty()
                     }
 
                     override fun onFailure(errorMessage: String, errorCode: Int) {
