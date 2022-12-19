@@ -1,6 +1,5 @@
 package com.ssu.gardenmaker.ui
 
-import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -32,6 +31,7 @@ import com.ssu.gardenmaker.category.CategoryAddDialog
 import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
+import com.ssu.gardenmaker.features.pedometer.PedometerService
 import com.ssu.gardenmaker.plant.PlantCreateDialog
 import com.ssu.gardenmaker.plant.PlantPlacingDialog
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
@@ -64,6 +64,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initPlantPlacing()
         initButtonFunction()
         initNavigationMenu()
+        binding.mainLayout.scrollViewMain.post{
+            binding.mainLayout.scrollViewMain.scrollTo(400, 0)
+        }
+       // startPedometer()
 
         // 만보기 권한요청
         if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
@@ -74,7 +78,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // 뷰 중앙으로 이동
         binding.mainLayout.scrollViewMain.post{
             val mid = binding.mainLayout.scrollViewMain.width / ((this.resources.displayMetrics.densityDpi.toFloat()) / DisplayMetrics.DENSITY_DEFAULT)
-            binding.mainLayout.scrollViewMain.smoothScrollTo(mid.toInt(), 0)
+            binding.mainLayout.scrollViewMain.scrollTo(mid.toInt(), 0)
         }
     }
 
@@ -260,6 +264,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             SharedPreferenceManager().deleteData("password")
             SharedPreferenceManager().deleteData("accessToken")
             ApplicationClass.categoryLists.clear()
+            ApplicationClass.plantDoneLists.clear()
 
             finish()
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
@@ -379,7 +384,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     //만보기 실행시키기. 만보기 있는지 체크하는 API가 만들면 그때 추가하기.
     private fun startPedometer(){
-
+            if(SharedPreferenceManager().getString("pedometerHave")=="YES"){
+                val intent= Intent(applicationContext, PedometerService::class.java)
+                startForegroundService(intent)
+            }
     }
 
     // 식물 배치 기능 구현
@@ -451,7 +459,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             binding.mainLayout.plantPlacing8.visibility = View.INVISIBLE
         }
 
-        getPlantDoneList()
+        if (ApplicationClass.categoryLists.size == 0)
+            getPlantDoneList()
 
         // 식물 배치 공간에 클릭 이벤트 설정
         binding.mainLayout.plantPlacing1.setOnClickListener {

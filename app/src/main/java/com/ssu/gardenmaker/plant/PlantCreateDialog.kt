@@ -137,7 +137,7 @@ class PlantCreateDialog(context: Context, layoutInflater: LayoutInflater): View.
                     > Integer.parseInt(binding.EndDayDialog.text.toString().replace("[^0-9]".toRegex(), ""))) {
                     Toast.makeText(mContext, "종료 날짜는 시작 날짜보다 빠를 수 없습니다", Toast.LENGTH_SHORT).show()
                 }
-                else if (checkbox1.isChecked) {
+                if (checkbox1.isChecked) {
                     ApplicationClass.retrofitManager.plantCreate(categoryId, "CHECKBOX", binding.PlainNameEdtDialog.text.toString(), days,
                         0, 0, 0, 0, 0, 0,context1,context2 ,object : RetrofitCallback {
                             override fun onError(t: Throwable) {

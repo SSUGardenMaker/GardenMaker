@@ -20,10 +20,12 @@ import com.ssu.gardenmaker.adapter.SliderAdapter
 import com.ssu.gardenmaker.databinding.ActivityGardenBinding
 import com.ssu.gardenmaker.features.accumulateTimer.accumulateTimerService
 import com.ssu.gardenmaker.features.counter.counter
+import com.ssu.gardenmaker.features.pedometer.PedometerService
 import com.ssu.gardenmaker.features.recursiveTimer.recursiveTimerService
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
 import com.ssu.gardenmaker.retrofit.callback.RetrofitPlantCallback
 import com.ssu.gardenmaker.retrofit.plant.PlantDataContent
+import com.ssu.gardenmaker.util.SharedPreferenceManager
 import java.util.*
 import kotlin.math.abs
 
@@ -96,7 +98,7 @@ class GardenActivity : AppCompatActivity() {
                 setPlantData(currentPage)
 
                 if (plantLists.size != 0 && plantLists[currentPage].plantType=="COUNTER") {
-                    var last_click_time:Long=ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)
+                    var last_click_time:Long=ApplicationClass.mSharedPreferences.getLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)
                     if(last_click_time+300000>System.currentTimeMillis()) {
                        count_featureTimer=Timer()
                        count_featureTimer.schedule(counter(plantLists[currentPage].id,(last_click_time+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
@@ -179,10 +181,10 @@ class GardenActivity : AppCompatActivity() {
                     Toast.makeText(this@GardenActivity,"현재 다른 식물이 타이머를 사용중입니다.",Toast.LENGTH_SHORT).show()
                 }
             }else if(plantLists[currentPage].plantType=="COUNTER"){
-                if(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
+                if(ApplicationClass.mSharedPreferences.getLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000>System.currentTimeMillis()){ //아직 시간이 안됨.
                     Toast.makeText(applicationContext,"기다려야할 시간이 남았습니다.",Toast.LENGTH_SHORT).show()
                 }else{
-                    ApplicationClass.mSharedPreferences.edit().putLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
+                    ApplicationClass.mSharedPreferences.edit().putLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",System.currentTimeMillis()+1000).commit()
 
                     ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object :
                         RetrofitCallback {
@@ -214,8 +216,13 @@ class GardenActivity : AppCompatActivity() {
                     })
 
                     count_featureTimer=Timer()
-                    count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
+                    count_featureTimer.schedule(counter(plantLists[currentPage].id,(ApplicationClass.mSharedPreferences.getLong("${SharedPreferenceManager().getString("email")}${plantLists[currentPage].gardenId}${plantLists[currentPage].id}",0)+300000-System.currentTimeMillis()),binding.tvCounterLimitText, count_featureTimer).createTimerTask(), 0, 1000)
                 }
+            }else if(plantLists[currentPage].plantType=="WALK_COUNTER"){
+                val intent= Intent(applicationContext, PedometerService::class.java)
+                intent.putExtra("plantId",plantLists[currentPage].id)
+                intent.putExtra("walkStep", plantLists[currentPage].walkStep)
+                startForegroundService(intent)
             }
             else {
                 ApplicationClass.retrofitManager.plantWatering(plantLists[currentPage].id, object : RetrofitCallback {
@@ -227,17 +234,12 @@ class GardenActivity : AppCompatActivity() {
                         Log.d(TAG, "onSuccess : message -> $message")
                         Log.d(TAG, "onSuccess : data -> $data")
 
-                        plantLists[currentPage].counter += 1
-                        if (plantLists[currentPage].counter == plantLists[currentPage].counterGoal) {
-                            plantLists.removeAt(currentPage)
-                            sliderItems.removeAt(currentPage)
-                            binding.vpImageSlider.adapter?.notifyDataSetChanged()
+                        plantLists.removeAt(currentPage)
+                        sliderItems.removeAt(currentPage)
+                        binding.vpImageSlider.adapter?.notifyDataSetChanged()
 
-                            if (plantLists.isEmpty())
-                                setEmpty()
-                        }
-                        else
-                            setPlantData(currentPage)
+                        if (plantLists.isEmpty())
+                            setEmpty()
                     }
 
                     override fun onFailure(errorMessage: String, errorCode: Int) {
@@ -373,8 +375,8 @@ class GardenActivity : AppCompatActivity() {
                     binding.tvPlantCompleteValue.text = if (plantLists[position].isComplete) " O " else " X "
                     binding.tvPlantStartDateValue.text = plantLists[position].context1
                     binding.tvPlantEndDateValue.text = plantLists[position].context2
-                    binding.tvPlantPedometerGoalStepValue.text = plantLists[position].walkStep.toString() + " 걸음"
-                    binding.tvPlantPedometerGoalCountValue.text =  plantLists[position].counter.toString() + " / " + plantLists[position].counterGoal.toString() + " 회"
+                    binding.tvPlantPedometerGoalStepValue.text = plantLists[position].counterGoal.toString() + " 걸음"
+                    binding.tvPlantPedometerGoalCountValue.text =  "1" + " / " + plantLists[position].walkStep.toString() + " 회"
 
                     binding.tvPlantName.visibility = VISIBLE
                     binding.tvPlantNameValue.visibility = VISIBLE
