@@ -64,15 +64,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         initPlantPlacing()
         initButtonFunction()
         initNavigationMenu()
-        binding.mainLayout.scrollViewMain.post{
-            binding.mainLayout.scrollViewMain.scrollTo(400, 0)
-        }
-       // startPedometer()
 
         // 만보기 권한요청
         if (ContextCompat.checkSelfPermission(this@MainActivity, android.Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
-            var permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
-            requestPermissions(arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION),0)
+            val permissions = arrayOf(android.Manifest.permission.ACTIVITY_RECOGNITION)
+            requestPermissions(permissions,0)
         }
 
         // 뷰 중앙으로 이동
@@ -380,14 +376,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 Toast.makeText(this@MainActivity, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-    //만보기 실행시키기. 만보기 있는지 체크하는 API가 만들면 그때 추가하기.
-    private fun startPedometer(){
-            if(SharedPreferenceManager().getString("pedometerHave")=="YES"){
-                val intent= Intent(applicationContext, PedometerService::class.java)
-                startForegroundService(intent)
-            }
     }
 
     // 식물 배치 기능 구현
