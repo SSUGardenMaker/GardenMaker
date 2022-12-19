@@ -1,6 +1,5 @@
 package com.ssu.gardenmaker.ui
 
-import android.animation.ObjectAnimator
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -33,7 +32,6 @@ import com.ssu.gardenmaker.category.CategoryEditDialog
 import com.ssu.gardenmaker.category.CategoryExpandableListAdapter
 import com.ssu.gardenmaker.databinding.ActivityMainBinding
 import com.ssu.gardenmaker.features.pedometer.PedometerService
-import com.ssu.gardenmaker.features.recursiveTimer.recursiveTimerService
 import com.ssu.gardenmaker.plant.PlantCreateDialog
 import com.ssu.gardenmaker.plant.PlantPlacingDialog
 import com.ssu.gardenmaker.retrofit.callback.RetrofitCallback
